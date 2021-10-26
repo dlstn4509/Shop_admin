@@ -4,6 +4,8 @@ const router = express.Router();
 const { error } = require('../../modules/util');
 const { pool } = require('../../modules/mysql-init');
 
-router.use('/', (req, res, next) => {});
+router.get('/', (req, res, next) => {});
+router.get('/login', (req, res, next) => {});
+router.get('/logout', (req, res, next) => {});
 
 module.exports = router;
