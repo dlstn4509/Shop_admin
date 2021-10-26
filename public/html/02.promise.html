@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+<form action="#" onsubmit="return send(this);">
+	<input type="text" name="userid" placeholder="아이디">
+	<input type="password" name="userpw" placeholder="패스워드">
+	<button>로그인</button>
+</form>
+
+<script src="../js/lodash.min.js"></script>
+<script>
+	const users = [
+		{ id: 1, userid: 'booldook', userpw: '1111' },
+		{ id: 2, userid: 'hongkd', userpw: '1111' },
+	];
+
+	function _isUser(userid, cb) {
+		setTimeout(function() {
+			var user = users.filter(function(v) { return v.userid === userid });
+			if(user.length === 0) cb('아이디를 찾을 수 없습니다.');
+			else cb(null, user[0].userid);
+		}, 100);
+	}
+
+	function _isAuth(userid, userpw, cb) {
+		setTimeout(function() {
+			var user = users.filter(function(v) { return v.userid === userid && v.userpw === userpw });
+			if(user.length === 0) cb('패스워드가 일치하지 않습니다.');
+			else cb(null, user[0].id);
+		}, 100);
+	}
+
+	function _getInfo(id, cb) {
+		setTimeout(function() {
+			var user = users.filter(function(v) { return v.id === id });
+			if(user.length === 0) cb('정보를 찾을 수 없습니다.');
+			else cb(null, user);
+		}, 100)
+	}
+
+	function isUser(userid) {
+		return new Promise(function(resolve, reject) {
+			setTimeout(function() {
+				var user = users.filter(function(v) { return v.userid === userid });
+				if(user.length === 0) reject('아이디를 찾을 수 없습니다.');
+				else resolve(user[0].userid);
+			}, 100);
+		})
+	}
+
+	function isAuth(userid, userpw) {
+		return new Promise(function(resolve, reject) {
+			setTimeout(function() {
+				var user = users.filter(function(v) { return v.userid === userid && v.userpw === userpw });
+				if(user.length === 0) reject('패스워드가 일치하지 않습니다.');
+				else resolve(user[0].id);
+			}, 100);
+		})
+	}
+
+	function getInfo(id) {
+		return new Promise(function(resolve, reject) {
+			setTimeout(function() {
+				var user = users.filter(function(v) { return v.id === id });
+				if(user.length === 0) reject('정보를 찾을 수 없습니다.');
+				else resolve(user);
+			}, 100)
+		})
+	}
+
+
+	function send(f) {
+		var userid = f.userid.value;
+		var userpw = f.userpw.value;
+
+		isUser(userid)
+		.then(function(r) {
+			console.log(r);
+			return isAuth(r, userpw);
+		})
+		.then(function(r) {
+			console.log(r);
+			return getInfo(r)
+		})
+		.then(function(r) {
+			console.log(r);
+		})
+		.catch(function(err) {
+			alert(err);
+		})
+		return false;
+	}
+
+
+</script>
+</body>
+</html>

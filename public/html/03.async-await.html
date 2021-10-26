@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+<form action="#" name="loginForm">
+	<input type="text" name="userid" placeholder="아이디" autocomplete="userid">
+	<input type="password" name="userpw" placeholder="패스워드" autocomplete="userpw">
+	<button id="btSubmit">로그인</button>
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+<script type="text/babel">
+	const users = [
+		{ id: 1, userid: 'booldook', userpw: '1111' },
+		{ id: 2, userid: 'hongkd', userpw: '1111' },
+	];
+
+	function _isUser(userid, cb) {
+		setTimeout(function() {
+			var user = users.filter(function(v) { return v.userid === userid });
+			if(user.length === 0) cb('아이디를 찾을 수 없습니다.');
+			else cb(null, user[0].userid);
+		}, 100);
+	}
+
+	function _isAuth(userid, userpw, cb) {
+		setTimeout(function() {
+			var user = users.filter(function(v) { return v.userid === userid && v.userpw === userpw });
+			if(user.length === 0) cb('패스워드가 일치하지 않습니다.');
+			else cb(null, user[0].id);
+		}, 100);
+	}
+
+	function _getInfo(id, cb) {
+		setTimeout(function() {
+			var user = users.filter(function(v) { return v.id === id });
+			if(user.length === 0) cb('정보를 찾을 수 없습니다.');
+			else cb(null, user);
+		}, 100)
+	}
+
+	const isUser = userid => {
+		return new Promise(function(resolve, reject) {
+			setTimeout(function() {
+				var user = users.filter(function(v) { return v.userid === userid });
+				if(user.length === 0) reject('아이디를 찾을 수 없습니다.');
+				else resolve(user[0].userid);
+			}, 100);
+		})
+	}
+
+	function isAuth(userid, userpw) {
+		return new Promise(function(resolve, reject) {
+			setTimeout(function() {
+				var user = users.filter(function(v) { return v.userid === userid && v.userpw === userpw });
+				if(user.length === 0) reject('패스워드가 일치하지 않습니다.');
+				else resolve(user[0].id);
+			}, 100);
+		})
+	}
+
+	function getInfo(id) {
+		return new Promise(function(resolve, reject) {
+			setTimeout(function() {
+				var user = users.filter(function(v) { return v.id === id });
+				if(user.length === 0) reject('정보를 찾을 수 없습니다.');
+				else resolve(user);
+			}, 100)
+		})
+	}
+
+
+	async function onSend(e) {
+		e.preventDefault();
+		var f = document.loginForm;
+		var userid = f.userid.value;
+		var userpw = f.userpw.value;
+		try {
+			var r = await isUser(userid);
+			var r2 = await isAuth(r, userpw);
+			var r3 = await getInfo(r2);
+			console.log(r, r2, r3);
+		}
+		catch(err) {
+			alert(err);
+		}
+	}
+
+	document.querySelector('#btSubmit').addEventListener('click', onSend);
+</script>
+</body>
+</html>

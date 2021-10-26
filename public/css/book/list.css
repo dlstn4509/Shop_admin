@@ -1,0 +1,12 @@
+.book-tbl tbody tr {cursor: pointer;}
+.book-tbl th:nth-child(1) {width: 10%;}
+.book-tbl th:nth-child(2) {width: 15%;}
+.book-tbl th:nth-child(3) {width: 15%;}
+.book-tbl th:nth-child(4) {}
+.book-tbl th:nth-child(5) {width: 10%;}
+.book-tbl th:nth-child(6) {width: 15%;}
+.book-tbl th:nth-child(7) {width: 10%;}
+.book-tbl .content-td {padding: .25em 0; vertical-align: middle; text-align: left;}
+.book-tbl .cover-td {padding: .25em 0; vertical-align: middle;}
+.book-tbl .content-td .icon {width: 24px;}
+.book-tbl .cover-td .cover {max-width: 28px; max-height: 28px;}
