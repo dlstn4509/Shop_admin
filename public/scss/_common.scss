@@ -1,0 +1,110 @@
+@import './mixins';
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&display=swap');
+
+html, body, h1, h2, h3, h4, h5, h6, p,  div, form, /* input, textarea, */ table, td, th, header, section, aside, footer, article, nav, ul, ol, li {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+ul,
+ol {
+  list-style: none;
+}
+img {
+  vertical-align: middle;
+}
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+input,
+input:focus {
+  outline: none;
+}
+
+html,
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+a:not(.btn) {
+  color: inherit;
+  text-decoration: none;
+  &:hover {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.clear::after {
+  display: block;
+  content: '';
+  clear: both;
+}
+
+.w100 {
+  width: 100%;
+}
+.mw100 {
+  max-width: 100%;
+}
+
+.wrapper {
+  width: 96%;
+  max-width: 970px;
+  margin: auto;
+}
+
+.bullet {
+  &.circle {
+    &:before {
+      border-radius: 0.25em;
+      height: 0.5em;
+      width: 0.5em;
+    }
+  }
+  &:before {
+    display: inline-block;
+    content: '';
+    height: 0.5em;
+    width: 0.25em;
+    background-color: $success-color;
+    margin-right: 0.5em;
+  }
+}
+
+// header-wrapper
+.header-wrapper {
+  .header-top {
+    background-color: #fafafa;
+    border-top: 3px solid #575755;
+    border-bottom: 1px solid $secondary-color;
+    @include flex($h: space-between, $v: flex-start);
+    h1.logo {
+      font-size: inherit;
+      line-height: 1;
+      margin-right: auto;
+      a {
+        @include abs;
+        top: 0;
+        left: 0;
+      }
+    }
+    .btn {
+      margin: 0.25em;
+    }
+  }
+  .navi-wrap {
+    @include flex($h: center);
+    background-color: #fafafa;
+    border-bottom: 1px solid $secondary-color;
+    .navi {
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+  .sub-navi {
+    margin: 1.5em auto 1em auto;
+  }
+}

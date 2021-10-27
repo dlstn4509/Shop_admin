@@ -1,0 +1,42 @@
+<%- include('../../inc/head.ejs') %>
+<div class="login-wrapper">
+  <h1 class="title-wrap bullet circle">관리자 로그인</h1>
+  <div class="login-wrap">
+    <form action="/admin/auth/login" method="POST" name="loginForm">
+      <table>
+        <tbody>
+          <!-- 아이디 -->
+          <tr>
+            <td class="title require">관리자 아이디</td>
+            <td class="content">
+              <input
+                type="text"
+                name="userid"
+                class="form-control"
+                placeholder="아이디"
+                autofocus
+              />
+            </td>
+          </tr>
+          <!-- 패스워드 -->
+          <tr>
+            <td class="title require">패스워드</td>
+            <td class="content">
+              <input
+                type="password"
+                name="passwd"
+                class="form-control"
+                placeholder="패스워드"
+                autofocus
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="btn-wrap p-3 text-center">
+        <button class="btn btn-primary" id="btSave">로그인</button>
+      </div>
+    </form>
+  </div>
+</div>
+<%- include('../../inc/foot.ejs') %>

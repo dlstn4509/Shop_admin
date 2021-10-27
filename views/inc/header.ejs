@@ -1,49 +1,30 @@
 <header class="header-wrapper">
-	<h1 class="logo"><a href="/<%= LANG %>/book"><%= GLOBAL.LOGO %></a></h1>
-	<nav class="navi-wrap">
-		<a href="/<%= LANG %>/book" class="navi"><%= GLOBAL.NAVI[1] %></a>
-		<% if(user) { %>
-			<a href="/<%= LANG %>/book/form" class="navi"><%= GLOBAL.NAVI[0] %></a>
-			<div class="navi bt-navi">
-				<%= GLOBAL.NAVI[5] %>
-				<div class="navi-sub">
-					<a href="/<%= LANG %>/mypage/user" class="sub"><%= GLOBAL.NAVI[6] %></a>
-					<a href="/<%= LANG %>/auth/logout" class="sub"><%= GLOBAL.NAVI[3] %></a>
-					<a href="/<%= LANG %>/auth/withdrawal" class="sub"><%= GLOBAL.NAVI[8] %></a>
-				</div>
-			</div>
-			<!-- <a href="/<%= LANG %>/auth/logout" class="navi"><%= GLOBAL.NAVI[3] %></a> -->
-			<% } else { %>
-				<a href="/<%= LANG %>/auth/login" class="navi"><%= GLOBAL.NAVI[2] %></a>
-				<a href="/<%= LANG %>/auth/form" class="navi"><%= GLOBAL.NAVI[4] %></a>
-			<% } %>
-			<!-- <a href="//3.37.216.54:3200" class="navi ex"><%= GLOBAL.NAVI[7] %></a> -->
-			<a href="//sc21-app-vue-book.web.app" class="navi ex"><%= GLOBAL.NAVI[7] %></a>
-	</nav>
-	<nav class="lang-wrap">
-		<a href="javascript:chgLang('ko');" class="navi <%= (LANG === 'ko' ? 'active': '') %>">한국어</a>
-		<span> | </span>
-		<a href="javascript:chgLang('en');" class="navi <%= (LANG === 'en' ? 'active': '') %>">영어</a>
-	</nav>
+  <div class="header-top">
+    <h1 class="logo">
+      <a href="/admin">
+        <img src="/img/admin/top_logo.jpg" alt="logo">
+      </a>
+    </h1>
+    <a href="/" class="btn btn-success">
+      사이트 바로가기
+    </a>
+    <a href="/admin/auth/logout" class="btn btn-secondary">
+      로그아웃
+    </a>
+  </div>
+  <nav class="navi-wrap">
+    <% for(let v of links.main) { %>
+      <a href="<%= v.path %>" class="navi" <%=(v.target ? `target="${v.target}" ` : '' ) %>>
+        <% if(secondPath===v.path2) { %>
+          <img src="/img/admin/<%= v.src %>_on.jpg" alt="icon">
+          <% } else { %>
+            <img src="/img/admin/<%= v.src %>.jpg" alt="icon">
+            <% } %>
+      </a>
+      <% } %>
+  </nav>
+  <%- include('./teb.ejs') %>
 </header>
 <script>
-	function chgLang(_lang) {
-		var protocol = location.protocol;
-		var host = location.host;
-		var pathname = location.pathname;
-		var path = pathname.split('/')
-		location.href = protocol + '//' + host + ((path[1] === 'ko' || path[1] === 'en')
-			? pathname.replace('/'+path[1]+'/', '/'+_lang+'/')
-			: '/' + _lang + pathname);
-	}
 
-	$('.header-wrapper .bt-navi').mouseenter(onNaviEnter);
-	$('.header-wrapper .bt-navi').mouseleave(onNaviLeave);
-	function onNaviEnter() {
-		$(this).find('.navi-sub').stop().slideDown();
-	}
-	function onNaviLeave() {
-		$(this).find('.navi-sub').stop().slideUp();
-	}
 </script>
-

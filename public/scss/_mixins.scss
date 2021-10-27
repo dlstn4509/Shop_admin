@@ -1,0 +1,70 @@
+@import './variables';
+
+@mixin rel {
+	position: relative;
+} 
+
+@mixin abs {
+	position: absolute;
+} 
+
+@mixin fixed {
+	position: fixed;
+} 
+
+@mixin layer($p: absolute, $i: auto, $t: auto, $l: auto, $r: auto, $b: auto) {
+	position: $p;
+	z-index: $i;
+	left: $l;
+	right: $r;
+	top: $t;
+	bottom: $b;
+}
+
+@mixin center {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+@mixin flex($h: flex-start, $v: stretch, $w: nowrap) {
+	display: flex;
+	justify-content: $h;
+	align-items: $v;
+	flex-wrap: $w;
+}
+
+@mixin flexCol {
+	flex-direction: column;
+}
+
+@mixin XL {
+	@media screen and (max-width: $xl) {
+		@content;
+	}
+}
+
+@mixin LG {
+	@media screen and (max-width: $lg) {
+		@content;
+	}
+}
+
+@mixin MD {
+	@media screen and (max-width: $md) {
+		@content;
+	}
+}
+
+@mixin SM {
+	@media screen and (max-width: $sm) {
+		@content;
+	}
+}
+
+@mixin XS {
+	@media screen and (max-width: $xs) {
+		@content;
+	}
+}

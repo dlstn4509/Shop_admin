@@ -27,10 +27,11 @@ shop.motive.co.kr/admin/
 [DELETE]  shop.motive.co.kr/admin/order/1 - 주문 삭제
 
 - 게시판 생성자
-[GET]     shop.motive.co.kr/admin/board   - 게시판 리스트
-[GET]     shop.motive.co.kr/admin/board/1 - 게시판 내용
-[PUT]     shop.motive.co.kr/admin/board   - 게시판 수정
-[DELETE]  shop.motive.co.kr/admin/board/1 - 게시판 삭제
+[GET]     shop.motive.co.kr/admin/board/init   - 게시판 관리
+[GET]     shop.motive.co.kr/admin/board        - 게시판 리스트
+[GET]     shop.motive.co.kr/admin/board/1      - 게시판 내용
+[PUT]     shop.motive.co.kr/admin/board        - 게시판 수정
+[DELETE]  shop.motive.co.kr/admin/board/1      - 게시판 삭제
 
 shop.motive.co.kr/api/
 */
