@@ -2,12 +2,11 @@
 <ul class="nav nav-tabs sub-navi wrapper">
   <% for (let v of links[currentPaths[1]]) { %>
   <li class="nav-item">
-    <a
-      class="nav-link <%= (currentPath === secondPath + '/' + v.path ? 'active' : '') %>"
-      href="<%=`${secondPath}/${v.path}`%>"
-    >
+    <a class="nav-link <%= currentPath === (secondPath + (v.path ? + '/' + v.path : '')) ? 'active' : '' %>"
+      href="<%=`${secondPath}${(v.path ? '/' + v.path : '')}`%>">
       <%=v.name%>
     </a>
   </li>
-  <% } %> <% } %>
+  <% } %>
+<% } %>
 </ul>
