@@ -8,7 +8,6 @@ module.exports = (req, res, next) => {
   res.locals.secondPath = '/' + currentPaths[0];
   res.locals.secondPath += currentPaths[1] ? '/' + currentPaths[1] : ''; // -> /admin/board
   res.locals.currentPaths = currentPaths; // -> [ 'admin', 'prd' ]
-  console.log(currentPaths[1]);
   next();
 };
 
@@ -21,5 +20,5 @@ secondPath = /admin/board
 
 currentPath = /admin/board/init
 currentPaths = [ 'admin', 'board', 'init' ]
-secondPath = /admin/board  ||  /admin
+secondPath = /admin/board  or  /admin
 */

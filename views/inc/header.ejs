@@ -5,23 +5,23 @@
         <img src="/img/admin/top_logo.jpg" alt="logo">
       </a>
     </h1>
-    <a href="/" class="btn btn-success">
+    <a href="/" class="btn btn-info">
       사이트 바로가기
     </a>
-    <a href="/admin/auth/logout" class="btn btn-secondary">
+    <a href="/admin/auth/logout" class="btn btn-danger">
       로그아웃
     </a>
   </div>
   <nav class="navi-wrap">
     <% for(let v of links.main) { %>
-      <a href="<%= v.path %>" class="navi" <%=(v.target ? `target="${v.target}" ` : '' ) %>>
-        <% if(secondPath===v.path2) { %>
-          <img src="/img/admin/<%= v.src %>_on.jpg" alt="icon">
-          <% } else { %>
-            <img src="/img/admin/<%= v.src %>.jpg" alt="icon">
-            <% } %>
-      </a>
+    <a href="<%= v.path %>" class="navi" <%=(v.target ? `target="${v.target}" ` : '' ) %>>
+      <% if(secondPath===v.path2) { %>
+      <img src="/img/admin/<%= v.src %>_on.jpg" alt="icon">
+      <% } else { %>
+      <img src="/img/admin/<%= v.src %>.jpg" alt="icon">
       <% } %>
+    </a>
+    <% } %>
   </nav>
   <%- include('./teb.ejs') %>
 </header>

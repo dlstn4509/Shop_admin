@@ -1,12 +1,22 @@
-<% if(currentPaths[1]) { %>
+<% if(currentPaths[1]) { %> <!-- main, user, order, prd, board -->
 <ul class="nav nav-tabs sub-navi wrapper">
-  <% for (let v of links[currentPaths[1]]) { %>
+  <% for (let v of links[currentPaths[1]]) { %><!-- v of links.main, user, order... -->
   <li class="nav-item">
-    <a class="nav-link <%= currentPath === (secondPath + (v.path ? + '/' + v.path : '')) ? 'active' : '' %>"
-      href="<%=`${secondPath}${(v.path ? '/' + v.path : '')}`%>">
+    <a class="nav-link <%= currentPath === (secondPath + (v.path ? v.path : '')) ? 'active' : '' %>"
+      href="<%=`${secondPath}${(v.path ? v.path : '')}`%>">
       <%=v.name%>
     </a>
   </li>
   <% } %>
 <% } %>
 </ul>
+
+
+<!-- 
+currentPath === (secondPath + (v.path ? + '/' + v.path : '')) ? 'active' : ''
+/admin/board/init === (/admin/board +)
+
+secondPath = /admin/board
+v.path = 
+
+-->

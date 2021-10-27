@@ -10,7 +10,7 @@ module.exports = {
       { path: '/admin/system', path2: '/admin/system', src: 'b6' },
       {
         path: '//analytics.google.com',
-        path2: '/admin/analytics',
+        // path2: '/admin/analytics',
         src: 'b9',
         target: '_blank',
       },
@@ -19,10 +19,10 @@ module.exports = {
     order: [{ path: '', name: '주문 관리' }],
     prd: [
       { path: '', name: '상품 관리' },
-      { path: 'cate', name: '카테고리 관리' },
+      { path: '/cate', name: '카테고리 관리' },
     ],
     board: [
-      { path: 'init', name: '게시판 관리' },
+      { path: '/init', name: '게시판 관리' },
       { path: '', name: '게시물 관리' },
     ],
   },
