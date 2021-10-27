@@ -105,6 +105,32 @@ a:not(.btn) {
     }
   }
   .sub-navi {
-    margin: 1.5em auto 1em auto;
+    margin: 1.5em auto 0 auto;
+  }
+}
+
+section.wrapper {
+  min-height: 70vh;
+  padding: 1em;
+  border-bottom: 1px solid #dee2e6;
+  border-left: 1px solid #dee2e6;
+  border-right: 1px solid #dee2e6;
+}
+
+.nav-tabs {
+  .nav-item.show {
+    .nav-link {
+      border-color: #dee2e6 #dee2e6 #fff;
+    }
+  }
+  .nav-link {
+    color: $secondary-color;
+    &:hover {
+      color: $success-color;
+    }
+    &.active {
+      color: $success-color;
+      border-color: #dee2e6 #dee2e6 #fff;
+    }
   }
 }
