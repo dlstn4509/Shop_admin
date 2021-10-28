@@ -1,1 +1,42 @@
 @import '../common';
+.user-wrapper {
+  &.list-wrapper {
+    .user-tbl {
+      td:nth-child(1) {
+        border-right: 1px solid #dee2e6;
+        vertical-align: middle;
+      }
+      th:nth-child(7),
+      td:nth-child(7) {
+        border-left: 1px solid #dee2e6;
+        vertical-align: middle;
+      }
+      tr {
+        > :nth-child(1) {
+          width: 5%;
+        }
+        > :nth-child(3) {
+          width: 15%;
+        }
+        > :nth-child(4) {
+          width: 15%;
+        }
+        > :nth-child(5) {
+          width: 15%;
+        }
+        > :nth-child(6) {
+          width: 15%;
+        }
+        > :nth-child(7) {
+          width: 15%;
+        }
+      }
+    }
+  }
+  &.update-wrapper {
+    .user-tbl {
+      tbody {
+      }
+    }
+  }
+}

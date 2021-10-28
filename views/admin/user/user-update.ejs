@@ -1,0 +1,69 @@
+<%- include('../../inc/head.ejs') %>
+<%- include('../../inc/header.ejs') %>
+<section class="user-wrapper update-wrapper wrapper">
+  <form name="updateForm" method="POST">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="id" value="1">
+    <table class="user-tbl table">
+      <tbody>
+        <tr>
+          <td class="title">아이디</td>
+          <td class="content">
+            <b>dlstn4509</b>
+          </td>
+        </tr>
+        <tr>
+          <td class="title">이름</td>
+          <td class="content">
+            <input type="text" name="username" class="form-control" placeholder="이름(필수사항)" style="max-width: 200px;">
+          </td>
+        </tr>
+        <tr>
+          <td class="title">전화번호</td>
+          <td class="content form-inline">
+            <select name="tel1" class="form-control"  style="max-width: 100px;">
+              <option value="">선택</option>
+              <% for(let v of telNumber) { %>
+              <option value="<%=v%>"><%=v%></option>
+              <% } %>
+            </select>
+            <span class="px-2">-</span>
+            <input type="text" name="tel2" class="form-control" style="max-width: 80px;">
+            <span class="px-2">-</span>
+            <input type="text" name="tel3" class="form-control" style="max-width: 80px;">
+          </td>
+        </tr>
+        <tr>
+          <td class="title">이메일</td>
+          <td class="content">
+            <input type="text" name="email" class="form-control">
+          </td>
+        </tr>
+        <tr>
+          <td class="title" rowspan="2">주소</td>
+          <td class="content form-inline">
+            <input type="text" name="addrPost" class="form-control mr-2" readonly style="max-width: 120px;">
+            <button class="btn btn-primary">우편번호찾기</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="text" name="addrLegacy" class="form-control mb-2" readonly>
+            <input type="text" name="addrLoad" class="form-control mb-2" readonly>
+            <input type="text" name="addrDetail" class="form-control">
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="text-center">
+            <button class="btn btn-success">수정</button>
+            <a href="/admin/user" class="btn btn-secondary">리스트</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+  <div class="btn-wrap">
+
+  </div>
+</section>
+<%- include('../../inc/foot.ejs') %>

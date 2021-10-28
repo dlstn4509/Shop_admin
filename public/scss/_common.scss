@@ -71,6 +71,11 @@ a:not(.btn) {
     background-color: $success-color;
     margin-right: 0.5em;
   }
+  &.secondary {
+    &:before {
+      background-color: $secondary-color;
+    }
+  }
 }
 
 // header-wrapper

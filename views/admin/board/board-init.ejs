@@ -1,4 +1,80 @@
 <%- include('../../inc/head.ejs') %>
 <%- include('../../inc/header.ejs') %>
-<section class="board-wrapper wrapper">뭐시깽이</section>
+<section class="board-wrapper init-wrapper wrapper">
+  <!-- 게시판 생성 -->
+  <form action="/admin/board/init" method="POST">
+    <h4 class="title bullet circle my-2">게시판 생성</h4>
+    <table class="table create-tbl">
+      <tbody>
+        <tr>
+          <td class="title bullet secondary circle">게시판 이름</td>
+          <td class="content">
+            <input type="text" name="tblName" class="form-control">
+          </td>
+          <td class="title"></td>
+          <td class="content"></td>
+        </tr>
+        <tr>
+          <td class="title bullet secondary circle">게시판 형태</td>
+          <td>
+            <select type="text" name="tblComment" class="form-control">
+              <option value="default">일반게시판</option>
+              <option value="gallery">갤리러게시판</option>
+            </select>
+          </td>
+          <td class="title bullet secondary circle">댓글사용여부</td>
+          <td>
+            <select type="text" name="tblComment" class="form-control">
+              <option value="true">사용</option>
+              <option value="false">사용안함</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="text-center">
+            <button class="btn btn-primary">게시판 생성</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+
+  <!-- 게시판 수정 삭제 -->
+  <h4 class="title bullet circle my-2">게시판 리스트</h4>
+  <table class="table list-tbl text-center border-bottom">
+    <thead>
+      <tr>
+        <th>게시판 이름</th>
+        <th>타입</th>
+        <th>댓글사용여부</th>
+        <th>관리</th>
+      </tr>
+    </thead>
+    <tbody>
+      <form method="PUT" action="/admin/board/init/1">
+        <tr>
+          <td>
+            <input type="text" name="tblName" class="form-control">
+          </td>
+          <td>
+            <select type="text" name="tblComment" class="form-control">
+              <option value="default">일반게시판</option>
+              <option value="gallery">갤리러게시판</option>
+            </select>
+          </td>
+          <td>
+            <select type="text" name="tblComment" class="form-control">
+              <option value="true">사용</option>
+              <option value="false">사용안함</option>
+            </select>
+          </td>
+          <td>
+            <button class="btn btn-success">수정</button>
+            <button class="btn btn-danger">삭제</button>
+          </td>
+        </tr>
+      </form>
+    </tbody>
+  </table>
+</section>
 <%- include('../../inc/foot.ejs') %>

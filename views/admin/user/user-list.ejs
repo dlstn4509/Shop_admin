@@ -1,4 +1,43 @@
 <%- include('../../inc/head.ejs') %>
 <%- include('../../inc/header.ejs') %>
-<section class="user-wrapper wrapper">회원 관리</section>
+<section class="user-wrapper list-wrapper wrapper">
+  <table class="user-tbl table table-sm text-center border-bottom">
+    <thead>
+      <tr>
+        <th>번호</th>
+        <th>아이디</th>
+        <th>이름</th>
+        <th>이메일</th>
+        <th>전화번호</th>
+        <th>구분</th>
+        <th>관리</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="2">1</td>
+        <td>
+          <a href="/admin/user/1">booldook</a>
+        </td>
+        <td>임덕규</td>
+        <td>booldook@gmail.com</td>
+        <td>010-8332-8040</td>
+        <td>일반</td>
+        <td rowspan="2">
+          <a href="#" class="btn btn-success">수정</a>
+          <a href="#" class="btn btn-danger">삭제</a>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="5" class="text-left">
+          <b>주소 : </b>
+          [12360] 서울시 마포구 노고산동 123 4층
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pager-wrap">
+    <%- //include('../../inc/pager.ejs') %> 
+  </div>
+</section>
 <%- include('../../inc/foot.ejs') %>

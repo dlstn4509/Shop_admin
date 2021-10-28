@@ -1,1 +1,24 @@
 @import '../common';
+
+.board-wrapper {
+  &.init-wrapper {
+    .create-tbl {
+      .title {
+        width: 15%;
+        color: $dark-color;
+        vertical-align: middle;
+      }
+      .content {
+        width: 35%;
+      }
+      select[name='tblComment'] {
+        width: 120px;
+      }
+    }
+    .list-tbl {
+      th {
+        width: 25%;
+      }
+    }
+  }
+}
