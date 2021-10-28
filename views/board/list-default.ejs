@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/css/board-default.css">
-<article class="board-container default-container">
+<article class="board-container default-type list-page">
   <table class="table text-center border-bottom">
     <thead class="thead-dark">
       <tr>
@@ -13,12 +13,14 @@
     <tbody>
       <tr>
         <td>1</td>
-        <td class="text-left">공지사항</td>
+        <td class="text-left">
+          <a href="/admin/board/1?type=default">공지사항 입니다.</a>
+        </td>
         <td>관리자</td>
         <td>2021-10-28</td>
-        <td>1,000,000</td>
+        <td>10</td>
       </tr>
     </tbody>
   </table>
-  <%- // include('../inc/pager.ejs') %>
+  <%- //include('../inc/pager.ejs') %> 
 </article>

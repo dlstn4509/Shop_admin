@@ -1,13 +1,15 @@
 const linkInit = require('../modules/link-init');
 module.exports = (req, res, next) => {
   res.locals.user = req.user || null;
-  res.locals.links = linkInit.admin;
-  res.locals.currentPath = req.originalUrl; // -> /admin/prd
-  const currentPaths = req.originalUrl.split('/');
-  currentPaths.shift();
-  res.locals.secondPath = '/' + currentPaths[0];
-  res.locals.secondPath += currentPaths[1] ? '/' + currentPaths[1] : ''; // -> /admin/board
-  res.locals.currentPaths = currentPaths; // -> [ 'admin', 'prd' ]
+  res.locals.path = {};
+  res.locals.path.init = linkInit.admin;
+  res.locals.path.current = req.path; // -> /admin/prd
+  res.locals.path.currents = req.path.split('/');
+  res.locals.path.currents.shift();
+  res.locals.path.second = '/' + res.locals.path.currents[0];
+  res.locals.path.second += res.locals.path.currents[1]
+    ? '/' + res.locals.path.currents[1]
+    : '';
   next();
 };
 

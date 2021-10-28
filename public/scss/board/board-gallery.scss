@@ -2,7 +2,7 @@
 @import '../mixins';
 
 .board-container {
-  &.gallery-container {
+  &.gallery-type.list-page {
     overflow-x: hidden;
     .list-wrap {
       //  list 페이지

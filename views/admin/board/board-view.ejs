@@ -1,6 +1,6 @@
 <%- include('../../inc/head.ejs') %>
 <%- include('../../inc/header.ejs') %>
-<section class="board-wrapper list-wrapper wrapper">
+<section class="board-wrapper view-wrapper wrapper">
   <div class="form-inline mb-2">
     <select name="tblId" class="form-control">
       <option value="">선택하세요</option>
@@ -11,10 +11,10 @@
   </div>
   <div class="tbl-wrap">
     <% if(boardType === 'default') { %>
-      <%- include('../../board/list-default.ejs') %>
-    <% } else { %> 
-      <%- include('../../board/list-gallery.ejs') %>
-    <% } %> 
+      <%- include('../../board/view-default.ejs') %>
+    <% } else { %>
+      <%- include('../../board/view-gallery.ejs') %>
+    <% } %>
   </div>
 </section>
 <%- include('../../inc/foot.ejs') %>

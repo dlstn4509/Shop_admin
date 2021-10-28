@@ -9,6 +9,7 @@ router.get('/', (req, res, next) => {
 });
 // 회원 수정 화면
 router.get('/:id', (req, res, next) => {
+  // type 분기
   res.render('admin/user/user-update', { css: 'admin-user', telNumber });
 });
 // 회원 수정
