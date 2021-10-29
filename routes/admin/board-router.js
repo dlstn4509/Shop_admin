@@ -4,11 +4,11 @@ const router = express.Router();
 const { error } = require('../../modules/util');
 
 router.get('/', (req, res, next) => {
-  const boardType = req.query.type || 'default';
+  const boardType = req.query.boardType || 'default';
   res.render('admin/board/board-list', { css: 'admin-board', boardType });
 });
 router.get('/:id', (req, res, next) => {
-  const boardType = req.query.type || 'default';
+  const boardType = req.query.boardType || 'default';
   if (req.query.type === 'update') {
     res.render('admin/board/board-update', { css: 'admin-board', boardType });
   } else {
