@@ -1,0 +1,83 @@
+<%- include('../../inc/head.ejs') %>
+<%- include('../../inc/header.ejs') %>
+<section class="order-wrapper form-wrapper wrapper">
+  <h4 class="title bullet my-2">
+    주문 상세
+  </h4>
+  <form action="/admin/order" method="post">
+    <input type="hidden" name="id" value="1">
+    <input type="hidden" name="_method" value="PUT">
+    <table class="table border-bottom tbl-order">
+      <tbody>
+        <tr>
+          <td class="title" style="width: 15%;">주문번호</td>
+          <td class="content">20211029-123657</td>
+        </tr>
+        <tr>
+          <td class="title">주문자</td>
+          <td class="content">
+            <a href="/admin/user/1">booldook / 임덕규 / 010-8332-8040</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="title">주문상품</td>
+          <td class="content">
+            <table class="table table-sm text-center border-bottom tbl-prd">
+              <thead>
+                <tr>
+                  <th>상품이미지</th>
+                  <th>상품명</th>
+                  <th>가격</th>
+                  <th>개수</th>
+                  <th>상태</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="td-icon">
+                    <img src="/img/f1.jpg" alt="prd">
+                  </td>
+                  <td class="text-left">
+                    <a href="/admin/prd/1?type=update">매우 맛있는 아이스크림</a>
+                  </td>
+                  <td class="text-right">2,500원</td>
+                  <td class="text-right">2개</td>
+                  <td>판매중</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="title">주문가격</td>
+          <td class="content">25,900원</td>
+        </tr>
+        <tr>
+          <td class="title">주문일</td>
+          <td class="content">2021-10-29 15:25:33</td>
+        </tr>
+        <tr>
+          <td class="title">주문상태</td>
+          <td>
+            <select name="status" class="form-control form-control-sm" style="max-width: 200px;">
+              <option value="0">미주문처리</option>
+              <option value="1">주문완료</option>
+              <option value="2">결제완료</option>
+              <option value="3">배송준비중</option>
+              <option value="4">배송중</option>
+              <option value="5">배송완료</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="text-center my-4">
+      <a href="/admin/order" class="btn btn-primary">리스트</a>
+      <button class="btn btn-success float-right mx-1">수정</button>
+      <button class="btn btn-danger float-right mx-1">삭제</button>
+    </div>
+  </form>
+</section>
+<!-- <script src="/js/quill.min.js"></script> -->
+<script src="/js/<%= currents[1] %>/<%= currents[1] %>-form.js"></script>
+<%- include('../../inc/foot.ejs') %>

@@ -1,6 +1,59 @@
 <%- include('../../inc/head.ejs') %>
 <%- include('../../inc/header.ejs') %>
-<section class="order-wrapper wrapper">
-
+<section class="order-wrapper list-wrapper wrapper">
+  <div class="btn-wrap">
+    <div>주문개수: 1,205개</div>
+  </div>
+  <table class="table text-center border-bottom table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th>번호</th>
+        <th>주문번호</th>
+        <th>주문자</th>
+        <th>상품명</th>
+        <th>가격</th>
+        <th>주문일</th>
+        <th>진행상태</th>
+        <th>관리</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>
+          <a href="/admin/order/1">20211029-123657</a>
+        </td>
+        <td>
+          <a href="/admin/user?id=1">
+            booldook
+          </a>
+        </td>
+        <td class="text-left">
+          <a href="/admin/prd?id=1,2,3">맛있는 아이스크림 외1종</a>
+        </td>
+        <td class="text-right">
+          <div class="price-sale">20,500원</div>
+        </td>
+        <td>
+          2021-10-29 14:43:15
+        </td>
+        <td>
+          <select name="status" class="form-control form-control-sm">
+            <option value="0">미주문처리</option>
+            <option value="1">주문완료</option>
+            <option value="2">결제완료</option>
+            <option value="3">배송준비중</option>
+            <option value="4">배송중</option>
+            <option value="5">배송완료</option>
+          </select>
+        </td>
+        <td>
+          <a href="/admin/order/1" class="btn btn-success btn-sm">수정</a>
+          <a href="/admin/order/1" class="btn btn-danger btn-sm">삭제</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <%- //include('../inc/pager.ejs') %>
 </section>
 <%- include('../../inc/foot.ejs') %>
