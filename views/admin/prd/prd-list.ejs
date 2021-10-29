@@ -1,4 +1,52 @@
 <%- include('../../inc/head.ejs') %>
 <%- include('../../inc/header.ejs') %>
-<section class="prd-wrapper wrapper">상품관리</section>
+<section class="prd-wrapper list-wrapper wrapper">
+  <div class="btn-wrap">
+    <div>상품개수: 6,555,345,666개</div>
+    <a href="/admin/prd?type=create" class="btn btn-primary mt-4 mb-2">상품등록</a>
+  </div>
+  <table class="table text-center border-bottom">
+    <thead class="thead-dark">
+      <tr>
+        <th>번호</th>
+        <th>상품이미지</th>
+        <th>상품명</th>
+        <th>가격</th>
+        <th>상태</th>
+        <th>관리</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td class="td-icon">
+          <img src="/img/f5.jpg" alt="prd">
+          <!-- 섬네일 이미지 넣을꺼임 -->
+        </td>
+        <td class="text-left">
+          <a href="/admin/prd/1?type=update">파스타</a>
+        </td>
+        <td class="text-right">
+          <div class="price-sale">350,000원</div>
+          <div class="price-ori">400,000원</div>
+        </td>
+        <td>
+          <select name="status" class="form-control">
+            <option value="0">판매중단</option>
+            <option value="1">재고없음</option>
+            <option value="5">판매중</option>
+          </select>
+        </td>
+        <td>
+          <a href="/admin/prd/1" class="btn btn-success">수정</a>
+          <a href="/admin/prd/1" class="btn btn-danger">삭제</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <%- //include('../inc/pager.ejs') %>
+  <div class="text-center my-4">
+    <a href="/admin/prd?type=create" class="btn btn-primary">상품등록</a>
+  </div>
+</section>
 <%- include('../../inc/foot.ejs') %>

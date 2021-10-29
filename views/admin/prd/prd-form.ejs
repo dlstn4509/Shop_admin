@@ -1,0 +1,61 @@
+<%- include('../../inc/head.ejs') %>
+<%- include('../../inc/header.ejs') %>
+<link rel="stylesheet" href="/css/quill.snow.css">
+<section class="prd-wrapper wrapper">
+  <h4 class="title bullet my-2">
+    상품 <%= (type === 'create' ? '생성' : '수정') %>
+  </h4>
+  <form action="/admin/prd" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="1">
+    <input type="hidden" name="_method" value="PUT">
+    <table class="table border-bottom">
+      <tbody>
+        <tr>
+          <td class="title" style="width: 15%;">상품명</td>
+          <td class="content">
+            <input type="text" name="title" class="form-control" placeholder="상품명">
+          </td>
+        </tr>
+        <tr>
+          <td class="title">소비자가격</td>
+          <td class="content">
+            <input type="number" name="price-ori" class="form-control" placeholder="소비자가격">
+          </td>
+        </tr>
+        <tr>
+          <td class="title">판매가격</td>
+          <td class="content">
+            <input type="number" name="price-sale" class="form-control" placeholder="판매가격">
+          </td>
+        </tr>
+        <tr>
+          <td class="title">요약설명</td>
+          <td>
+            <textarea name="content" class="form-control" placeholder="내용을 입력하세요." style="min-height: 200px;"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div id="editor" style="min-height: 200px;"></div>
+          </td>
+        </tr>
+        <tr>
+          <td>이미지 첨부</td>
+          <td>
+            <% for(let i=1; i<=10; i++) { %> 
+              <input type="file" name="img" class="form-control-file mb-2">
+            <% } %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="text-center my-4">
+      <a href="/admin/prd" class="btn btn-primary">리스트</a>
+      <button class="btn btn-success float-right mx-1">수정</button>
+      <button type="reset" class="btn btn-danger float-right mx-1">다시작성</button>
+    </div>
+  </form>
+</section>
+<script src="/js/quill.min.js"></script>
+<script src="/js/<%= currents[1] %>/<%= currents[1] %>.js"></script>
+<%- include('../../inc/foot.ejs') %>
