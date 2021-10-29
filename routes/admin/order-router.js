@@ -5,7 +5,7 @@ const { error } = require('../../modules/util');
 
 router.get('/', (req, res, next) => {
   if (req.query.type === 'update') {
-    res.render('admin/order/order-form', { css: 'admin-order' });
+    res.render('admin/order/order-update', { css: 'admin-order' });
   } else {
     res.render('admin/order/order-list', { css: 'admin-order' });
   }
