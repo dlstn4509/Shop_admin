@@ -1,7 +1,10 @@
 <%- include('../../inc/head.ejs') %>
 <%- include('../../inc/header.ejs') %>
+<script src="/js/promise.polyfill.min.js"></script> 
+<script src="/js/axios.min.js"></script> 
+<script src="/js/validator.min.js"></script> 
 <section class="user-wrapper update-wrapper wrapper">
-  <form name="userForm" method="POST">
+  <form name="userForm" method="POST" action="/admin/user">
     <% if(type === 'update') { %>
       <input type="hidden" name="_method" value="PUT">
       <input type="hidden" name="id" value="1">
@@ -9,27 +12,42 @@
     <table class="user-tbl table">
       <tbody>
         <tr>
-          <td class="title">아이디</td>
+          <td class="title require">아이디</td>
           <td class="content">
-            <b>dlstn4509</b>
+            <% if(type === 'create') { %>
+              <input type="text" name="userid" class="form-control" placeholder="아이디(필수사항)" style="max-width: 200px;">
+              <div class="valid userid"></div>
+            <% } else { %>
+              <b>dlstn4509</b>
+            <% } %>
           </td>
         </tr>
         <tr>
-          <td class="title">이름</td>
+          <td class="title require">이름</td>
           <td class="content">
             <input type="text" name="username" class="form-control" placeholder="이름(필수사항)" style="max-width: 200px;">
+            <div class="valid username"></div>
           </td>
         </tr>
         <tr>
-          <td class="title">비밀번호</td>
+          <td class="title require">패스워드</td>
           <td class="content">
-            <input type="password" name="userpw" class="form-control" placeholder="비밀번호" style="max-width: 200px;">
+            <input type="password" name="userpw" class="form-control" placeholder="패스워드" style="max-width: 200px;">
+            <div class="valid userpw"></div>
           </td>
         </tr>
         <tr>
-          <td class="title">비밀번호확인</td>
+          <td class="title require">패스워드확인</td>
           <td class="content">
-            <input type="password" name="userpw_re" class="form-control" placeholder="비밀번호확인" style="max-width: 200px;">
+            <input type="password" name="userpw_re" class="form-control" placeholder="패스워드확인" style="max-width: 200px;">
+            <div class="valid userpw_re"></div>
+          </td>
+        </tr>
+        <tr>
+          <td class="title require">이메일</td>
+          <td class="content">
+            <input type="text" name="email" class="form-control">
+            <div class="valid email"></div>
           </td>
         </tr>
         <tr>
@@ -42,15 +60,9 @@
               <% } %>
             </select>
             <span class="px-2">-</span>
-            <input type="text" name="tel2" class="form-control" style="max-width: 80px;">
+            <input type="text" name="tel2" class="form-control" style="max-width: 80px;" min="3" maxlength="4">
             <span class="px-2">-</span>
-            <input type="text" name="tel3" class="form-control" style="max-width: 80px;">
-          </td>
-        </tr>
-        <tr>
-          <td class="title">이메일</td>
-          <td class="content">
-            <input type="text" name="email" class="form-control">
+            <input type="text" name="tel3" class="form-control" style="max-width: 80px;" min="4" maxlength="4">
           </td>
         </tr>
         <tr>
@@ -72,7 +84,9 @@
         </tr>
         <tr>
           <td colspan="2" class="text-center">
-            <button class="btn btn-success">수정</button>
+            <button class="btn btn-success">
+              <%= (type === 'create' ? '가입' : '수정') %> 
+            </button>
             <a href="/admin/user" class="btn btn-secondary">리스트</a>
           </td>
         </tr>
@@ -85,4 +99,5 @@
 </section>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/js/<%= currents[1] %>/<%= currents[1] %>.js"></script>
+<script src="/js/<%= currents[1] %>/validation.js"></script>
 <%- include('../../inc/foot.ejs') %>

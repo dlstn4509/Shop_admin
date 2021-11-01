@@ -5,192 +5,202 @@ passwd : 6 ~ 24
 passwd === passwd2
 email 검증
 */
+(function initValidation(form) {
+  var ERR_API = '에러가 발생했습니다.';
 
-var f = document.saveForm;
-var f2 = document.apiForm;
-var passwdEl = f.passwd;
-var passwd2El = f.passwd2;
-var usernameEl = f.username;
-var emailEl = f.email;
-var apiDomainEl = f2.domain;
-var apikeyEl = f2.apikey;
-var useridTxt = document.querySelector('.userid');
-var passwdTxt = document.querySelector('.passwd');
-var passwd2Txt = document.querySelector('.passwd2');
-var usernameTxt = document.querySelector('.username');
-var emailTxt = document.querySelector('.email');
-var btApikey = document.querySelector('#btApikey');
+  var f = form || document.userForm;
+  var useridEl = f.userid;
+  var passwdEl = f.userpw;
+  var passwd2El = f.userpw_re;
+  var usernameEl = f.username;
+  var emailEl = f.email;
+  var useridTxt = document.querySelector('.userid');
+  var passwdTxt = document.querySelector('.userpw');
+  var passwd2Txt = document.querySelector('.userpw_re');
+  var usernameTxt = document.querySelector('.username');
+  var emailTxt = document.querySelector('.email');
 
-f.addEventListener('submit', onSubmit)
-f2.addEventListener('submit', onApiSubmit);
+  f.addEventListener('submit', onSubmit);
 
-if(passwdEl) {
-	passwdEl.addEventListener('keyup', verifyPasswd)
-	passwdEl.addEventListener('blur', verifyPasswd)
-}
-if(passwd2El) {
-	passwd2El.addEventListener('keyup', verifyPasswd2)
-	passwd2El.addEventListener('blur', verifyPasswd2)
-	passwd2El.addEventListener('blur', verifyPasswdEqual)
-}
-usernameEl.addEventListener('keyup', verifyUsername)
-usernameEl.addEventListener('blur', verifyUsername)
-emailEl.addEventListener('keyup', verifyEmail)
-emailEl.addEventListener('blur', verifyEmail)
+  useridEl.addEventListener('blur', verifyUserid);
+  if (passwdEl) {
+    passwdEl.addEventListener('keyup', verifyPasswd);
+    passwdEl.addEventListener('blur', verifyPasswd);
+  }
+  if (passwd2El) {
+    passwd2El.addEventListener('keyup', verifyPasswd2);
+    passwd2El.addEventListener('blur', verifyPasswd2);
+    passwd2El.addEventListener('blur', verifyPasswdEqual);
+  }
+  usernameEl.addEventListener('keyup', verifyUsername);
+  usernameEl.addEventListener('blur', verifyUsername);
+  emailEl.addEventListener('keyup', verifyEmail);
+  emailEl.addEventListener('blur', verifyEmail);
 
-btApikey.addEventListener('click', onApikey)
+  function onSubmit(e) {
+    e.preventDefault();
 
-function onSubmit(e) {
-	e.preventDefault();
-	if(passwdEl && passwd2El) {
-		var isPasswd = verifyPasswd();
-		var isPasswd2 = verifyPasswd2();
-		var isPasswdEqual = verifyPasswdEqual();
-	}
-	var isUsername = verifyUsername();
+    var isPasswd = verifyPasswd();
+    var isPasswd2 = verifyPasswd2();
+    var isPasswdEqual = verifyPasswdEqual();
+    var isUsername = verifyUsername();
 
-	if(passwdEl && passwd2El ? (isPasswd && isPasswd2 && isPasswdEqual) : true && isUsername) {
-		axios.get('/api/auth/verify', { 
-			params: { key: 'email', value: emailEl.value.trim(), update: 1 } 
-		})
-		.then(function(r) {
-			if(r.data.isUsed) return verifyFalse(emailEl, emailTxt, ERR.EMAIL_TAKEN)
-			else {
-				verifyTrue(emailEl, emailTxt);
-				f.submit();
-			}
-		})
-		.catch(function(err) {
-			return verifyFalse(useridEl, useridTxt, err.response.data.msg)
-		})
-	}
-}
+    if (isPasswd && isPasswd2 && isPasswdEqual && isUsername) {
+      axios
+        .get('/api/verify', {
+          params: { key: 'userid', value: useridEl.value.trim() },
+        })
+        .then(function (r) {
+          if (!r.data) return verifyFalse(useridEl, useridTxt, '아이디가 사용중입니다.');
+          else {
+            verifyTrue(useridEl, useridTxt, '사용할 수 있습니다.');
+            axios
+              .get('/api/verify', {
+                params: { key: 'email', value: emailEl.value.trim() },
+              })
+              .then(function (r) {
+                if (!r.data)
+                  return verifyFalse(emailEl, emailTxt, '이메일이 사용중입니다.');
+                else {
+                  verifyTrue(emailEl, emailTxt);
+                  f.submit();
+                }
+              })
+              .catch(function (err) {
+                return verifyFalse(useridEl, useridTxt, ERR_API);
+              });
+          }
+        })
+        .catch(function (err) {
+          return verifyFalse(useridEl, useridTxt, ERR_API);
+        });
+    }
+  }
 
-function verifyPasswd() {
-	var passwd = passwdEl.value.trim();
-	verifyReset(passwdEl, passwdTxt)
-	if(passwd === '' || passwd.length < 6 || passwd.length > 24) {
-		return verifyFalse(passwdEl, passwdTxt, passwd === '' ? ERR.PW_NULL : ERR.PW_LEN)
-	}
-	else {
-		return verifyTrue(passwdEl, passwdTxt)
-	}
-}
+  function verifyUserid() {
+    var userid = useridEl.value.trim();
+    verifyReset(useridEl, useridTxt);
+    if (userid === '' || userid.length < 6 || userid.length > 24) {
+      return verifyFalse(
+        useridEl,
+        useridTxt,
+        userid === '' ? '아이디를 입력하세요.' : '아이디는 6 ~ 24자 입니다.'
+      );
+    } else if (!validator.isAlphanumeric(userid)) {
+      return verifyFalse(useridEl, useridTxt, '아이디 형식이 올바르지 않습니다.');
+    } else {
+      axios
+        .get('/api/verify', { params: { key: 'userid', value: userid } })
+        .then(function (r) {
+          if (!r.data) return verifyFalse(useridEl, useridTxt, '아이디를 확인하세요.');
+          else validId = verifyTrue(useridEl, useridTxt, '사용할 수 있습니다.');
+        })
+        .catch(function (err) {
+          return verifyFalse(useridEl, useridTxt, ERR_API);
+        });
+    }
+  }
 
-function verifyPasswd2() {
-	var passwd2 = passwd2El.value.trim();
-	verifyReset(passwd2El, passwd2Txt)
-	if(passwd2 === '' || passwd2.length < 6 || passwd2.length > 24) {
-		return verifyFalse(passwd2El, passwd2Txt, passwd2 === '' ? ERR.PW2_NULL : ERR.PW2_LEN)
-	}
-	else {
-		return verifyTrue(passwd2El, passwd2Txt)
-	}
-}
+  function verifyPasswd() {
+    var passwd = passwdEl.value.trim();
+    verifyReset(passwdEl, passwdTxt);
+    if (passwd === '' || passwd.length < 6 || passwd.length > 24) {
+      return verifyFalse(
+        passwdEl,
+        passwdTxt,
+        passwd === '' ? '패스워드를 입력하세요.' : '패스워드는 6 ~ 24자 입니다.'
+      );
+    } else {
+      return verifyTrue(passwdEl, passwdTxt);
+    }
+  }
 
-function verifyPasswdEqual() {
-	var passwd = passwdEl.value.trim();
-	var passwd2 = passwd2El.value.trim();
-	if(!(verifyPasswd() && verifyPasswd2())) {
-		return false;
-	}
-	if(passwd !== passwd2) {
-		verifyFalse(passwdEl, passwdTxt, ERR.PW_TAKEN);
-		verifyFalse(passwd2El, passwd2Txt, ERR.PW_TAKEN);
-		return false;
-	}
-	else {
-		verifyTrue(passwdEl, passwdTxt);
-		verifyTrue(passwd2El, passwd2Txt);
-		return true;
-	}
-}
+  function verifyPasswd2() {
+    var passwd2 = passwd2El.value.trim();
+    verifyReset(passwd2El, passwd2Txt);
+    if (passwd2 === '' || passwd2.length < 6 || passwd2.length > 24) {
+      return verifyFalse(
+        passwd2El,
+        passwd2Txt,
+        passwd2 === '' ? '패스워드를 입력하세요.' : '패스워드는 6 ~ 24자 입니다.'
+      );
+    } else {
+      return verifyTrue(passwd2El, passwd2Txt);
+    }
+  }
 
-function verifyUsername() {
-	var username = usernameEl.value.trim();
-	verifyReset(usernameEl, usernameTxt)
-	if(username === '') {
-		return verifyFalse(usernameEl, usernameTxt, ERR.NAME_NULL)
-	}
-	else {
-		return verifyTrue(usernameEl, usernameTxt)
-	}
-}
+  function verifyPasswdEqual() {
+    var passwd = passwdEl.value.trim();
+    var passwd2 = passwd2El.value.trim();
+    if (!(verifyPasswd() && verifyPasswd2())) {
+      return false;
+    }
+    if (passwd !== passwd2) {
+      verifyFalse(passwdEl, passwdTxt, '패스워드를 확인하세요.');
+      verifyFalse(passwd2El, passwd2Txt, '패스워드를 확인하세요.');
+      return false;
+    } else {
+      verifyTrue(passwdEl, passwdTxt);
+      verifyTrue(passwd2El, passwd2Txt);
+      return true;
+    }
+  }
 
-function verifyEmail() {
-	var email = emailEl.value.trim();
-	verifyReset(emailEl, emailTxt)
-	if(email === '') {
-		return verifyFalse(emailEl, emailTxt, ERR.EMAIL_NULL)
-	}
-	// else if(!regExp.test(email)) {
-	else if(!validator.isEmail(email)) {
-		return verifyFalse(emailEl, emailTxt, ERR.EMAIL_VALID)
-	}
-	else {
-		axios
-		.get('/api/auth/verify', { 
-			params: { key: 'email', value: email } 
-		})
-		.then(function(r) {
-			if(r.data.isUsed) return verifyFalse(emailEl, emailTxt, ERR.EMAIL_TAKEN)
-			else validEmail = verifyTrue(emailEl, emailTxt)
-		})
-		.catch(function(err) {
-			return verifyFalse(emailEl, emailTxt, err.response.data.msg)
-		})
-		return verifyTrue(emailEl, emailTxt)
-	}
-}
+  function verifyUsername() {
+    var username = usernameEl.value.trim();
+    verifyReset(usernameEl, usernameTxt);
+    if (username === '') {
+      return verifyFalse(usernameEl, usernameTxt, '이름을 확인하세요');
+    } else {
+      return verifyTrue(usernameEl, usernameTxt);
+    }
+  }
 
-function verifyReset(el, elTxt) {
-	el.classList.remove('error');
-	el.classList.remove('active');
-	elTxt.classList.remove('error');
-	elTxt.innerHTML = '';
-}
+  function verifyEmail() {
+    var email = emailEl.value.trim();
+    verifyReset(emailEl, emailTxt);
+    if (email === '') {
+      return verifyFalse(emailEl, emailTxt, '이메일을 입력하세요.');
+    }
+    // else if(!regExp.test(email)) {
+    else if (!validator.isEmail(email)) {
+      return verifyFalse(emailEl, emailTxt, '이메일 형식이 맞지 않습니다.');
+    } else {
+      axios
+        .get('/api/verify', {
+          params: { key: 'email', value: email },
+        })
+        .then(function (r) {
+          if (!r.data) return verifyFalse(emailEl, emailTxt, '이메일을 확인하세요');
+          else validEmail = verifyTrue(emailEl, emailTxt);
+        })
+        .catch(function (err) {
+          return verifyFalse(emailEl, emailTxt, ERR_API);
+        });
+      return verifyTrue(emailEl, emailTxt);
+    }
+  }
 
-function verifyFalse(el, elTxt, msg) {
-	el.classList.remove('active');
-	el.classList.add('error');
-	elTxt.classList.add('error');
-	elTxt.innerHTML = msg;
-	return false;
-}
+  function verifyReset(el, elTxt) {
+    el.classList.remove('error');
+    el.classList.remove('active');
+    elTxt.classList.remove('error');
+    elTxt.innerHTML = '';
+  }
 
-function verifyTrue(el, elTxt, msg) {
-	el.classList.add('active');
-	el.classList.remove('error');
-	elTxt.classList.remove('error');
-	elTxt.innerHTML = msg || '';
-	return true;
-}
+  function verifyFalse(el, elTxt, msg) {
+    el.classList.remove('active');
+    el.classList.add('error');
+    elTxt.classList.add('error');
+    elTxt.innerHTML = msg;
+    return false;
+  }
 
-
-function onApikey() {
-	if(confirm('APIKey를 변경하면 바로 적용됩니다.\n적용 후에는 되돌릴수 없습니다.')) {
-		axios.get('/api/mypage/key/')
-		.then(function(r) {
-			if(r.data.code === 200) apikeyEl.value = r.data.apikey;
-			else console.log(r);
-		})
-		.catch(function(err) {
-			console.log(err);
-		})
-	}
-}
-
-function onApiSubmit(e) {
-	e.preventDefault();
-	if(apiDomainEl.value.trim() === '') {
-		alert('도메인이 존재해야 합니다.');
-		apiDomainEl.focus();
-		return false;
-	}
-	if(apikeyEl.value.trim() === '') {
-		alert('API 키를 발행하셔야 합니다.');
-		apikeyEl.focus();
-		return false;
-	}
-	f2.submit();
-}
+  function verifyTrue(el, elTxt, msg) {
+    el.classList.add('active');
+    el.classList.remove('error');
+    elTxt.classList.remove('error');
+    elTxt.innerHTML = msg || '';
+    return true;
+  }
+})(document.userForm);

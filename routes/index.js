@@ -49,4 +49,5 @@ shop.motive.co.kr/admin/
 
 
 shop.motive.co.kr/api/
+[GET]     shop.motive.co.kr/api/verify
 */
