@@ -4,6 +4,7 @@ const router = express.Router();
 const createError = require('http-errors');
 const { error, telNumber, alert } = require('../../modules/util');
 const { User } = require('../../models');
+const bcrypt = require('bcrypt');
 
 // 회원 리스트
 router.get('/', (req, res, next) => {
@@ -22,7 +23,8 @@ router.get('/:id', (req, res, next) => {
 // 회원 저장
 router.post('/', async (req, res, next) => {
   try {
-    await User.create({ ...req.body });
+    const rs = await User.create(req.body);
+    console.log(rs);
     res.send(alert('회원가입 완료', '/admin/user'));
   } catch (err) {
     next(createError(err));

@@ -1,5 +1,3 @@
-const User = require('./User');
-
 module.exports = (sequelize, DataType) => {
   const Board = sequelize.define(
     'Board',

@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 module.exports = (sequelize, DataType) => {
   const User = sequelize.define(
     'User',
@@ -12,10 +13,19 @@ module.exports = (sequelize, DataType) => {
         type: DataType.STRING(24),
         allowNull: false,
         unique: true,
+        validate: {
+          isAlphanumeric: true,
+          len: [6, 24],
+        },
       },
       userpw: {
-        type: DataType.STRING(255),
+        type: DataType.CHAR(60),
         allowNull: false,
+        set(value) {
+          const { BCRYPT_SALT: salt, BCRYPT_ROUND: rnd } = process.env;
+          const hash = bcrypt.hashSync(value + salt, Number(rnd));
+          this.setDataValue('userpw', hash);
+        },
       },
       username: {
         type: DataType.STRING(255),
