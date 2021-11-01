@@ -4,7 +4,7 @@ const router = express.Router();
 const { error } = require('../../modules/util');
 
 router.get('/', (req, res, next) => {
-  res.render('admin/cate/cate', { css: 'admin-cate' });
+  res.render('admin/cate/cate');
 });
 router.put('/', (req, res, next) => {
   res.send('admin/cate:PUT');

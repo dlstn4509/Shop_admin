@@ -23,8 +23,7 @@ router.get('/:id', (req, res, next) => {
 // 회원 저장
 router.post('/', async (req, res, next) => {
   try {
-    const rs = await User.create(req.body);
-    console.log(rs);
+    await User.create(req.body);
     res.send(alert('회원가입 완료', '/admin/user'));
   } catch (err) {
     next(createError(err));

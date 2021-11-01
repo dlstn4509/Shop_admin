@@ -14,11 +14,13 @@ email 검증
   var passwd2El = f.userpw_re;
   var usernameEl = f.username;
   var emailEl = f.email;
+  // El 은 입력창
   var useridTxt = document.querySelector('.userid');
   var passwdTxt = document.querySelector('.userpw');
   var passwd2Txt = document.querySelector('.userpw_re');
   var usernameTxt = document.querySelector('.username');
   var emailTxt = document.querySelector('.email');
+  // txt 는 밑에 경고창
 
   f.addEventListener('submit', onSubmit);
 
@@ -92,8 +94,9 @@ email 검증
       axios
         .get('/api/verify', { params: { key: 'userid', value: userid } })
         .then(function (r) {
-          if (!r.data) return verifyFalse(useridEl, useridTxt, '아이디를 확인하세요.');
-          else validId = verifyTrue(useridEl, useridTxt, '사용할 수 있습니다.');
+          if (!r.data) return verifyFalse(useridEl, useridTxt, '사용중인 아이디 입니다.');
+          // r.data = true or false, verify-router에서 보내줌
+          else verifyTrue(useridEl, useridTxt, '사용할 수 있습니다.');
         })
         .catch(function (err) {
           return verifyFalse(useridEl, useridTxt, ERR_API);
@@ -171,8 +174,9 @@ email 검증
           params: { key: 'email', value: email },
         })
         .then(function (r) {
-          if (!r.data) return verifyFalse(emailEl, emailTxt, '이메일을 확인하세요');
-          else validEmail = verifyTrue(emailEl, emailTxt);
+          if (!r.data) return verifyFalse(emailEl, emailTxt, '사용중인 이메일 입니다.');
+          // r.data = true or false, verify-router에서 보내줌
+          else verifyTrue(emailEl, emailTxt);
         })
         .catch(function (err) {
           return verifyFalse(emailEl, emailTxt, ERR_API);

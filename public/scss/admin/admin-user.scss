@@ -48,5 +48,15 @@
         color: #a70404;
       }
     }
+    .content {
+      .form-control {
+        &.active {
+          border-color: #005499;
+        }
+        &.error {
+          border-color: #a70404;
+        }
+      }
+    }
   }
 }

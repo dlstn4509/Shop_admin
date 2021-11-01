@@ -4,7 +4,7 @@ const router = express.Router();
 const { error } = require('../../modules/util');
 
 router.get('/', (req, res, next) => {
-  res.render('admin/main/main', { css: 'admin-main' });
+  res.render('admin/main/main');
 });
 
 module.exports = { name: '/main', router };

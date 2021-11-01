@@ -5,9 +5,9 @@ const { error } = require('../../modules/util');
 
 router.get('/', (req, res, next) => {
   if (req.query.type === 'create') {
-    res.render('admin/prd/prd-form', { css: 'admin-prd', type: req.query.type });
+    res.render('admin/prd/prd-form', { type: req.query.type });
   } else {
-    res.render('admin/prd/prd-list', { css: 'admin-prd' });
+    res.render('admin/prd/prd-list');
   }
 });
 router.get('/:id', (req, res, next) => {

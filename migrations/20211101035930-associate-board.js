@@ -14,6 +14,7 @@ module.exports = {
     });
   },
   // sequelize db:migrate
+  // await queryInterface.addColumn('테이블명', '콜렉션이름', 옵션)
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('user');
