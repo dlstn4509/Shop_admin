@@ -5,13 +5,13 @@ const { error } = require('../../modules/util');
 
 router.get('/', (req, res, next) => {
   if (req.query.type === 'update') {
-    res.render('admin/order/order-update', { css: 'admin-order' });
+    res.render('admin/order/order-update');
   } else {
-    res.render('admin/order/order-list', { css: 'admin-order' });
+    res.render('admin/order/order-list');
   }
 });
 router.get('/:id', (req, res, next) => {
-  res.render('admin/order/order-form', { css: 'admin-order' });
+  res.render('admin/order/order-form');
 });
 router.post('/', (req, res, next) => {
   res.send('admin/order:POST');

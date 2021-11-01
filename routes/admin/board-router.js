@@ -6,9 +6,9 @@ const { error } = require('../../modules/util');
 router.get('/', (req, res, next) => {
   const boardType = req.query.boardType || 'default';
   if (req.query.type === 'create') {
-    res.render('admin/board/board-form', { css: 'admin-board', boardType });
+    res.render('admin/board/board-form', { boardType });
   } else {
-    res.render('admin/board/board-list', { css: 'admin-board', boardType });
+    res.render('admin/board/board-list', { boardType });
   }
 });
 router.get('/:id', (req, res, next) => {
