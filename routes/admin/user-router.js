@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
-const { error, telNumber, alert, generateUser } = require('../../modules/util');
+const { error, telNumber, alert, getStringTell } = require('../../modules/util');
 const { User, sequelize, Sequelize } = require('../../models');
 const { Op } = Sequelize;
 const bcrypt = require('bcrypt');
@@ -19,14 +19,7 @@ router.get('/', (req, res, next) => {
 router.get('/', pager(User), async (req, res, next) => {
   try {
     let { field = 'id', search = '', sort = 'desc' } = req.query;
-    let where = search ? { [field]: { [Op.like]: '%' + search + '%' } } : null;
-    const rs = await User.findAll({
-      order: [[field || 'id', sort || 'desc']],
-      offset: req.pager.startIdx,
-      limit: req.pager.listCnt,
-      where,
-    });
-    const users = generateUser(rs);
+    const users = await User.searchUser(req.query, req.pager);
     const ejs = { telNumber, pager: req.pager, users, field, sort, search };
     res.render('admin/user/user-list', ejs);
   } catch (err) {
@@ -41,6 +34,7 @@ router.get('/:id', (req, res, next) => {
 // 회원 저장
 router.post('/', async (req, res, next) => {
   try {
+    req.body.tel = getStringTell(req.body.tel1, req.body.tel2, req.body.tel3);
     await User.create(req.body);
     res.send(alert('회원가입 완료', '/admin/user'));
   } catch (err) {

@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
-module.exports = (sequelize, DataType) => {
+const { generateUser } = require('../modules/util');
+module.exports = (sequelize, { DataTypes: DataType, Op }) => {
   const User = sequelize.define(
     'User',
     {
@@ -21,11 +22,11 @@ module.exports = (sequelize, DataType) => {
       userpw: {
         type: DataType.CHAR(60),
         allowNull: false,
-        set(value) {
+        /* set(value) {
           const { BCRYPT_SALT: salt, BCRYPT_ROUND: rnd } = process.env;
           const hash = bcrypt.hashSync(value + salt, Number(rnd));
           this.setDataValue('userpw', hash);
-        },
+        }, */
       },
       username: {
         type: DataType.STRING(255),
@@ -62,22 +63,10 @@ module.exports = (sequelize, DataType) => {
       addrDetail: {
         type: DataType.STRING(255),
       },
-      tel1: {
-        type: DataType.STRING(4),
+      tel: {
+        type: DataType.STRING(14),
         validated: {
-          len: [2, 4],
-        },
-      },
-      tel2: {
-        type: DataType.STRING(4),
-        validated: {
-          len: [3, 4],
-        },
-      },
-      tel3: {
-        type: DataType.STRING(4),
-        validated: {
-          len: [4, 4],
+          len: [11, 14],
         },
       },
     },
@@ -91,5 +80,36 @@ module.exports = (sequelize, DataType) => {
   User.associate = (models) => {
     User.hasMany(models.Board);
   };
+
+  User.beforeCreate(async (user) => {
+    const { BCRYPT_SALT: salt, BCRYPT_ROUND: rnd } = process.env;
+    const hash = await bcrypt.hash(user.passwd + salt, Number(rnd));
+    user.userpw = hash;
+  });
+
+  User.searchUser = async function (query, pager) {
+    let { field = 'id', search = '', sort = 'desc' } = query;
+    let where = search ? { [field]: { [Op.like]: '%' + search + '%' } } : null;
+    if (field === 'addrRoad' && search !== '') {
+      where = {
+        [Op.or]: {
+          addrPost: { [Op.like]: '%' + search + '%' },
+          addrRoad: { [Op.like]: '%' + search + '%' },
+          addrJibun: { [Op.like]: '%' + search + '%' },
+          addrComment: { [Op.like]: '%' + search + '%' },
+          addrDetail: { [Op.like]: '%' + search + '%' },
+        },
+      };
+    }
+    const rs = await this.findAll({
+      order: [[field || 'id', sort || 'desc']],
+      offset: pager.startIdx,
+      limit: pager.listCnt,
+      where,
+    });
+    const users = generateUser(rs);
+    return users;
+  };
+
   return User;
 };
