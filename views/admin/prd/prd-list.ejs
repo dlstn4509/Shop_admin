@@ -3,7 +3,7 @@
 <section class="prd-wrapper list-wrapper wrapper">
   <div class="btn-wrap">
     <div>상품개수: 6,555,345,666개</div>
-    <a href="/admin/prd?type=create" class="btn btn-primary mt-4 mb-2">상품등록</a>
+    <a href="/<%=currents[0]%>/prd?type=create" class="btn btn-primary mt-4 mb-2">상품등록</a>
   </div>
   <table class="table text-center border-bottom">
     <thead class="thead-dark">
@@ -24,7 +24,7 @@
           <!-- 섬네일 이미지 넣을꺼임 -->
         </td>
         <td class="text-left">
-          <a href="/admin/prd/1?type=update">파스타</a>
+          <a href="/<%=currents[0]%>/prd/1?type=update">파스타</a>
         </td>
         <td class="text-right">
           <div class="price-sale">350,000원</div>
@@ -38,15 +38,15 @@
           </select>
         </td>
         <td>
-          <a href="/admin/prd/1?type=update" class="btn btn-success">수정</a>
-          <a href="/admin/prd/1" class="btn btn-danger">삭제</a>
+          <a href="/<%=currents[0]%>/prd/1?type=update" class="btn btn-success">수정</a>
+          <a href="/<%=currents[0]%>/prd/1" class="btn btn-danger">삭제</a>
         </td>
       </tr>
     </tbody>
   </table>
   <%- //include('../inc/pager.ejs') %>
   <div class="text-center my-4">
-    <a href="/admin/prd?type=create" class="btn btn-primary">상품등록</a>
+    <a href="/<%=currents[0]%>/prd?type=create" class="btn btn-primary">상품등록</a>
   </div>
 </section>
 <%- include('../../inc/foot.ejs') %>

@@ -1,9 +1,9 @@
 <div class="form-inline mb-2">
   <select name="tblId" class="form-control" onchange="goLocation(this);">
     <option value="">선택하세요</option>
-    <option value="/admin/board?boardType=default">공지사항</option>
-    <option value="/admin/board?boardType=gallery">사용 후기 갤러리</option>
-    <option value="/admin/board?boardType=gallery">메인페이지 배너</option>
+    <option value="/<%=currents[0]%>/board?boardType=default">공지사항</option>
+    <option value="/<%=currents[0]%>/board?boardType=gallery">사용 후기 갤러리</option>
+    <option value="/<%=currents[0]%>/board?boardType=gallery">메인페이지 배너</option>
   </select>
 </div>
 <script>

@@ -1,8 +1,10 @@
 <%- include('../../inc/head.ejs') %>
 <%- include('../../inc/header.ejs') %>
 <section class="user-wrapper list-wrapper wrapper">
-  <div class="mt-2 my-2 text-right">
-    <a href="/admin/user?type=create" class="btn btn-primary">회원등록</a>
+  <div class="my-2 d-flex">
+    <%- include('../../inc/search.ejs') %>
+    <%- include('../../inc/sort.ejs') %>
+    <a href="/<%= currents[0] %>/<%= currents[1] %>?type=create" class="btn btn-primary ml-auto">회원등록</a>
   </div>
   <table class="user-tbl table table-sm text-center border-bottom">
     <thead>
@@ -17,30 +19,40 @@
       </tr>
     </thead>
     <tbody>
+      <% for(let v of users) { %> 
       <tr>
-        <td rowspan="2">1</td>
+        <td rowspan="2"><%= v.id %></td>
         <td>
-          <a href="/admin/user/1">booldook</a>
+          <a href="/<%= currents[0] %>/<%= currents[1] %>/<%= v.id %>"><%= v.userid %></a>
         </td>
-        <td>임덕규</td>
-        <td>booldook@gmail.com</td>
-        <td>010-8332-8040</td>
-        <td>일반</td>
+        <td><%= v.username %></td>
+        <td><%= v.email %></td>
+        <td><%= v.tel %></td>
+        <td><%= v.level %></td>
         <td rowspan="2">
-          <a href="/admin/user/1" class="btn btn-success">수정</a>
-          <a href="#" class="btn btn-danger">삭제</a>
+          <a href="/<%= currents[0] %>/<%= currents[1] %>/<%= v.id %>" class="btn btn-success">수정</a>
+          <form action="/<%= currents[0] %>/<%= currents[1] %>" method="POST" class="d-inline-block">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="id" value="<%= v.id %>">
+            <button class="btn btn-danger">삭제</button>
+          </form>
         </td>
       </tr>
       <tr>
         <td colspan="5" class="text-left">
-          <b>주소 : </b>
-          [12360] 서울시 마포구 노고산동 123 4층
+          <div>
+            도로명주소 : <%- v.addr1 %>
+          </div>
+          <div>
+            지번명주소 : <%- v.addr2 %>
+          </div>
         </td>
       </tr>
+      <% } %>
     </tbody>
   </table>
   <div class="pager-wrap">
-    <%- //include('../../inc/pager.ejs') %> 
+    <%- include('../../inc/pager.ejs', pager) %> 
   </div>
 </section>
 <%- include('../../inc/foot.ejs') %>

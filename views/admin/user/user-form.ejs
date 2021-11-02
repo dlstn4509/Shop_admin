@@ -4,7 +4,7 @@
 <script src="/js/axios.min.js"></script> 
 <script src="/js/validator.min.js"></script> 
 <section class="user-wrapper update-wrapper wrapper">
-  <form name="userForm" method="POST" action="/admin/user">
+  <form name="userForm" method="POST" action="/<%=currents[0]%>/user">
     <% if(type === 'update') { %>
       <input type="hidden" name="_method" value="PUT">
       <input type="hidden" name="id" value="1">
@@ -56,7 +56,7 @@
             <select name="tel1" class="form-control"  style="max-width: 100px;">
               <option value="">선택</option>
               <% for(let v of telNumber) { %>
-                <option value=""><%= v %></option>
+                <option value="<%= v %>"><%= v %></option>
               <% } %>
             </select>
             <span class="px-2">-</span>
@@ -87,7 +87,7 @@
             <button class="btn btn-success">
               <%= (type === 'create' ? '가입' : '수정') %> 
             </button>
-            <a href="/admin/user" class="btn btn-secondary">리스트</a>
+            <a href="/<%=currents[0]%>/user" class="btn btn-secondary">리스트</a>
           </td>
         </tr>
       </tbody>

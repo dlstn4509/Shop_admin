@@ -1,0 +1,83 @@
+<style>
+  .search-wrap {position: relative;}
+  .search-wrap .bt-search-reset {
+    position: absolute;
+    top: 52%;
+    transform: translateY(-50%);
+    font-size: 1.25em;
+    right: 74px;
+    display: none;
+    cursor: pointer;
+  }
+  .search-wrap .bt-search-reset.active {
+    opacity: 0.5;
+    display: block;
+  }
+  .search-wrap .bt-search-reset:hover {
+    opacity: 1;
+  }
+</style>
+<div class="search-wrap">
+  <form action="/<%= currents[0] %>/<%= currents[1] %>" method="GET" class="form-inline">
+    <select name="field" class="form-control mr-2">
+      <option value="" 
+      <%= (field === '' ? 'selected': '') %>>
+      선택하세요</option>
+      <% if(currents[1] === 'user' || currents[1] === 'order') { %> 
+        <option value="userid"
+        <%= (field === 'userid' ? 'selected': '') %>>
+        아이디</option>
+        <option value="username"
+        <%= (field === 'username' ? 'selected': '') %>>
+        이름</option>
+        <option value="email"
+        <%= (field === 'email' ? 'selected': '') %>>
+        이메일</option>
+        <option value="tel"
+        <%= (field === 'tel' ? 'selected': '') %>>
+        전화번호</option>
+        <option value="addr"
+        <%= (field === 'addr' ? 'selected': '') %>>
+        주소</option>
+      <% } %> 
+      <% if(currents[1] === 'board') { %> 
+        <option value="title"
+        <%= (field === 'title' ? 'selected': '') %>>
+        제목</option>
+        <option value="content"
+        <%= (field === 'content' ? 'selected': '') %>>
+        내용</option>
+        <option value="writer"
+        <%= (field === 'writer' ? 'selected': '') %>>
+        작성자</option>
+      <% } %> 
+      <% if(currents[1] === 'prd') { %> 
+        <option value="code"
+        <%= (field === 'code' ? 'selected': '') %>>
+        상품코드</option>
+        <option value="name"
+        <%= (field === 'name' ? 'selected': '') %>>
+        상품명</option>
+        <option value="content"
+        <%= (field === 'content' ? 'selected': '') %>>
+        상품설명</option>
+      <% } %> 
+    </select>
+    <input type="text" name="search" class="form-control mr-2" value="<%= search %>">
+    <i class="fa fa-times bt-search-reset"></i>
+    <button class="btn btn-info">검색</button>
+  </form>
+</div>
+<script>
+  $('.search-wrap input[name="search"]').keyup(onSearchKeyup).trigger('keyup');
+  $('.search-wrap .bt-search-reset').click(onSearchFormReset);
+  function onSearchKeyup() {
+    if($(this).val().length) $('.search-wrap .bt-search-reset').addClass('active');
+    else $('.search-wrap .bt-search-reset').removeClass('active');
+  }
+  function onSearchFormReset() {
+    $('.search-wrap input[name="search"]').val('');
+    $('.search-wrap select[name="field"]').val('');
+    $('.search-wrap form')[0].submit();
+  }
+</script>

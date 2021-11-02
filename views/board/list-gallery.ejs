@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="/css/board.css">
 <article class="board-container gallery-type list-page">
   <ul class="list-wrap">
-    <li class="list" data-link="/admin/board/1">
+    <li class="list" data-link="/<%=currents[0]%>/board/1">
       <div class="img-wrap" style="background-image: url(/img/team1.jpg);"></div>
       <div class="content-wrap">
         <div class="title">우리회사 팀원</div>
@@ -10,7 +10,7 @@
   </ul>
   <%- //include('../inc/pager.ejs') %> 
   <div class="text-center my-4">
-    <a href="/admin/board?type=create" class="btn btn-primary">글작성</a>
+    <a href="/<%=currents[0]%>/board?type=create" class="btn btn-primary">글작성</a>
   </div>
 </article>
 <script src="/js/board/board.js"></script>

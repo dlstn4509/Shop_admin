@@ -2,17 +2,35 @@ const path = require('path');
 const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
-const { error, telNumber, alert } = require('../../modules/util');
-const { User } = require('../../models');
+const { error, telNumber, alert, generateUser } = require('../../modules/util');
+const { User, sequelize, Sequelize } = require('../../models');
+const { Op } = Sequelize;
 const bcrypt = require('bcrypt');
+const pager = require('../../middlewares/pager-mw');
 
-// 회원 리스트
+// 회원 등록 화면
 router.get('/', (req, res, next) => {
-  const ejs = { telNumber, type: req.query.type || '' };
-  if (ejs.type === 'create') {
+  if (req.query.type === 'create') {
+    const ejs = { telNumber, type: req.query.type || '' };
     res.render('admin/user/user-form', ejs);
-  } else {
+  } else next();
+});
+// 회원리스트
+router.get('/', pager(User), async (req, res, next) => {
+  try {
+    let { field = 'id', search = '', sort = 'desc' } = req.query;
+    let where = search ? { [field]: { [Op.like]: '%' + search + '%' } } : null;
+    const rs = await User.findAll({
+      order: [[field || 'id', sort || 'desc']],
+      offset: req.pager.startIdx,
+      limit: req.pager.listCnt,
+      where,
+    });
+    const users = generateUser(rs);
+    const ejs = { telNumber, pager: req.pager, users, field, sort, search };
     res.render('admin/user/user-list', ejs);
+  } catch (err) {
+    next(createError(err));
   }
 });
 // 회원 수정 화면

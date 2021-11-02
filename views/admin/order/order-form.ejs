@@ -4,7 +4,7 @@
   <h4 class="title bullet my-2">
     주문 상세
   </h4>
-  <form action="/admin/order" method="post">
+  <form action="/<%=currents[0]%>/order" method="post">
     <input type="hidden" name="id" value="1">
     <input type="hidden" name="_method" value="PUT">
     <table class="table border-bottom tbl-order">
@@ -16,7 +16,7 @@
         <tr>
           <td class="title">주문자</td>
           <td class="content">
-            <a href="/admin/user/1">booldook / 임덕규 / 010-8332-8040</a>
+            <a href="/<%=currents[0]%>/user/1">booldook / 임덕규 / 010-8332-8040</a>
           </td>
         </tr>
         <tr>
@@ -38,7 +38,7 @@
                     <img src="/img/f1.jpg" alt="prd">
                   </td>
                   <td class="text-left">
-                    <a href="/admin/prd/1?type=update">매우 맛있는 아이스크림</a>
+                    <a href="/<%=currents[0]%>/prd/1?type=update">매우 맛있는 아이스크림</a>
                   </td>
                   <td class="text-right">2,500원</td>
                   <td class="text-right">2개</td>
@@ -72,7 +72,7 @@
       </tbody>
     </table>
     <div class="text-center my-4">
-      <a href="/admin/order" class="btn btn-primary">리스트</a>
+      <a href="/<%=currents[0]%>/order" class="btn btn-primary">리스트</a>
       <button class="btn btn-success float-right mx-1">수정</button>
       <button class="btn btn-danger float-right mx-1">삭제</button>
     </div>

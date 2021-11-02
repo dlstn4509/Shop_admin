@@ -1,7 +1,7 @@
 <%- include('../../inc/head.ejs') %>
 <%- include('../../inc/header.ejs') %>
 <section class="board-wrapper init-wrapper wrapper">
-  <form action="/admin/board/init" method="POST">
+  <form action="/<%=currents[0]%>/board/init" method="POST">
     <h4 class="title bullet my-2">게시판 생성</h4>
     <table class="table create-tbl">
       <tbody>
@@ -71,7 +71,7 @@
       </tr>
     </thead>
     <tbody>
-      <form method="PUT" action="/admin/board/init/1">
+      <form method="PUT" action="/<%=currents[0]%>/board/init/1">
         <tr>
           <td>
             <input type="text" name="tblName" class="form-control">

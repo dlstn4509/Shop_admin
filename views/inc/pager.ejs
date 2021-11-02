@@ -1,28 +1,28 @@
 <link rel="stylesheet" href="/css/pager.css">
 <div class="pager-wrapper">
-	<ul class="pager-wrap">
-		<li class="pager pager-first">
-			<a href="<%= secondPath %>/<%=  %>" class="material-icons">first_page</a>
-		</li>
-		<li class="pager pager-prev-set">
-			<a href="<%= secondPath %>" class="material-icons">keyboard_double_arrow_left</a>
-		</li>
-		<li class="pager pager-prev">
-			<a href="<%= secondPath %>" class="material-icons">chevron_left</a>
-		</li>
-		<% for(let i=startPage; i<=endPage; i++) { %>
-		<li class="pager <%= page === i ? 'active' : '' %>">
-			<a href="<%= secondPath %>"></a>
-		</li>
-		<% } %>
-		<li class="pager pager-next">
-			<a href="<%= secondPath %>" class="material-icons">chevron_right</a>
-		</li>
-		<li class="pager pager-next-set">
-			<a href="<%= secondPath %>" class="material-icons">keyboard_double_arrow_right</a>
-		</li>
-		<li class="pager pager-last">
-			<a href="<%= secondPath %>" class="material-icons">last_page</a>
-		</li>
-	</ul>
+  <ul class="pager-wrap">
+    <li class="pager pager-first">
+      <a href="/<%=currents[0]%>/<%=currents[1]%>?page=1" class="material-icons">first_page</a>
+    </li>
+    <li class="pager pager-prev-set">
+      <a href="/<%=currents[0]%>/<%=currents[1]%>?page=<%= prevPager %>" class="material-icons">keyboard_double_arrow_left</a>
+    </li>
+    <li class="pager pager-prev">
+      <a href="/<%=currents[0]%>/<%=currents[1]%>?page=<%= prevPage %>" class="material-icons">chevron_left</a>
+    </li>
+    <% for(let i=startPage; i<=endPage; i++) { %>
+    <li class="pager <%= page === i ? 'active' : '' %>">
+      <a href="/<%=currents[0]%>/<%=currents[1]%>?page=<%= i %>"><%= i %></a>
+    </li>
+    <% } %>
+    <li class="pager pager-next">
+      <a href="/<%=currents[0]%>/<%=currents[1]%>?page=<%= nextPage %>" class="material-icons">chevron_right</a>
+    </li>
+    <li class="pager pager-next-set">
+      <a href="/<%=currents[0]%>/<%=currents[1]%>?page=<%= nextPager %>" class="material-icons">keyboard_double_arrow_right</a>
+    </li>
+    <li class="pager pager-last">
+      <a href="/<%=currents[0]%>/<%=currents[1]%>?page=<%= totalPage %>" class="material-icons">last_page</a>
+    </li>
+  </ul>
 </div>
