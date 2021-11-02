@@ -5,21 +5,13 @@
 <script src="/js/validator.min.js"></script> 
 <section class="user-wrapper update-wrapper wrapper">
   <form name="userForm" method="POST" action="/<%=currents[0]%>/user">
-    <% if(type === 'update') { %>
-      <input type="hidden" name="_method" value="PUT">
-      <input type="hidden" name="id" value="1">
-    <% } %>
     <table class="user-tbl table">
       <tbody>
         <tr>
           <td class="title require">아이디</td>
           <td class="content">
-            <% if(type === 'create') { %>
-              <input type="text" name="userid" class="form-control" placeholder="아이디(필수사항)" style="max-width: 200px;">
-              <div class="valid userid"></div>
-            <% } else { %>
-              <b>dlstn4509</b>
-            <% } %>
+            <input type="text" name="userid" class="form-control" placeholder="아이디(필수사항)" style="max-width: 200px;">
+            <div class="valid userid"></div>
           </td>
         </tr>
         <tr>
@@ -46,7 +38,7 @@
         <tr>
           <td class="title require">이메일</td>
           <td class="content">
-            <input type="text" name="email" class="form-control">
+            <input type="text" name="email" class="form-control" >
             <div class="valid email"></div>
           </td>
         </tr>
@@ -84,9 +76,7 @@
         </tr>
         <tr>
           <td colspan="2" class="text-center">
-            <button class="btn btn-success">
-              <%= (type === 'create' ? '가입' : '수정') %> 
-            </button>
+            <button class="btn btn-success">가입</button>
             <a href="/<%=currents[0]%>/user" class="btn btn-secondary">리스트</a>
           </td>
         </tr>
