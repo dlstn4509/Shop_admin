@@ -12,17 +12,12 @@ module.exports = (sequelize, DataType) => {
         type: DataType.STRING(255),
         allowNull: false,
       },
+      writer: {
+        type: DataType.STRING(255),
+        allowNull: false,
+      },
       content: {
         type: DataType.TEXT,
-      },
-      status: {
-        type: DataType.ENUM,
-        /* 
-        0: 삭제, 1: 유휴, 2: 활성
-        */
-        values: ['0', '1', '2'],
-        allowNull: false,
-        defaultValue: '2',
       },
     },
     {
@@ -33,7 +28,42 @@ module.exports = (sequelize, DataType) => {
     }
   );
   Board.associate = (models) => {
-    Board.belongsTo(models.User);
+    Board.belongsTo(models.User, {
+      foreignKey: {
+        name: 'user_id',
+        allowNull: false,
+      },
+      sourceKey: 'id',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    });
+    Board.belongsTo(models.BoardInit, {
+      foreignKey: {
+        name: 'binit_id',
+        allowNull: false,
+      },
+      sourceKey: 'id',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    });
+    Board.hasMany(models.BoardFile, {
+      foreignKey: {
+        name: 'board_id',
+        allowNull: false,
+      },
+      sourceKey: 'id',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    });
+    Board.hasMany(models.BoardComment, {
+      foreignKey: {
+        name: 'board_id',
+        allowNull: false,
+      },
+      sourceKey: 'id',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    });
   };
   return Board;
 };

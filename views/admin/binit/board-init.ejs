@@ -14,8 +14,8 @@
           <td class="title bullet secondary circle">게시판 형태</td>
           <td>
             <select type="text" name="boardType" class="form-control">
-              <option value="D" selected>일반게시판</option>
-              <option value="G">갤러리게시판</option>
+              <option value="default" selected>일반게시판</option>
+              <option value="gallery">갤러리게시판</option>
             </select>
           </td>
         </tr>
@@ -84,8 +84,8 @@
             </td>
             <td>
               <select type="text" name="boardType" class="form-control">
-                <option value="D" <%= v.boardType === 'D' ? 'selected' : '' %>>일반게시판</option>
-                <option value="G" <%= v.boardType === 'G' ? 'selected' : '' %>>갤러리게시판</option>
+                <option value="D" <%= v.boardType === 'default' ? 'selected' : '' %>>일반게시판</option>
+                <option value="G" <%= v.boardType === 'gallery' ? 'selected' : '' %>>갤러리게시판</option>
               </select>
             </td>
             <td>

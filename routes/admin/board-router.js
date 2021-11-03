@@ -1,18 +1,22 @@
-const path = require('path');
 const express = require('express');
 const router = express.Router();
-const { error } = require('../../modules/util');
+const boardinit = require('../../middlewares/boardinit-mw');
 
-router.get('/', (req, res, next) => {
-  const boardType = req.query.boardType || 'default';
+// 신규글 작성
+router.get('/', boardinit, (req, res, next) => {
   // boardType = default or gallery
-  if (req.query.type === 'create') {
-    // req.query.type = create or update
-    res.render('admin/board/board-form', { boardType });
-  } else {
-    res.render('admin/board/board-list', { boardType });
-  }
+  // req.query.type = create or update
+  const { type } = req.query;
+  if (type === 'create') {
+    res.render('admin/board/board-form', { type });
+  } else next();
 });
+// 리스트
+router.get('/', boardinit, (req, res, next) => {
+  const { type } = req.query;
+  res.render('admin/board/board-list', { type });
+});
+//
 router.get('/:id', (req, res, next) => {
   const boardType = req.query.boardType || 'default';
   if (req.query.type === 'update') {

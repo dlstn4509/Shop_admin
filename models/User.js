@@ -148,7 +148,15 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
     }
   );
   User.associate = (models) => {
-    User.hasMany(models.Board);
+    User.hasMany(models.Board, {
+      foreignKey: {
+        name: 'user_id',
+        allowNull: false,
+      },
+      sourceKey: 'id',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    });
   };
 
   User.beforeCreate(async (user) => {
