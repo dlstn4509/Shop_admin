@@ -28,6 +28,7 @@ module.exports = (sequelize, DataType) => {
     }
   );
   Board.associate = (models) => {
+    // board (多) : user (1)
     Board.belongsTo(models.User, {
       foreignKey: {
         name: 'user_id',
@@ -38,6 +39,7 @@ module.exports = (sequelize, DataType) => {
       onDelete: 'CASCADE',
     });
     Board.belongsTo(models.BoardInit, {
+      // board (多) : boardinit (1)
       foreignKey: {
         name: 'binit_id',
         allowNull: false,
@@ -47,6 +49,7 @@ module.exports = (sequelize, DataType) => {
       onDelete: 'CASCADE',
     });
     Board.hasMany(models.BoardFile, {
+      // board (1) : boardfile (多)
       foreignKey: {
         name: 'board_id',
         allowNull: false,
@@ -56,6 +59,7 @@ module.exports = (sequelize, DataType) => {
       onDelete: 'CASCADE',
     });
     Board.hasMany(models.BoardComment, {
+      // board (1) : boardcomment (多)
       foreignKey: {
         name: 'board_id',
         allowNull: false,

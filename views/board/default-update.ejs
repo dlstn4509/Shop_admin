@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="/css/<%= currents[1] %>-<%= boardType %>.css">
 <article class="board-container default-type view-page">
+  <div>default-update</div>
   <form action="/<%=currents[0]%>/<%=currents[1]%>" method="post" enctype="multipart/form-data">
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="id" value="1">

@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const { getSeparateString } = require('../modules/util');
 const generateUser = (_users) => {
+  // 주소, 전번, user status 가공
   const users = _users.map((v) => {
     v.addr1 =
       v.addrPost && v.addrRoad
@@ -42,6 +43,7 @@ const generateUser = (_users) => {
 };
 const generateWhere = (sequelize, Op, { field, search }) => {
   let where = search ? { [field]: { [Op.like]: `%${search}%` } } : null;
+  // [field] 는 변수를 받기 위해 감싸줌
   if (field === 'tel' && search !== '') {
     search = search.replace(/-/g, '');
     where = sequelize.where(sequelize.fn('replace', sequelize.col('tel'), '-', ''), {
@@ -61,6 +63,25 @@ const generateWhere = (sequelize, Op, { field, search }) => {
   }
   return where;
 };
+
+// ------------------------- 내가 만든거 ------------------------
+// if (field === 'tel' && search !== '') {
+//   search = search.replace(/^\s*/, '%');
+//   search = search.replace(/\s*$/, '%');
+//   let result = '';
+//   for (let i = 0; i < search.length - 1; i++) {
+//     let v = search.substr(i, 1);
+//     if (v !== '%') {
+//       result += v + '%';
+//     } else {
+//       result += v;
+//     }
+//   }
+//   where = {
+//     tel: { [Op.like]: `${result}` },
+//   };
+// }
+// ---------------------------------------------------------
 
 module.exports = (sequelize, { DataTypes: DataType, Op }) => {
   const User = sequelize.define(
@@ -148,6 +169,7 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
     }
   );
   User.associate = (models) => {
+    // user (1) : board (多)
     User.hasMany(models.Board, {
       foreignKey: {
         name: 'user_id',
@@ -165,33 +187,17 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
     const hash = await bcrypt.hash(user.passwd + salt, Number(rnd));
     user.userpw = hash;
     user.tel = getSeparateString([user.tel1, user.tel2, user.tel3], '-');
+    // user.tel1 + '-' + user.tel2 + '-' + user.tel3
   });
 
   User.beforeUpdate(async (user) => {
     user.tel = getSeparateString([user.tel1, user.tel2, user.tel3], '-');
+    // user.tel1 + '-' + user.tel2 + '-' + user.tel3
   });
 
   User.searchUser = async function (query, pager) {
+    // query = req.query, pager = req.pager
     let { field = 'id', search = '', sort = 'desc' } = query;
-
-    // ------------------------- 내가 만든거 ------------------------
-    // if (field === 'tel' && search !== '') {
-    //   search = search.replace(/^\s*/, '%');
-    //   search = search.replace(/\s*$/, '%');
-    //   let result = '';
-    //   for (let i = 0; i < search.length - 1; i++) {
-    //     let v = search.substr(i, 1);
-    //     if (v !== '%') {
-    //       result += v + '%';
-    //     } else {
-    //       result += v;
-    //     }
-    //   }
-    //   where = {
-    //     tel: { [Op.like]: `${result}` },
-    //   };
-    // }
-    // ---------------------------------------------------------
     const rs = await this.findAll({
       order: [[field * 1 || 'id', sort || 'desc']],
       offset: pager.startIdx,

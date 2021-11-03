@@ -3,7 +3,11 @@
 <section class="board-wrapper view-wrapper wrapper">
   <%- include('./inc-select.ejs') %> 
   <div class="tbl-wrap">
-    <%- include(`../../board/${boardType}-form.ejs`) %> 
+    <% if(type === 'update') { %>
+      <%- include(`../../board/${boardType}-update.ejs`) %> 
+    <% } else { %>
+      <%- include(`../../board/${boardType}-form.ejs`) %> 
+    <% } %>
   </div>
 </section>
 <%- include('../../inc/foot.ejs') %>

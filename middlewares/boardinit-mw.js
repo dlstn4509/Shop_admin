@@ -10,12 +10,27 @@ module.exports = async (req, res, next) => {
   res.locals.useImg = binit.useImg;
   res.locals.useFile = binit.useFile;
   res.locals.useComment = binit.useComment;
-  next();
-};
-
-const { BoardInit } = require('../models');
-module.exports = async (req, res, next) => {
-  const binit = await BoardInit.findOne({ where: { id: req.query.bid } });
   req.binit = binit;
   next();
 };
+
+// const { BoardInit } = require('../models');
+// module.exports = async (req, res, next) => {
+//   const binit = await BoardInit.findOne({ where: { id: req.query.bid } });
+//   req.binit = binit;
+//   next();
+// };
+
+// ----------------- binit -------------
+// {
+// "id": 1,
+// "title": "공지사항",
+// "boardType": "default",
+// "useImg": "2",
+// "useFile": "2",
+// "useComment": false,
+// "createdAt": "2021-11-03T06:54:51.000Z",
+// "updatedAt": "2021-11-03T06:54:51.000Z",
+// "deletedAt": null
+// }
+// -----------------------------------------

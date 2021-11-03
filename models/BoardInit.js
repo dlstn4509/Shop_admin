@@ -44,6 +44,7 @@ module.exports = (sequelize, DataType) => {
     }
   );
   BoardInit.associate = (models) => {
+    // boardinit (1) : board (多)
     BoardInit.hasMany(models.Board, {
       foreignKey: {
         name: 'binit_id',

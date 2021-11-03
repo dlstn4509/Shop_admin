@@ -83,10 +83,12 @@ const alert = (msg, loc = '/') => {
 	</script>`;
 };
 
+// 배열을 쪼개서 문자로
 const getSeparateString = (arr, division) => {
   return arr.includes('') || arr.includes(undefined) ? '' : arr.join(division);
 };
 
+// 문자를 합쳐서 배열로
 const getSeparateArray = (str, division = '-') => {
   return str.includes(division) ? str.split(division) : [];
 };

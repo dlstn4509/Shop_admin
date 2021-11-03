@@ -5,7 +5,9 @@ passwd : 6 ~ 24
 passwd === passwd2
 email 검증
 */
-(function initValidation(form) {
+$('form[name="userForm"]').submit(initValidation(document.userForm));
+
+function initValidation(form) {
   var ERR_API = '에러가 발생했습니다.';
 
   var f = form || document.userForm;
@@ -207,4 +209,5 @@ email 검증
     elTxt.innerHTML = msg || '';
     return true;
   }
-})(document.userForm);
+}
+// })(document.userForm);

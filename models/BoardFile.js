@@ -30,12 +30,6 @@ module.exports = (sequelize, DataType) => {
         type: DataType.INTEGER(10),
         allowNull: false,
       },
-      size: {
-        type: DataType.INTEGER(10),
-      },
-      content: {
-        type: DataType.TEXT,
-      },
     },
     {
       charset: 'utf8',
@@ -45,6 +39,7 @@ module.exports = (sequelize, DataType) => {
     }
   );
   BoardFile.associate = (models) => {
+    // boardfile (多) : board (1)
     BoardFile.belongsTo(models.Board, {
       foreignKey: {
         name: 'board_id',

@@ -17,7 +17,7 @@ router.get('/', (req, res, next) => {
 router.get('/', pager(User), async (req, res, next) => {
   try {
     let { field = 'id', search = '', sort = 'desc' } = req.query;
-    const users = await User.searchUser(req.query, req.pager);
+    const users = await User.searchUser(req.query, req.pager); // User.findAll
     const ejs = { telNumber, pager: req.pager, users, field, sort, search, numeral };
     res.render('admin/user/user-list', ejs);
   } catch (err) {
@@ -28,7 +28,7 @@ router.get('/', pager(User), async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const user = await User.findOne({ where: { id: req.params.id } });
-    user.tel = getSeparateArray(user.tel, '-');
+    user.tel = getSeparateArray(user.tel, '-'); // 010-1111-2222 -> 01011112222
     const ejs = { telNumber, user };
     res.render('admin/user/user-update', ejs);
   } catch (err) {

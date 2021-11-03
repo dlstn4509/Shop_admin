@@ -25,6 +25,7 @@ module.exports = (sequelize, DataType) => {
     }
   );
   BoardComment.associate = (models) => {
+    // boardcomment (多) : board (1)
     BoardComment.belongsTo(models.Board, {
       foreignKey: {
         name: 'board_id',
