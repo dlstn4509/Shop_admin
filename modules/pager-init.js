@@ -25,5 +25,6 @@ module.exports = (_page, _totalRecord, _listCnt = 5, _pagerCnt = 3) => {
     nextPage,
     prevPager,
     nextPager,
+    totalRecord,
   };
 };

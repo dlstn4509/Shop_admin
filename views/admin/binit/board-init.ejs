@@ -1,0 +1,124 @@
+<%- include('../../inc/head.ejs') %>
+<%- include('../../inc/header.ejs') %>
+<!-- 생성 -->
+<section class="board-wrapper init-wrapper wrapper">
+  <form action="/<%=currents[0]%>/<%=currents[1]%>" method="POST" name="binitForm">
+    <h4 class="title bullet my-2">게시판 생성</h4>
+    <table class="table create-tbl">
+      <tbody>
+        <tr>
+          <td class="title bullet secondary circle">게시판 이름</td>
+          <td class="content">
+            <input type="text" name="title" class="form-control" autofocus>
+          </td>
+          <td class="title bullet secondary circle">게시판 형태</td>
+          <td>
+            <select type="text" name="boardType" class="form-control">
+              <option value="D" selected>일반게시판</option>
+              <option value="G">갤러리게시판</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="title bullet secondary circle">옵션선택</td>
+          <td colspan="3">
+            <div class="form-inline">
+              <label class="mr-4">
+                <span class="bullet circle">첨부이미지:</span>
+                <select type="text" name="useImg" class="form-control ml-2">
+                  <option value="0" selected>사용안함</option>
+                  <% for(let i=1; i<=10; i++) { %>
+                  <option value="<%= i %>"><%= i %>개</option>
+                  <% } %>
+                </select>
+              </label>
+              <label class="mr-4">
+                <span class="bullet circle">첨부파일:</span>
+                <select type="text" name="useFile" class="form-control ml-2">
+                  <option value="0" selected>사용안함</option>
+                  <% for(let i=1; i<=2; i++) { %>
+                  <option value="<%= i %>"><%= i %>개</option>
+                  <% } %>
+                </select>
+              </label>
+              <label class="mr-4">
+                <span class="bullet circle">댓글사용:</span>
+                <select type="text" name="useComment" class="form-control ml-2">
+                  <option value="true">사용</option>
+                  <option value="false" selected>사용안함</option>
+                </select>
+              </label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="text-center">
+            <button class="btn btn-primary btBoardCreate">게시판 생성</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+
+<!-- 수정, 리스트 -->
+  <h4 class="title bullet my-2">게시판 리스트</h4>
+  <table class="table list-tbl text-center border-bottom">
+    <thead>
+      <tr>
+        <th>게시판 이름</th>
+        <th>타입</th>
+        <th>이미지첨부</th>
+        <th>파일첨부</th>
+        <th>댓글사용</th>
+        <th>관리</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(let v of boards) { %>
+        <form method="POST" action="/<%=currents[0]%>/<%=currents[1]%>" class="binit-update-form">
+          <tr>
+            <td>
+              <input type="hidden" name="_method" value="PUT">
+              <input type="hidden" name="id" value="<%= v.id %>">
+              <input type="text" name="title" class="form-control" value="<%= v.title %>">
+            </td>
+            <td>
+              <select type="text" name="boardType" class="form-control">
+                <option value="D" <%= v.boardType === 'D' ? 'selected' : '' %>>일반게시판</option>
+                <option value="G" <%= v.boardType === 'G' ? 'selected' : '' %>>갤러리게시판</option>
+              </select>
+            </td>
+            <td>
+              <select type="text" name="useImg" class="form-control ml-2">
+                <option value="0" <%= v.useImg === '0' ? 'selected' : '' %>>사용안함</option>
+                <% for(let i=1; i<=10; i++) { %>
+                <option value="<%= i %>"<%= v.useImg == i ? 'selected' : '' %>><%= i %>개</option>
+                <% } %>
+              </select>
+            </td>
+            <td>
+              <select type="text" name="useFile" class="form-control ml-2">
+                <option value="0" <%= v.useFile === '0' ? 'selected' : '' %>>사용안함</option>
+                <% for(let i=1; i<=2; i++) { %>
+                <option value="<%= i %>"<%= v.useFile == i ? 'selected' : '' %>><%= i %>개</option>
+                <% } %>
+              </select>
+            </td>
+            <td>
+              <select type="text" name="useComment" class="form-control">
+                <option value="true" <%= v.useComment ? 'selected' : '' %>>사용</option>
+                <option value="false" <%= v.useComment ? '' : 'selected' %>>사용안함</option>
+              </select>
+            </td>
+            <td>
+              <button type="button" class="btn btn-success" onclick="onChangeBoard('put', this);">수정</button>
+              <button type="button" class="btn btn-danger" onclick="onChangeBoard('delete', this);">삭제</button>
+            </td>
+          </tr>
+        </form>
+      <% } %>
+    </tbody>
+  </table>
+</section>
+<script src="/js/<%= currents[1] %>/<%= currents[1] %>.js"></script>
+<%- include('../../inc/foot.ejs') %>
