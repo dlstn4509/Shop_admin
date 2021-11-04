@@ -1,7 +1,7 @@
 <%- include('../../inc/head.ejs') %>
 <%- include('../../inc/header.ejs') %>
 <section class="board-wrapper view-wrapper wrapper">
-  <%- include('./inc-select.ejs') %> 
+  <h3 class="title bullet my-3"><%= boardTitle %><small> - 글작성</small></h3>
   <div class="tbl-wrap">
     <% if(type === 'update') { %>
       <%- include(`../../board/${boardType}-update.ejs`) %> 

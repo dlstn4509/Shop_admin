@@ -1,17 +1,32 @@
+/* 
+req.query.boardId -> 현재 게시판 정보
+전제 게시판 정보
+*/
+
+const _ = require('lodash');
 const { BoardInit } = require('../models');
-module.exports = async (req, res, next) => {
-  const binit = await BoardInit.findOne({
-    where: { id: req.query.boardId || 1 },
-  });
-  res.locals.boardId = req.query.boardId;
-  // res.locals.boardType = binit.boardType;
-  res.locals.boardType = req.query.boardType ? req.query.boardType : 'default';
-  res.locals.boardTitle = binit.title;
-  res.locals.useImg = binit.useImg;
-  res.locals.useFile = binit.useFile;
-  res.locals.useComment = binit.useComment;
-  req.binit = binit;
-  next();
+
+module.exports = (field) => {
+  return async (req, res, next) => {
+    let { boardId } = req[field];
+    const boardLists = await BoardInit.findAll({
+      order: [['id', 'asc']],
+    });
+    const [myBoard] = boardLists.filter((v, i) => {
+      if (i === boardLists.length - 1 && !boardId) boardId = v.id;
+      return v.id == boardId;
+    });
+
+    res.locals.boardLists = _.sortBy(boardLists, 'title');
+    res.locals.boardId = boardId;
+    res.locals.boardType = myBoard.boardType;
+    // res.locals.boardType = req.query.boardType ? req.query.boardType : 'default';
+    res.locals.boardTitle = myBoard.title;
+    res.locals.useImg = myBoard.useImg;
+    res.locals.useFile = myBoard.useFile;
+    res.locals.useComment = myBoard.useComment;
+    next();
+  };
 };
 
 // const { BoardInit } = require('../models');

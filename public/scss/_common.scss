@@ -139,3 +139,25 @@ section.wrapper {
     }
   }
 }
+
+h2.title {
+  font-size: 1.75em;
+  color: $dark-color;
+  small {
+    color: $primary-color;
+  }
+}
+h3.title {
+  font-size: 1.5em;
+  color: $dark-color;
+  small {
+    color: $primary-color;
+  }
+}
+h4.title {
+  font-size: 1.25em;
+  color: $dark-color;
+  small {
+    color: $primary-color;
+  }
+}
