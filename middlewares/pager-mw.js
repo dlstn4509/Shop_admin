@@ -6,6 +6,17 @@ module.exports = (model, _listCnt = 5, _pagerCnt = 3) => {
     const totalRecord = await model.getCount(req.query);
     const pager = createPager(page, totalRecord, _listCnt, _pagerCnt);
     req.pager = pager;
+    res.locals.pager = pager;
     next();
   };
 };
+
+/* 
+  ---Board.js---
+  Board.getCount = async function (query) {
+    return await this.count({
+      where: { ...sequelize.getWhere(query), binit_id: query.boardId },
+    });
+  };
+
+*/

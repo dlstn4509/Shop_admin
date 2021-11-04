@@ -7,8 +7,9 @@ const _ = require('lodash');
 const { BoardInit } = require('../models');
 
 module.exports = (field) => {
+  // field = query or body
   return async (req, res, next) => {
-    let { boardId } = req[field];
+    let { boardId } = req[field]; // req.query or req.body
     const boardLists = await BoardInit.findAll({
       order: [['id', 'asc']],
     });
@@ -28,15 +29,7 @@ module.exports = (field) => {
     next();
   };
 };
-
-// const { BoardInit } = require('../models');
-// module.exports = async (req, res, next) => {
-//   const binit = await BoardInit.findOne({ where: { id: req.query.bid } });
-//   req.binit = binit;
-//   next();
-// };
-
-// ----------------- binit -------------
+// ----------------- myBoard -------------
 // {
 // "id": 1,
 // "title": "공지사항",

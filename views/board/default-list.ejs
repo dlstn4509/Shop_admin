@@ -1,6 +1,14 @@
 <link rel="stylesheet" href="/css/<%= currents[1] %>-<%= boardType %>.css">
 <article class="board-container default-type list-page">
   <div>default-list</div>
+  <div class="my-2">
+    <div class="mb-2">총 회원수: <%= numeral(pager.totalRecord).format('0,0') %> 명</div>
+    <div class="d-flex">
+      <%- include('../inc/search.ejs') %>
+      <%- include('../inc/sort.ejs') %>
+      <a href="/<%= currents[0] %>/<%= currents[1] %>?type=create" class="btn btn-primary ml-auto">게시글작성</a>
+    </div>
+  </div>
   <table class="table text-center border-bottom">
     <thead class="thead-dark">
       <tr>
@@ -12,20 +20,22 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>1</td>
-        <td class="text-left">
-          <a href="/<%=currents[0]%>/board/1?type=default">공지사항 입니다.</a>
-        </td>
-        <td>관리자</td>
-        <td>2021-10-28</td>
-        <td>10</td>
-      </tr>
+      <% for(v of lists) { %>
+        <tr>
+          <td><%= v.id %></td>
+          <td class="text-left">
+            <a href="/<%=currents[0]%>/<%=currents[1]%>/<%= v.id %>?boardId=<%= boardId %>"><%= v.title %></a>
+          </td>
+          <td><%= v.writer %></td>
+          <td><%= v.updatedAt %></td>
+          <td>1</td>
+        </tr>
+      <% } %>
     </tbody>
   </table>
-  <%- //include('../inc/pager.ejs') %> 
   <div class="text-center my-4">
-    <a href="/<%=currents[0]%>/<%=currents[1]%>?type=create&boardId=<%= boardId %>" class="btn btn-primary">글작성</a>
+    <a href="/<%=currents[0]%>/<%=currents[1]%>?type=create&boardType=<%= boardType %>&boardId=<%= boardId %>" class="btn btn-primary">글작성</a>
   </div>
+  <%- include('../inc/pager.ejs', pager) %> 
 </article>
-<script src="/js/board/board.js"></script>
+<script src="/js/<%=currents[1]%>/<%=boardType%>-list.js"></script>

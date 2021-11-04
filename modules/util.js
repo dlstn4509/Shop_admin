@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs-extra');
+const moment = require('moment');
 
 const location = (src) => path.join(__dirname, '../', src);
 
@@ -93,6 +94,31 @@ const getSeparateArray = (str, division = '-') => {
   return str.includes(division) ? str.split(division) : [];
 };
 
+const dateFormat = (_date = new Date(), _type = 'D') => {
+  /* 
+  D : 2021-11-04
+  KD : 2021년11월04일
+  H : 2021-11-04 13:11:04
+  KH : 2021년11월04일 13시 11분 4초
+  */
+  let type = '';
+  switch (_type) {
+    case 'D':
+      type = 'YYYY-MM-DD';
+      break;
+    case 'KD':
+      type = 'YYYY년 M월 D일';
+      break;
+    case 'H':
+      type = 'YYYY-MM-DD HH:mm:ss';
+      break;
+    case 'KH':
+      type = 'YYYY년 M월 D일 H시m분s초';
+      break;
+  }
+  return moment(_date).format(type);
+};
+
 module.exports = {
   location,
   cutTail,
@@ -107,4 +133,5 @@ module.exports = {
   telNumber,
   getSeparateString,
   getSeparateArray,
+  dateFormat,
 };

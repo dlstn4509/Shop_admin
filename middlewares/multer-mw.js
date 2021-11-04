@@ -4,10 +4,12 @@ const path = require('path');
 const fs = require('fs-extra');
 const { v4: uuid } = require('uuid');
 const { exts } = require('../modules/util');
+// const exts = { imgExt, mediaExt, docExt, zipExt };
 const allowExt = [...exts.imgExt, ...exts.docExt, ...exts.mediaExt, ...exts.zipExt];
 const mega = 1024000;
 
 const destination = async (req, file, cb) => {
+  // 폴더 만들기 (ensureDir)
   try {
     const folder = path.join(__dirname, '../storages', moment().format('YYMMDD'));
     await fs.ensureDir(folder);

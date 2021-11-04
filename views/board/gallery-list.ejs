@@ -1,17 +1,27 @@
 <link rel="stylesheet" href="/css/<%= currents[1] %>-<%= boardType %>.css">
 <article class="board-container gallery-type list-page">
+  <div class="my-2">
+    <div class="mb-2">총 회원수: <%= numeral(pager.totalRecord).format('0,0') %> 명</div>
+    <div class="d-flex">
+      <%- include('../inc/search.ejs') %>
+      <%- include('../inc/sort.ejs') %>
+      <a href="/<%= currents[0] %>/<%= currents[1] %>?type=create" class="btn btn-primary ml-auto">게시글</a>
+    </div>
+  </div>
   <div>gallery-list</div>
   <ul class="list-wrap">
-    <li class="list" data-link="/<%=currents[0]%>/<%=currents[1]%>/1">
-      <div class="img-wrap" style="background-image: url(/img/team1.jpg);"></div>
-      <div class="content-wrap">
-        <div class="title">우리회사 팀원</div>
-      </div>
-    </li>
+    <% for(v of lists) { %>
+      <li class="list" data-link="/<%=currents[0]%>/<%=currents[1]%>/<%= v.id %>?boardId=<%= boardId %>">
+        <div class="img-wrap" style="background-image: url('<%= v.thumbSrc %>');"></div>
+        <div class="content-wrap">
+          <div class="title"><%= v.title %></div>
+        </div>
+      </li>
+    <% } %> 
   </ul>
-  <%- //include('../inc/pager.ejs') %> 
+  <%- include('../inc/pager.ejs', pager) %> 
   <div class="text-center my-4">
-    <a href="/<%=currents[0]%>/<%=currents[1]%>?type=create&boardType=gallery&boardId=<%= boardId %>" class="btn btn-primary">글작성</a>
+    <a href="/<%=currents[0]%>/<%=currents[1]%>?type=create&boardType=<%= boardType %>&boardId=<%= boardId %>" class="btn btn-primary">글작성</a>
   </div>
 </article>
-<script src="/js/board/board.js"></script>
+<script src="/js/<%=currents[1]%>/<%=boardType%>-list.js"></script>

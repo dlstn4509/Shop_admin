@@ -5,6 +5,8 @@ const boardinit = require('../../middlewares/boardinit-mw');
 const uploader = require('../../middlewares/multer-mw');
 const afterUploader = require('../../middlewares/after-multer-mw');
 const { Board, BoardFile } = require('../../models');
+const numeral = require('numeral');
+const pager = require('../../middlewares/pager-mw');
 
 // 신규글 작성 화면
 router.get('/', boardinit('query'), (req, res, next) => {
@@ -14,9 +16,25 @@ router.get('/', boardinit('query'), (req, res, next) => {
   } else next();
 });
 // 리스트
-router.get('/', boardinit('query'), (req, res, next) => {
-  const { type } = req.query;
-  res.render('admin/board/board-list', { type });
+router.get('/', boardinit('query'), pager(Board), async (req, res, next) => {
+  try {
+    const { type, field = 'id', search = '', sort = 'desc' } = req.query;
+    // req.query.field = field;
+    // req.query.search = search;
+    // req.query.boardId = 1;
+    const lists = await Board.searchList(req.query, req.pager, BoardFile);
+    res.render('admin/board/board-list', {
+      type,
+      lists,
+      numeral,
+      pager: req.pager,
+      field,
+      sort,
+      search,
+    });
+  } catch (err) {
+    next(createError(err));
+  }
 });
 // 수정 페이지, 상세 페이지
 router.get('/:id', boardinit('query'), (req, res, next) => {
@@ -36,7 +54,7 @@ router.post(
   async (req, res, next) => {
     try {
       req.body.user_id = 1; // 임시, 회원작업 후 수정 예정
-      req.body.binit_id = res.locals.boardId; // 임시, 회원작업 후 수정 예정
+      req.body.binit_id = res.locals.boardId;
       const board = await Board.create(req.body);
       req.files.forEach((file) => {
         file.board_id = board.id;

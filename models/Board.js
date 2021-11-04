@@ -1,4 +1,6 @@
-module.exports = (sequelize, DataType) => {
+const { dateFormat, relPath } = require('../modules/util');
+
+module.exports = (sequelize, { DataTypes: DataType, Op }) => {
   const Board = sequelize.define(
     'Board',
     {
@@ -69,5 +71,49 @@ module.exports = (sequelize, DataType) => {
       onDelete: 'CASCADE',
     });
   };
+
+  Board.getCount = async function (query) {
+    return await this.count({
+      where: { ...sequelize.getWhere(query), binit_id: query.boardId },
+      // 펼침으로 가져온 이유는 내 글만 가져올 조건(binit_id: query.boardId)을 추가하기 위해
+    });
+  };
+
+  Board.searchList = async function (query, pager, BoardFile) {
+    let { field = 'id', sort = 'desc', boardId } = query;
+    const rs = await this.findAll({
+      order: [[field || 'id', sort || 'desc']],
+      offset: pager.startIdx,
+      limit: pager.listCnt,
+      where: { ...sequelize.getWhere(query), binit_id: boardId },
+      include: [{ model: BoardFile, attributes: ['saveName'] }],
+    });
+    const lists = rs
+      .map((v) => v.toJSON())
+      .map((v) => {
+        v.updatedAt = dateFormat(v.updatedAt);
+        if (v.BoardFiles.length) v.thumbSrc = relPath(v.BoardFiles[0].saveName);
+        delete v.createdAt;
+        delete v.deletedAt;
+        delete v.BoardFiles;
+        return v;
+      });
+    return lists;
+  };
+
+  Board.generateList = function (_lists) {
+    const lists = _lists
+      .map((v) => v.toJSON())
+      .map((v) => {
+        v.updatedAt = dateFormat(v.updatedAt, 'H');
+        if (v.BoardFiles.length) v.thumbSrc = relPath(v.BoardFiles[0].saveName);
+        delete v.createdAt;
+        delete v.deletedAt;
+        delete v.BoardFiles;
+        return v;
+      });
+    return lists;
+  };
+
   return Board;
 };
