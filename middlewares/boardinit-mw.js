@@ -14,6 +14,7 @@ module.exports = (field) => {
       order: [['id', 'asc']],
     });
     const [myBoard] = boardLists.filter((v, i) => {
+      // 모르겠음...
       if (i === boardLists.length - 1 && !boardId) boardId = v.id;
       return v.id == boardId;
     });

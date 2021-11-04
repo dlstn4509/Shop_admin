@@ -6,6 +6,7 @@ const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config')[env];
 const db = {};
 
+// ------- 검색할때 where 조건 만들어주기 --------
 Sequelize.prototype.getWhere = ({ field, search }) => {
   let where = search ? { [field]: { [Op.like]: '%' + search + '%' } } : null;
   if (field === 'tel' && search !== '') {

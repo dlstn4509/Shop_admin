@@ -17,7 +17,7 @@ router.get('/', (req, res, next) => {
 router.get('/', pager(User), async (req, res, next) => {
   try {
     let { field = 'id', search = '', sort = 'desc' } = req.query;
-    const users = await User.searchList(req.query, req.pager); // User.findAll
+    const users = await User.searchList(req.query, req.pager); // User.findAll, 주소 전화번호 정리
     const ejs = { telNumber, users, field, sort, search, numeral };
     res.render('admin/user/user-list', ejs);
   } catch (err) {
@@ -49,7 +49,7 @@ router.put('/', async (req, res, next) => {
   try {
     const [rs] = await User.update(req.body, {
       where: { id: req.body.id },
-      individualHooks: true,
+      individualHooks: true, // beforeUpdate 를 돌아가게 함 (여러 레코드를 수정할때 사용)
     });
     if (rs) res.send(alert('회원수정이 완료되었습니다.', '/admin/user'));
     else res.send(alert('처리되지 않았습니다.', '/admin/user'));

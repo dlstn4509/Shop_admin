@@ -87,7 +87,6 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
       tel: {
         type: DataType.STRING(14),
       },
-      // UPDATE user SET tel = concat(`tel1`, '-', `tel2`, '-', `tel3`)
       tel1: {
         type: DataType.VIRTUAL,
       },
@@ -118,6 +117,7 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
     });
   };
 
+  // ------ db 저장전 passwd, tel 정리 --------
   User.beforeCreate(async (user) => {
     // user = req.body의 모든것
     const { BCRYPT_SALT: salt, BCRYPT_ROUND: rnd } = process.env;
@@ -127,17 +127,20 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
     // user.tel1 + '-' + user.tel2 + '-' + user.tel3
   });
 
+  // ------ db 수정전 tel 정리 --------
   User.beforeUpdate(async (user) => {
     user.tel = getSeparateString([user.tel1, user.tel2, user.tel3], '-');
     // user.tel1 + '-' + user.tel2 + '-' + user.tel3
   });
 
+  // ------- totalRecord 구하기 --------
   User.getCount = async function (query) {
     return await this.count({
       where: sequelize.getWhere(query),
     });
   };
 
+  // ------- 리스트 가져오기 findAll --------
   User.searchList = async function (query, pager) {
     // query = req.query, pager = req.pager
     let { field = 'id', search = '', sort = 'desc' } = query;
@@ -152,16 +155,16 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
       .map((v) => {
         v.addr1 =
           v.addrPost && v.addrRoad
-            ? `[${v.addrPost}] 
-        ${v.addrRoad || ''} 
-        ${v.addrComment || ''}
-        ${v.addrDetail || ''}`
+            ? `[${v.addrPost}]
+              ${v.addrRoad || ''}
+              ${v.addrComment || ''}
+              ${v.addrDetail || ''}`
             : '';
         v.addr2 =
           v.addrPost && v.addrJibun
             ? `[${v.addrPost}] 
-        ${v.addrJibun}
-        ${v.addrDetail || ''}`
+              ${v.addrJibun}
+              ${v.addrDetail || ''}`
             : '';
         v.level = '';
         switch (v.status) {
@@ -186,7 +189,7 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
         }
         return v;
       });
-    return rs;
+    return lists;
   };
 
   return User;

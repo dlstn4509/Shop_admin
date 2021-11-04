@@ -49,8 +49,8 @@ router.get('/:id', boardinit('query'), (req, res, next) => {
 router.post(
   '/',
   uploader.fields([{ name: 'img' }, { name: 'pds' }]),
-  afterUploader(['img', 'pds']),
-  boardinit('body'),
+  afterUploader(['img', 'pds']), // db저장하기 전 정리
+  boardinit('body'), // req.body 정리
   async (req, res, next) => {
     try {
       req.body.user_id = 1; // 임시, 회원작업 후 수정 예정

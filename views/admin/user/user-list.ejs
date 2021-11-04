@@ -2,7 +2,7 @@
 <%- include('../../inc/header.ejs') %>
 <section class="user-wrapper list-wrapper wrapper">
   <div class="my-2">
-    <div class="mb-2">총 회원수: <%= numeral(1111111).format('0,0') %> 명</div>
+    <div class="mb-2">총 회원수: <%= numeral(pager.totalRecord).format('0,0') %> 명</div>
     <div class="d-flex">
       <%- include('../../inc/search.ejs') %>
       <%- include('../../inc/sort.ejs') %>
