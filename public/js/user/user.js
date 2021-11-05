@@ -30,3 +30,11 @@ function openPostcode() {
     },
   }).open();
 }
+
+$('form[name="userDeleteForm"]').submit(onUserDelete);
+function onUserDelete(e) {
+  e.preventDefault();
+  if (confirm('정말로 삭제하시겠습니까?')) {
+    this.submit();
+  }
+}

@@ -144,7 +144,7 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
   };
 
   // ------- 리스트, pager 가져오기 findAll --------
-  User.searchList = async function (query) {
+  User.getLists = async function (query) {
     // query = req.query, pager = req.pager
     let { field = 'id', search = '', sort = 'desc', page = 1 } = query;
     // pager

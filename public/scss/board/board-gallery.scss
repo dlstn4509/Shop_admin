@@ -1,8 +1,8 @@
 @import '../variables';
 @import '../mixins';
 
-.board-container {
-  &.gallery-type.list-page {
+.board-container.gallery-type {
+  &.list-page {
     overflow-x: hidden;
     .list-wrap {
       // list페이지
@@ -54,6 +54,15 @@
             opacity: 0.6;
           }
         }
+      }
+    }
+  }
+  &.view-page {
+    .td-content {
+      padding: inherit 0;
+      > div {
+        border: 1px solid $light-color;
+        min-height: 200px;
       }
     }
   }

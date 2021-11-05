@@ -19,28 +19,54 @@
 </style>
 <div class="search-wrap">
   <form action="/<%= currents[0] %>/<%= currents[1] %>" method="GET" class="form-inline">
+    <% if(currents[1] === 'board') { %> 
+      <input type="hidden" name="boardId" value="<%= boardId %>">
+    <% } %> 
     <select name="field" class="form-control mr-2" onchange="this.form.submit();">
-      <option value="" <%= (field === '' ? 'selected': '') %>>선택하세요</option>
+      <option value="" 
+      <%= (field === '' ? 'selected': '') %>>
+      선택하세요</option>
       <% if(currents[1] === 'user' || currents[1] === 'order') { %> 
-        <option value="userid" <%= (field === 'userid' ? 'selected': '') %>> 아이디</option>
-        <option value="username" <%= (field === 'username' ? 'selected': '') %>> 이름</option>
-        <option value="email" <%= (field === 'email' ? 'selected': '') %>> 이메일</option>
-        <option value="tel" <%= (field === 'tel' ? 'selected': '') %>> 전화번호</option>
-        <option value="addrRoad" <%= (field === 'addrRoad' ? 'selected': '') %>> 주소</option>
+        <option value="userid"
+        <%= (field === 'userid' ? 'selected': '') %>>
+        아이디</option>
+        <option value="username"
+        <%= (field === 'username' ? 'selected': '') %>>
+        이름</option>
+        <option value="email"
+        <%= (field === 'email' ? 'selected': '') %>>
+        이메일</option>
+        <option value="tel"
+        <%= (field === 'tel' ? 'selected': '') %>>
+        전화번호</option>
+        <option value="addrRoad"
+        <%= (field === 'addrRoad' ? 'selected': '') %>>
+        주소</option>
       <% } %> 
       <% if(currents[1] === 'board') { %> 
-        <option value="title" <%= (field === 'title' ? 'selected': '') %>> 제목</option>
-        <option value="content" <%= (field === 'content' ? 'selected': '') %>> 내용</option>
-        <option value="writer" <%= (field === 'writer' ? 'selected': '') %>> 작성자</option>
+        <option value="title"
+        <%= (field === 'title' ? 'selected': '') %>>
+        제목</option>
+        <option value="content"
+        <%= (field === 'content' ? 'selected': '') %>>
+        내용</option>
+        <option value="writer"
+        <%= (field === 'writer' ? 'selected': '') %>>
+        작성자</option>
       <% } %> 
       <% if(currents[1] === 'prd') { %> 
-        <option value="code" <%= (field === 'code' ? 'selected': '') %>> 상품코드</option>
-        <option value="name" <%= (field === 'name' ? 'selected': '') %>> 상품명</option>
-        <option value="content" <%= (field === 'content' ? 'selected': '') %>> 상품설명</option>
+        <option value="code"
+        <%= (field === 'code' ? 'selected': '') %>>
+        상품코드</option>
+        <option value="name"
+        <%= (field === 'name' ? 'selected': '') %>>
+        상품명</option>
+        <option value="content"
+        <%= (field === 'content' ? 'selected': '') %>>
+        상품설명</option>
       <% } %> 
     </select>
     <input type="text" name="search" class="form-control mr-2" value="<%= search %>">
-    <!-- value="<%= search %>" 라우터에 갔다가 다시 옴, 저장 -->
     <i class="fa fa-times bt-search-reset"></i>
     <button class="btn btn-info">검색</button>
   </form>

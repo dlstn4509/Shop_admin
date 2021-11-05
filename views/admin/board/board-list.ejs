@@ -1,6 +1,7 @@
 <%- include('../../inc/head.ejs') %>
 <%- include('../../inc/header.ejs') %>
 <section class="board-wrapper list-wrapper wrapper">
+  <h3 class="title bullet my-3"><%= boardTitle %></h3>
   <%- include('./inc-select.ejs') %>
   <div class="tbl-wrap">
     <%- include(`../../board/${boardType}-list.ejs`) %>

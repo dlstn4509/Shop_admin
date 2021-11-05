@@ -1,7 +1,11 @@
 <div class="sort-wrap ml-3">
   <form action="/<%= currents[0] %>/<%= currents[1] %>" method="GET" class="form-inline">
+    <% if(currents[1] === 'board') { %> 
+      <input type="hidden" name="boardId" value="<%= boardId %>">
+    <% } %> 
     <input type="hidden" name="field" value="<%= field %>">
     <input type="hidden" name="search" value="<%= search %>">
+    <input type="hidden" name="search" value="<%= status %>">
     <select name="sort" onchange="this.form.submit();" class="form-control">
       <option value="desc" <%= (sort === '' || sort === 'desc' ? 'selected' : '') %>>
         내림차순

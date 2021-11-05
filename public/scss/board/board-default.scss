@@ -1,0 +1,15 @@
+@import '../variables';
+@import '../mixins';
+
+.board-container.default-type {
+  &.view-page {
+    .td-content {
+      padding: 0.25em 0;
+      > div {
+        border: 1px solid #dee2e6;
+        padding: 1em;
+        min-height: 200px;
+      }
+    }
+  }
+}

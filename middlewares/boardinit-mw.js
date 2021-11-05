@@ -17,6 +17,7 @@ module.exports = (field) => {
       if (i === 0 && !boardId) boardId = v.id;
       return v.id == boardId;
     });
+    req[field].boardId = boardId;
 
     res.locals.boardLists = _.sortBy(boardLists, 'title');
     res.locals.boardId = boardId;

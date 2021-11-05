@@ -1,6 +1,7 @@
 const { dateFormat, relPath } = require('../modules/util');
 const numeral = require('numeral');
 const createPager = require('../modules/pager-init');
+const _ = require('lodash');
 
 module.exports = (sequelize, { DataTypes: DataType, Op }) => {
   const Board = sequelize.define(
@@ -84,22 +85,35 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
     });
   };
 
-  // ------- 리스트, pager 가져오기 findAll --------
-  Board.searchList = async function (query, BoardFile, BoardInit) {
-    let { field, sort, boardId, page } = query;
-    // binit_id 구하기
-    if (!boardId) {
-      let { id } = await BoardInit.findOne({
-        attributes: ['id', 'boardType'],
-        order: [['id', 'asc']],
-        offset: 0,
-        limit: 1,
+  Board.getViewData = function (rs, type) {
+    const data = rs
+      .map((v) => v.toJSON())
+      .map((v) => {
+        v.files = [];
+        v.updatedAt = dateFormat(v.updatedAt, type === 'view' ? 'H' : 'D');
+        if (v.BoardFiles.length) {
+          for (let file of v.BoardFiles) {
+            v.files.push({
+              thumbSrc: relPath(file.saveName),
+              name: file.oriName,
+              id: file.id,
+              type: file.fileType,
+            });
+          }
+          v.files = _.sortBy(v.files, ['type']);
+        }
+        delete v.createdAt;
+        delete v.deletedAt;
+        delete v.BoardFiles;
+        return v;
       });
-      boardId = id;
-      query.boardId = boardId;
-    }
+    return data;
+  };
+
+  // ------- 리스트, pager 가져오기 findAll --------
+  Board.getLists = async function (query, BoardFile) {
+    let { field, sort, boardId, page, boardType } = query;
     // pager
-    const { boardType } = await BoardInit.findOne({ where: { id: boardId }, raw: true });
     let listCnt = boardType === 'gallery' ? 12 : 5;
     let pagerCnt = 5;
     const totalRecord = await this.getCount(query);
@@ -114,16 +128,7 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
       },
       include: [{ model: BoardFile, attributes: ['saveName'] }],
     });
-    const lists = rs
-      .map((v) => v.toJSON()) // 쓸데없는거 지우기
-      .map((v) => {
-        v.updatedAt = dateFormat(v.updatedAt, 'H');
-        if (v.BoardFiles.length) v.thumbSrc = relPath(v.BoardFiles[0].saveName);
-        delete v.createdAt;
-        delete v.deletedAt;
-        delete v.BoardFiles;
-        return v;
-      });
+    const lists = this.getViewData(rs);
     return { lists, pager, totalRecord: numeral(pager.totalRecord).format(0, 0) };
     /* 
     { --- lists ---

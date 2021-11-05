@@ -12,7 +12,7 @@
   <ul class="list-wrap">
     <% for(v of lists) { %>
       <li class="list" data-link="/<%=currents[0]%>/<%=currents[1]%>/<%= v.id %>?boardId=<%= boardId %>">
-        <div class="img-wrap" style="background-image: url('<%= v.thumbSrc %>');"></div>
+        <div class="img-wrap" style="background-image: url('<%= v.files && v.files.length ? v.files[0].thumbSrc : `https://via.placeholder.com/300?text=No+image` %>')"></div>
         <div class="content-wrap">
           <div class="title"><%= v.title %></div>
         </div>
