@@ -11,7 +11,7 @@
   <div>gallery-list</div>
   <ul class="list-wrap">
     <% for(v of lists) { %>
-      <li class="list" data-link="/<%=currents[0]%>/<%=currents[1]%>/<%= v.id %>?boardId=<%= boardId %>">
+      <li class="list" data-link="/<%=currents[0]%>/<%=currents[1]%>/<%= v.id %>?boardId=<%= boardId %>&page=<%= page %>"">
         <div class="img-wrap" style="background-image: url('<%= v.files && v.files.length ? v.files[0].thumbSrc : `https://via.placeholder.com/300?text=No+image` %>')"></div>
         <div class="content-wrap">
           <div class="title"><%= v.title %></div>
@@ -21,7 +21,7 @@
   </ul>
   <%- include('../inc/pager.ejs', pager) %> 
   <div class="text-center my-4">
-    <a href="/<%=currents[0]%>/<%=currents[1]%>?type=create&boardType=<%= boardType %>&boardId=<%= boardId %>" class="btn btn-primary">글작성</a>
+    <a href="/<%=currents[0]%>/<%=currents[1]%>?type=create&boardId=<%= boardId %> class="btn btn-primary">글작성</a>
   </div>
 </article>
 <script src="/js/<%=currents[1]%>/<%=boardType%>-list.js"></script>

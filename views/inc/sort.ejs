@@ -5,7 +5,7 @@
     <% } %> 
     <input type="hidden" name="field" value="<%= field %>">
     <input type="hidden" name="search" value="<%= search %>">
-    <input type="hidden" name="search" value="<%= status %>">
+    <input type="hidden" name="status" value="<%= status %>">
     <select name="sort" onchange="this.form.submit();" class="form-control">
       <option value="desc" <%= (sort === '' || sort === 'desc' ? 'selected' : '') %>>
         내림차순

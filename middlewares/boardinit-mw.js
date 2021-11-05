@@ -18,7 +18,7 @@ module.exports = (field) => {
       return v.id == boardId;
     });
     req[field].boardId = boardId;
-
+    req[field].boardType = myBoard.boardType;
     res.locals.boardLists = _.sortBy(boardLists, 'title');
     res.locals.boardId = boardId;
     res.locals.boardType = myBoard.boardType;
