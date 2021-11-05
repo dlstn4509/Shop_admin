@@ -2,7 +2,7 @@
 <article class="board-container default-type list-page">
   <div>default-list</div>
   <div class="my-2">
-    <div class="mb-2">총 회원수: <%= numeral(pager.totalRecord).format('0,0') %> 명</div>
+    <div class="mb-2">총 게시글: <%= totalRecord %> 건</div>
     <div class="d-flex">
       <%- include('../inc/search.ejs') %>
       <%- include('../inc/sort.ejs') %>
@@ -24,7 +24,7 @@
         <tr>
           <td><%= v.id %></td>
           <td class="text-left">
-            <a href="/<%=currents[0]%>/<%=currents[1]%>/<%= v.id %>?boardId=<%= boardId %>"><%= v.title %></a>
+            <a href="/<%=currents[0]%>/<%=currents[1]%>/<%= v.id %>?boardId=<%= v.id %>"><%= v.title %></a>
           </td>
           <td><%= v.writer %></td>
           <td><%= v.updatedAt %></td>

@@ -1,4 +1,6 @@
 const { dateFormat, relPath } = require('../modules/util');
+const numeral = require('numeral');
+const createPager = require('../modules/pager-init');
 
 module.exports = (sequelize, { DataTypes: DataType, Op }) => {
   const Board = sequelize.define(
@@ -75,19 +77,41 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
   // ------- totalRecord 구하기 --------
   Board.getCount = async function (query) {
     return await this.count({
-      where: { ...sequelize.getWhere(query), binit_id: query.boardId },
+      where: {
+        [Op.and]: [{ ...sequelize.getWhere(query) }, { binit_id: query.boardId }],
+      },
       // 펼침으로 가져온 이유는 내 글만 가져올 조건(binit_id: query.boardId)을 추가하기 위해
     });
   };
 
-  // ------- 리스트 가져오기 findAll --------
-  Board.searchList = async function (query, pager, BoardFile) {
-    let { field = 'id', sort = 'desc', boardId } = query;
+  // ------- 리스트, pager 가져오기 findAll --------
+  Board.searchList = async function (query, BoardFile, BoardInit) {
+    let { field, sort, boardId, page } = query;
+    // binit_id 구하기
+    if (!boardId) {
+      let { id } = await BoardInit.findOne({
+        attributes: ['id', 'boardType'],
+        order: [['id', 'asc']],
+        offset: 0,
+        limit: 1,
+      });
+      boardId = id;
+      query.boardId = boardId;
+    }
+    // pager
+    const { boardType } = await BoardInit.findOne({ where: { id: boardId }, raw: true });
+    let listCnt = boardType === 'gallery' ? 12 : 5;
+    let pagerCnt = 5;
+    const totalRecord = await this.getCount(query);
+    const pager = createPager(page, totalRecord, listCnt, pagerCnt);
+    // list
     const rs = await this.findAll({
-      order: [[field * 1 || 'id', sort || 'desc']],
+      order: [[field, sort]],
       offset: pager.startIdx,
-      limit: pager.listCnt,
-      where: { ...sequelize.getWhere(query), binit_id: boardId },
+      limit: listCnt,
+      where: {
+        [Op.and]: [{ ...sequelize.getWhere(query) }, { binit_id: boardId }],
+      },
       include: [{ model: BoardFile, attributes: ['saveName'] }],
     });
     const lists = rs
@@ -100,7 +124,7 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
         delete v.BoardFiles;
         return v;
       });
-    return lists;
+    return { lists, pager, totalRecord: numeral(pager.totalRecord).format(0, 0) };
     /* 
     { --- lists ---
       "id": 1,

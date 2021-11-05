@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="/css/<%= currents[1] %>-<%= boardType %>.css">
 <article class="board-container gallery-type list-page">
   <div class="my-2">
-    <div class="mb-2">총 회원수: <%= numeral(pager.totalRecord).format('0,0') %> 명</div>
+    <div class="mb-2">총 후기: <%= totalRecord %> 건</div>
     <div class="d-flex">
       <%- include('../inc/search.ejs') %>
       <%- include('../inc/sort.ejs') %>

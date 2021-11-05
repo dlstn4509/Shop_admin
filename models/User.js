@@ -1,5 +1,8 @@
 const bcrypt = require('bcrypt');
 const { getSeparateString } = require('../modules/util');
+const numeral = require('numeral');
+const createPager = require('../modules/pager-init');
+// pager-init 을 createPager 라는 이름으로 가져다 씀
 
 // ------------------------- 내가 만든거 ------------------------
 // if (field === 'tel' && search !== '') {
@@ -140,10 +143,14 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
     });
   };
 
-  // ------- 리스트 가져오기 findAll --------
-  User.searchList = async function (query, pager) {
+  // ------- 리스트, pager 가져오기 findAll --------
+  User.searchList = async function (query) {
     // query = req.query, pager = req.pager
-    let { field = 'id', search = '', sort = 'desc' } = query;
+    let { field = 'id', search = '', sort = 'desc', page = 1 } = query;
+    // pager
+    const totalRecord = await this.getCount(query);
+    const pager = createPager(page, totalRecord, (_listCnt = 5), (_pagerCnt = 5));
+    // list
     const rs = await this.findAll({
       order: [[field * 1 || 'id', sort || 'desc']],
       offset: pager.startIdx,
@@ -189,7 +196,7 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
         }
         return v;
       });
-    return lists;
+    return { lists, pager, totalRecord: numeral(pager.totalRecord).format(0, 0) };
   };
 
   return User;

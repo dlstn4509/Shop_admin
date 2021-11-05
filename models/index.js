@@ -7,7 +7,7 @@ const config = require('../config/config')[env];
 const db = {};
 
 // ------- 검색할때 where 조건 만들어주기 --------
-Sequelize.prototype.getWhere = ({ field, search }) => {
+Sequelize.prototype.getWhere = function ({ field, search }) {
   let where = search ? { [field]: { [Op.like]: '%' + search + '%' } } : null;
   if (field === 'tel' && search !== '') {
     where = this.where(this.fn('replace', this.col('tel'), '-', ''), {

@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="/css/pager.css">
-<% let pagerQuery = `/${currents[0]}/${currents[1]}?field=${field}&search=${search}&sort=${sort}` %>
+<% let pagerQuery = `/${currents[0]}/${currents[1]}?field=${field}&search=${search}&sort=${sort}` 
+if(currents[1] === 'board') pagerQuery += `&boardId=${boardId}`
+%>
 <div class="pager-wrapper">
   <ul class="pager-wrap">
     <li class="pager pager-first">

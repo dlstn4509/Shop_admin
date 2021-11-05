@@ -1,10 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
-const numeral = require('numeral');
 const { telNumber, alert, getSeparateArray } = require('../../modules/util');
 const { User } = require('../../models');
-const pager = require('../../middlewares/pager-mw');
 
 // 회원 등록 화면
 router.get('/', (req, res, next) => {
@@ -14,11 +12,11 @@ router.get('/', (req, res, next) => {
   } else next();
 });
 // 회원 리스트 화면
-router.get('/', pager(User), async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     let { field = 'id', search = '', sort = 'desc' } = req.query;
-    const users = await User.searchList(req.query, req.pager); // User.findAll, 주소 전화번호 정리
-    const ejs = { telNumber, users, field, sort, search, numeral };
+    const { lists, pager, totalRecord } = await User.searchList(req.query); // User.findAll, 주소 전화번호 정리
+    const ejs = { telNumber, pager, lists, field, sort, search, totalRecord };
     res.render('admin/user/user-list', ejs);
   } catch (err) {
     next(createError(err));
