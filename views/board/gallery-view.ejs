@@ -1,6 +1,5 @@
 <link rel="stylesheet" href="/css/<%= currents[1] %>-<%= boardType %>.css">
 <article class="board-container gallery-type view-page">
-  <div>gallery-view</div>
   <table class="table">
     <tbody>
       <tr>
@@ -8,7 +7,7 @@
         <td class="content"><%= list.id %></td>
       </tr>
       <tr>
-        <td class="title" style="width: 160px;">제목</td>
+        <td class="title">제목</td>
         <td class="content"><%= list.title %></td>
       </tr>
       <tr>
@@ -19,13 +18,14 @@
         <td class="title">작성일</td>
         <td class="content"><%= list.updatedAt %></td>
       </tr>
-      <% for(let v of list.files) { %> 
+      <% for(let v of list.files) { %>
         <% if(v.type === 'I') { %>
           <tr>
-            <td colspan="2"></td>
-            <div class="file-img my-2">
-              <img src="<%= v.thumbSrc %>" class="mw-100">
-            </div>
+            <td colspan="2">
+              <div class="file-img my-2">
+                <img src="<%= v.thumbSrc %>" class="mw-100">
+              </div>
+            </td>
           </tr>
         <% } %>
       <% } %>
@@ -34,6 +34,18 @@
           <div><%= list.content %></div>
         </td>
       </tr>
+      <% for(let v of list.files) { %>
+        <% if(v.type === 'F') { %>
+          <tr>
+            <td class="title">첨부 파일</td>
+            <td class="content">
+              <div class="file-link">
+                <a href="/<%= currents[0] %>/download/<%=v.id%>"><%= v.name %></a>
+              </div>
+            </td>
+          </tr>
+        <% } %>
+      <% } %>
     </tbody>
   </table>
   <%- include('./inc/view-bottom.ejs', { id: list.id }) %>

@@ -5,8 +5,8 @@
   <form action="<%= goPath %>" name="deleteForm" method="POST">
     <% for(let v of goLists) { %>
       <input type="hidden" name="<%= v.key %>" value="<%= v.value %>">
-      <input type="hidden" name="_method" value="delete">
     <% } %>
+    <input type="hidden" name="_method" value="delete">
     <input type="hidden" name="id" value="<%= id %>">
   </form>
 </div>

@@ -1,8 +1,7 @@
 <%- include('../../inc/head.ejs') %>
 <%- include('../../inc/header.ejs') %>
-<!-- 생성 -->
 <section class="board-wrapper init-wrapper wrapper">
-  <form action="/<%=currents[0]%>/<%=currents[1]%>" method="POST" name="binitForm">
+  <form action="/<%= currents[0] %>/<%= currents[1] %>" method="POST" name="binitForm">
     <h4 class="title bullet my-2">게시판 생성</h4>
     <table class="table create-tbl">
       <tbody>
@@ -53,14 +52,12 @@
         </tr>
         <tr>
           <td colspan="4" class="text-center">
-            <button class="btn btn-primary btBoardCreate">게시판 생성</button>
+            <button class="btn btn-primary btTableCreate">게시판 생성</button>
           </td>
         </tr>
       </tbody>
     </table>
   </form>
-
-<!-- 수정, 리스트 -->
   <h4 class="title bullet my-2">게시판 리스트</h4>
   <table class="table list-tbl text-center border-bottom">
     <thead>
@@ -74,8 +71,8 @@
       </tr>
     </thead>
     <tbody>
-      <% for(let v of boards) { %>
-        <form method="POST" action="/<%=currents[0]%>/<%=currents[1]%>" class="binit-update-form">
+      <% for(let v of boards) { %> 
+        <form method="POST" action="/<%= currents[0] %>/<%= currents[1] %>" class="binit-update-form">
           <tr>
             <td>
               <input type="hidden" name="_method" value="PUT">
@@ -84,39 +81,45 @@
             </td>
             <td>
               <select type="text" name="boardType" class="form-control">
-                <option value="D" <%= v.boardType === 'default' ? 'selected' : '' %>>일반게시판</option>
-                <option value="G" <%= v.boardType === 'gallery' ? 'selected' : '' %>>갤러리게시판</option>
+                <option value="default" 
+                <%= (v.boardType === 'default' ? 'selected': '') %>>일반게시판</option>
+                <option value="gallery" 
+                <%= (v.boardType === 'gallery' ? 'selected': '') %>>갤러리게시판</option>
               </select>
             </td>
             <td>
               <select type="text" name="useImg" class="form-control ml-2">
-                <option value="0" <%= v.useImg === '0' ? 'selected' : '' %>>사용안함</option>
+                <option value="0">사용안함</option>
                 <% for(let i=1; i<=10; i++) { %>
-                <option value="<%= i %>"<%= v.useImg == i ? 'selected' : '' %>><%= i %>개</option>
+                <option value="<%= i %>" 
+                <%= (v.useImg == i ? 'selected': '') %>><%= i %>개</option>
                 <% } %>
               </select>
             </td>
             <td>
               <select type="text" name="useFile" class="form-control ml-2">
-                <option value="0" <%= v.useFile === '0' ? 'selected' : '' %>>사용안함</option>
+                <option value="0">사용안함</option>
                 <% for(let i=1; i<=2; i++) { %>
-                <option value="<%= i %>"<%= v.useFile == i ? 'selected' : '' %>><%= i %>개</option>
+                <option value="<%= i %>" 
+                <%= (v.useFile == i ? 'selected': '') %>><%= i %>개</option>
                 <% } %>
               </select>
             </td>
             <td>
               <select type="text" name="useComment" class="form-control">
-                <option value="true" <%= v.useComment ? 'selected' : '' %>>사용</option>
-                <option value="false" <%= v.useComment ? '' : 'selected' %>>사용안함</option>
+                <option value="true" 
+                <%= (v.useComment ? 'selected': '') %>>사용</option>
+                <option value="false" 
+                <%= (v.useComment ? '': 'selected') %>>사용안함</option>
               </select>
             </td>
             <td>
               <button type="button" class="btn btn-success" onclick="onChangeBoard('put', this);">수정</button>
-              <button type="button" class="btn btn-danger" onclick="onChangeBoard('delete', this);">삭제</button>
+              <button type="button" class="btn btn-danger"onclick="onChangeBoard('delete', this);">삭제</button>
             </td>
           </tr>
         </form>
-      <% } %>
+      <% } %> 
     </tbody>
   </table>
 </section>

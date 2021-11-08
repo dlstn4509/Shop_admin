@@ -1,9 +1,9 @@
 <%- include('../../inc/head.ejs') %>
 <%- include('../../inc/header.ejs') %>
 <section class="board-wrapper view-wrapper wrapper">
-  <h3 class="title bullet my-3"><%= boardTitle %><small> - 글작성</small></h3>
+  <h3 class="title bullet my-3"><%= boardTitle %><small> - 글수정</small></h3>
   <div class="tbl-wrap">
-    <%- include(`../../board/${boardType}-form.ejs`) %> 
+    <%- include(`../../board/${boardType}-update.ejs`) %>
   </div>
 </section>
 <%- include('../../inc/foot.ejs') %>

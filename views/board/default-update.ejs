@@ -1,50 +1,68 @@
 <link rel="stylesheet" href="/css/<%= currents[1] %>-<%= boardType %>.css">
-<article class="board-container default-type view-page">
-  <div>default-update</div>
-  <form action="/<%=currents[0]%>/<%=currents[1]%>" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="_method" value="PUT">
+<article class="board-container default-type update-page">
+  <form action="/<%= currents[0] %>/<%= currents[1] %>" method="post" enctype="multipart/form-data">
     <input type="hidden" name="id" value="1">
+    <input type="hidden" name="_method" value="PUT">
     <table class="table border-bottom">
       <tbody>
         <tr>
           <td class="title" style="width: 15%;">제목</td>
           <td class="content">
-            <input type="text" name="title" class="form-control" placeholder="제목">
+            <input type="text" name="title" class="form-control" placeholder="제목" value="<%= list.title %>">
           </td>
         </tr>
         <tr>
           <td class="title">작성자</td>
           <td class="content">
-            <input type="text" name="writer" class="form-control" placeholder="작성자">
+            <input type="text" name="writer" class="form-control" placeholder="작성자" value="<%= list.writer %>">
           </td>
         </tr>
         <tr>
           <td colspan="2">
-            <textarea class="form-control" name="content" placeholder="내용을 입력하세요" style="min-height: 200px;"></textarea>
+            <textarea name="content" class="form-control" placeholder="내용을 입력하세요."
+              style="min-height: 200px;"><%= list.content %></textarea>
           </td>
         </tr>
         <tr>
           <td>이미지첨부</td>
           <td>
-            <% for(let i=1; i<=10; i++) { %>
+            <div><%= useImg %> </div>
+            <% for(let i=0; i<useImg; i++) { %>
+              <div class="file-wrap">
+              <% if(list.files[i] && list.files[i].type === 'I') { %>
+                <% let {thumbSrc, name, id, type} = list.files[i] %>
+								<img src="<%= thumbSrc %>" alt="<%= name %>" class="img">
+                <div class="file"><%= name %></div>
+								<button type="button" class="btn btn-sm btn-danger" id="btRemoveCover" onclick="onDeleteFile('<%= id %>', this)">삭제</button>
+              <% } %>
+							</div>
               <input type="file" name="img" class="form-control-file mb-2">
             <% } %>
           </td>
         </tr>
         <tr>
-          <td>파일첨부</td>
+          <td>파일 첨부</td>
           <td>
-            <% for(let i=1; i<=10; i++) { %>
-              <input type="file" name="pds" class="form-control-file mb-2">
+            <% for(let i=0; i<useFile; i++) { %>
+            <div class="file-wrap">
+              <% if(list.files[i] && list.files[i].type === 'F') { %>
+              <% let { name, id, type } = list.files[i]; %>
+              <div class="file"><%= name %></div>
+              <button type="button" class="btn btn-sm btn-danger" onclick="onDeleteFile('<%= id %>', this)">삭제</button>
+              <% } %>
+            </div>
+            <input type="file" name="pds" class="form-control-file mb-2">
             <% } %>
           </td>
         </tr>
       </tbody>
     </table>
+    <div class="text-center my-4">
+      <a href="/<%= currents[0] %>/board?boardType=<%=boardType%>" class="btn btn-primary">리스트</a>
+      <button class="btn btn-success float-right mx-1">수정</button>
+      <button type="reset" class="btn btn-danger float-right mx-1">다시작성</button>
+    </div>
   </form>
-  <div class="text-center my-4">
-    <a href="/<%=currents[0]%>/<%=currents[1]%>?boardType=<%=boardType%>" class="btn btn-primary">리스트</a>
-    <button class="btn btn-success float-right mx-1">수정</button>
-    <button type="reset" class="btn btn-danger float-right mx-1">다시 작성</button>
-  </div>
 </article>
+<script src="/js/axios.min.js"></script>
+<script src="/js/<%= currents[1] %>/<%= boardType %>-update.js"></script>
