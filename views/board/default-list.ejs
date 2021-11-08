@@ -6,7 +6,7 @@
     <div class="d-flex">
       <%- include('../inc/search.ejs') %>
       <%- include('../inc/sort.ejs') %>
-      <a href="/<%= currents[0] %>/<%= currents[1] %>?type=create" class="btn btn-primary ml-auto">게시글작성</a>
+      <a href="<%= goList %>&type=create" class="btn btn-primary ml-auto">게시글작성</a>
     </div>
   </div>
   <table class="table text-center border-bottom">
@@ -20,11 +20,16 @@
       </tr>
     </thead>
     <tbody>
-      <% for(v of lists) { %>
+      <%
+        let i = 0;
+        for(v of lists) {
+      %>
         <tr>
-          <td><%= v.id %></td>
+          <td>
+            <%= totalRecord - (page - 1) * 5 - i++ %>
+          </td>
           <td class="text-left">
-            <a href="/<%= currents[0] %>/<%= currents[1] %>/<%= v.id %>?boardId=<%= boardId %>&page=<%= page %>"><%= v.title %></a>
+            <a href="<%= goPath %>/<%= v.id %>?<%= goQuery %>"><%= v.title %></a>
           </td>
           <td><%= v.writer %></td>
           <td><%= v.updatedAt %></td>
@@ -34,7 +39,7 @@
     </tbody>
   </table>
   <div class="text-center my-4">
-    <a href="/<%=currents[0]%>/<%=currents[1]%>?type=create&boardId=<%= boardId %>&page=<%= page %>" class="btn btn-primary">글작성</a>
+    <a href="<%= goList %>&type=create" class="btn btn-primary">글작성</a>
   </div>
   <%- include('../inc/pager.ejs', pager) %> 
 </article>

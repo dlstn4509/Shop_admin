@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="/css/<%= currents[1] %>-<%= boardType %>.css">
 <article class="board-container default-type view-page">
-  <div>gallery-form</div>
-  <form action="/<%=currents[0]%>/board" method="post" enctype="multipart/form-data" name="galleryForm">
+  <form action="<%= goPath %>" method="post" enctype="multipart/form-data" name="galleryForm">
     <input type="hidden" name="boardId" value="<%= boardId %>">
     <table class="table border-bottom">
       <tbody>
@@ -19,31 +18,36 @@
         </tr>
         <tr>
           <td colspan="2">
-            <textarea class="form-control" name="content" placeholder="내용을 입력하세요" style="min-height: 200px;"></textarea>
+            <textarea name="content" class="form-control" placeholder="내용을 입력하세요." style="min-height: 200px;"></textarea>
           </td>
         </tr>
+        <% if(useImg) { %>
         <tr>
-          <td>이미지첨부</td>
+          <td>이미지 첨부</td>
           <td>
-            <% for(let i=0; i < useImg; i++) { %>
+            <% for(let i=0; i<useImg; i++) { %> 
               <input type="file" name="img" class="form-control-file mb-2">
             <% } %>
           </td>
         </tr>
+        <% } %>
+        <% if(useFile) { %>
         <tr>
-          <td>파일첨부</td>
+          <td>파일 첨부</td>
           <td>
-            <% for(let i=0; i < useFile; i++) { %>
+            <% for(let i=0; i<useFile; i++) { %> 
               <input type="file" name="pds" class="form-control-file mb-2">
             <% } %>
           </td>
         </tr>
+        <% } %>
       </tbody>
     </table>
     <div class="text-center my-4">
-      <a href="/<%=currents[0]%>/<%=currents[1]%>?boardType=<%=boardType%>" class="btn btn-primary float-right">리스트</a>
-      <button class="btn btn-success mx-1">저장</button>
-      <button type="reset" class="btn btn-danger float-right mx-1">다시 작성</button>
+      <a href="<%= goList %>" class="btn btn-primary float-right">리스트</a>
+      <button class="btn btn-primary mx-1">저장</button>
+      <button type="reset" class="btn btn-danger mx-1">다시작성</button>
     </div>
   </form>
 </article>
+<script src="/js/<%= currents[1] %>/<%= boardType %>-form.js"></script>

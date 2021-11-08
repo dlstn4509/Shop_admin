@@ -2,20 +2,20 @@ const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
 const queries = require('../../middlewares/query-mw');
-const boardinit = require('../../middlewares/boardinit-mw');
+const boardInit = require('../../middlewares/boardinit-mw');
 const uploader = require('../../middlewares/multer-mw');
 const afterUploader = require('../../middlewares/after-multer-mw');
 const { Board, BoardFile, BoardInit } = require('../../models');
 
 // 신규글 작성 화면
-router.get('/', boardinit('query'), queries(), (req, res, next) => {
+router.get('/', boardInit(), queries(), (req, res, next) => {
   const { type } = req.query;
   if (type === 'create') {
     res.render('admin/board/board-form', { type });
   } else next();
 });
 // 리스트
-router.get('/', boardinit('query'), queries(), async (req, res, next) => {
+router.get('/', boardInit('query'), queries(), async (req, res, next) => {
   try {
     const { lists, pager, totalRecord } = await Board.getLists(
       req.query,
@@ -32,14 +32,14 @@ router.get('/', boardinit('query'), queries(), async (req, res, next) => {
   }
 });
 // 상세수정
-router.get('/:id', boardinit('query'), queries(), (req, res, next) => {
+router.get('/:id', boardInit(), queries(), (req, res, next) => {
   const { type } = req.query;
   if (type === 'update') {
   } else next();
 });
 
 // 상세보기
-router.get('/:id', boardinit('query'), queries(), async (req, res, next) => {
+router.get('/:id', boardInit(), queries(), async (req, res, next) => {
   try {
     const { type, boardType } = req.query;
     const id = req.params.id;
@@ -47,7 +47,9 @@ router.get('/:id', boardinit('query'), queries(), async (req, res, next) => {
       where: { id },
       include: [{ model: BoardFile }],
     });
-    res.render('admin/board/board-view', { list: Board.getViewData(lists)[0] });
+    res.render('admin/board/board-view', {
+      list: Board.getViewData(lists)[0],
+    });
   } catch (err) {
     next(createError(err));
   }
@@ -57,7 +59,7 @@ router.post(
   '/',
   uploader.fields([{ name: 'img' }, { name: 'pds' }]),
   afterUploader(['img', 'pds']), // db저장하기 전 정리
-  boardinit('body'), // req.body 정리
+  boardInit('body'), // req.body 정리
   async (req, res, next) => {
     try {
       req.body.user_id = 1; // 임시, 회원작업 후 수정 예정

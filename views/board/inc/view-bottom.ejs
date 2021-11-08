@@ -1,0 +1,19 @@
+<div class="text-center my-4">
+  <a href="<%= goList %>" class="btn btn-primary">리스트</a>
+  <a href="javascript: onDelete();" class="btn btn-danger float-right mx-1">삭제</a>
+  <a href="<%= goPath %>/<%= id %>?<%= goQuery %>&type=update" class="btn btn-success float-right mx-1">수정</a>
+  <form action="<%= goPath %>" name="deleteForm" method="POST">
+    <% for(let v of goLists) { %>
+      <input type="hidden" name="<%= v.key %>" value="<%= v.value %>">
+      <input type="hidden" name="_method" value="delete">
+    <% } %>
+    <input type="hidden" name="id" value="<%= id %>">
+  </form>
+</div>
+<script>
+  function onDelete () {
+    if(confirm('정말로 삭제하시겠습니까요? 삭제하면 복구 안댐요 ㅅㄱ')) {
+      document.deleteForm.submit();
+    }
+  };
+</script>

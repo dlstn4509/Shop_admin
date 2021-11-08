@@ -6,23 +6,22 @@ req.query.boardId -> 현재 게시판 정보
 const _ = require('lodash');
 const { BoardInit } = require('../models');
 
-module.exports = (field) => {
-  // field = query or body
+module.exports = (_field = 'query') => {
   return async (req, res, next) => {
-    let { boardId } = req[field]; // req.query or req.body
+    let { boardId } = req[_field];
     const boardLists = await BoardInit.findAll({
       order: [['id', 'asc']],
     });
     const [myBoard] = boardLists.filter((v, i) => {
+      // 첫 방문에 boardId가 없으면 첫번째 데이터를 보여줘라
       if (i === 0 && !boardId) boardId = v.id;
       return v.id == boardId;
     });
-    req[field].boardId = boardId;
-    req[field].boardType = myBoard.boardType;
+    req[_field].boardId = boardId;
+    req[_field].boardType = myBoard.boardType;
     res.locals.boardLists = _.sortBy(boardLists, 'title');
     res.locals.boardId = boardId;
     res.locals.boardType = myBoard.boardType;
-    // res.locals.boardType = req.query.boardType ? req.query.boardType : 'default';
     res.locals.boardTitle = myBoard.title;
     res.locals.useImg = myBoard.useImg;
     res.locals.useFile = myBoard.useFile;

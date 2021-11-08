@@ -59,9 +59,10 @@
   }
   &.view-page {
     .td-content {
-      padding: inherit 0;
+      padding: 0.25em 0;
       > div {
-        border: 1px solid $light-color;
+        border: 1px solid #dee2e6;
+        padding: 1em;
         min-height: 200px;
       }
     }

@@ -85,6 +85,7 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
     });
   };
 
+  // ------- view 페이지 보이는 데이터 정리 --------
   Board.getViewData = function (rs, type) {
     const data = rs
       .map((v) => v.toJSON())
