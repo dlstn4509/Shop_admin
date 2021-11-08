@@ -118,6 +118,16 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     });
+    User.hasMany(models.BoardCounter, {
+      // user (1) : BoardCounter (多)
+      foreignKey: {
+        name: 'user_id',
+        allowNull: true,
+      },
+      sourceKey: 'id',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    });
   };
 
   // ------ db 저장전 passwd, tel 정리 --------

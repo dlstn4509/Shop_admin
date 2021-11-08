@@ -4,8 +4,10 @@ const createError = require('http-errors');
 const queries = require('../../middlewares/query-mw');
 const boardInit = require('../../middlewares/boardinit-mw');
 const uploader = require('../../middlewares/multer-mw');
+const counter = require('../../middlewares/board-counter-mw');
 const afterUploader = require('../../middlewares/after-multer-mw');
 const { Board, BoardFile, BoardInit } = require('../../models');
+const { moveFile } = require('../../modules/util');
 
 // 신규글 작성 화면
 router.get('/', boardInit(), queries(), (req, res, next) => {
@@ -75,11 +77,23 @@ router.post(
     }
   }
 );
+// 수정
 router.put('/', (req, res, next) => {
   res.send('admin/board:PUT');
 });
-router.delete('/', (req, res, next) => {
-  res.send('admin/board:DELETE');
+// 삭제
+router.delete('/', boardInit(), queries('body'), async (req, res, next) => {
+  await Board.destroy({ where: { id: req.body.id } });
+  const files = await BoardFile.findAll({
+    attributes: ['saveName'],
+    where: { board_id: req.body.id },
+  });
+  await BoardFile.destroy({ where: { board_id: req.body.id } });
+  for (let { saveName } of files) {
+    await moveFile(saveName);
+  }
+  res.redirect(res.locals.goList);
+  // res.json(res.locals.goList);
 });
 
 module.exports = { name: '/board', router };

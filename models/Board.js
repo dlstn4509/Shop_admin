@@ -24,6 +24,10 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
       content: {
         type: DataType.TEXT,
       },
+      readCounter: {
+        type: DataType.INTEGER(10).UNSIGNED,
+        defaultValue: 0,
+      },
     },
     {
       charset: 'utf8',
@@ -73,6 +77,16 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     });
+    Board.hasMany(models.BoardCounter, {
+      // board (1) : BoardCounter (多)
+      foreignKey: {
+        name: 'board_id',
+        allowNull: false,
+      },
+      sourceKey: 'id',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    });
   };
 
   // ------- totalRecord 구하기 --------
@@ -92,6 +106,7 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
       .map((v) => {
         v.files = [];
         v.updatedAt = dateFormat(v.updatedAt, type === 'view' ? 'H' : 'D');
+        v.readCounter = numeral(v.readCounter).format();
         if (v.BoardFiles.length) {
           for (let file of v.BoardFiles) {
             v.files.push({
