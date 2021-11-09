@@ -3,9 +3,9 @@ module.exports = {
     index: [],
     main: [
       { path: '/admin/main', link: '/admin/main', src: 'b0' },
-      { path: '/admin/user', link: '/admin/user', src: 'b1' },
+      { path: '/admin/user', link: '/admin/user', src: 'b1', status: 8 },
       { path: ['/admin/prd', '/admin/cate'], link: '/admin/prd', src: 'b2' },
-      { path: '/admin/order', link: '/admin/order', src: 'b3' },
+      { path: '/admin/order', link: '/admin/order', src: 'b3', status: 8 },
       { path: ['/admin/board', '/admin/binit'], link: '/admin/binit', src: 'b4' },
       // { path: '/admin/system', link: '/admin/system', src: 'b6' },
       {

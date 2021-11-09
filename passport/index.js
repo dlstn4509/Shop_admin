@@ -9,31 +9,28 @@
 	라. kakao/naver는 passport-kakao(naver)가 done을 내장하고 있으므로 미들웨어로만 넣어준다.
 */
 
+const local = require('./local-strategy');
+const { User } = require('../models');
 
-const local = require('./local-strategy')
-const kakao = require('./kakao-strategy')
-const naver = require('./naver-strategy')
-const { findUser } = require('../models/auth')
-
+// 로그인 하면 user에 id를 보내줌,
 const serialize = (user, done) => {
-	done(null, user.idx)
-}
+  done(null, user.id);
+};
 
-const deserialize = async (idx, done) => {
-	try {
-		const { success, user } = await findUser('idx', idx)
-		if(success) done(null, user)
-		else done(null, false, '사용자 정보가 없습니다.')
-	}
-	catch(err) {
-		done(err)
-	}
-}
+// 요청이 일어날때마다 db에 가져옴
+const deserialize = async (id, done) => {
+  try {
+    const user = await User.findOne({ where: { id } });
+    // findOne 에서 못 찾으면 return null
+    if (user) done(null, user);
+    else done(null, false, '사용자 정보가 없습니다.');
+  } catch (err) {
+    done(err);
+  }
+};
 
-module.exports = passport => {
-	passport.serializeUser(serialize)				// req.user -> idx (cookie -> session)
-	passport.deserializeUser(deserialize)		// req.user <- DB user 정보 (session)
-	local(passport)
-	kakao(passport)
-	naver(passport)
-}
+module.exports = (passport) => {
+  passport.serializeUser(serialize); // req.user -> idx (cookie -> session)
+  passport.deserializeUser(deserialize); // req.user <- DB user 정보 (session)
+  local(passport);
+};

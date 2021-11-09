@@ -2,7 +2,7 @@
 <div class="login-wrapper">
   <h1 class="title-wrap bullet circle">관리자 로그인</h1>
   <div class="login-wrap">
-    <form action="/<%=currents[0]%>/auth/login" method="POST" name="loginForm">
+    <form action="/<%= currents[0] %>/<%= currents[1] %>/login" method="POST" name="loginForm">
       <table>
         <tbody>
           <!-- 아이디 -->
@@ -16,15 +16,16 @@
           <tr>
             <td class="title require">패스워드</td>
             <td class="content">
-              <input type="password" name="passwd" class="form-control" placeholder="패스워드" autofocus />
+              <input type="password" name="userpw" class="form-control" placeholder="패스워드" autofocus />
             </td>
           </tr>
         </tbody>
       </table>
       <div class="btn-wrap p-3 text-center">
-        <button class="btn btn-primary" id="btSave">로그인</button>
+        <button class="btn btn-primary">로그인</button>
       </div>
     </form>
   </div>
 </div>
+<script src="/js/<%= currents[1] %>/login.js"></script>
 <%- include('../../inc/foot.ejs') %>

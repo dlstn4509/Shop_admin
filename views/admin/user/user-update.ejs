@@ -6,37 +6,38 @@
 <section class="user-wrapper update-wrapper wrapper">
   <form name="userForm" method="POST" action="/<%=currents[0]%>/user">
     <input type="hidden" name="_method" value="PUT">
-    <input type="hidden" name="id" value="<%= user.id %>">
+    <input type="hidden" name="id" value="<%= userInfo.id %>">
     <table class="user-tbl table">
       <tbody>
         <tr>
           <td class="title require">아이디</td>
           <td class="content">
-            <b><%= user.userid %></b>
+            <b><%= userInfo.userid %></b>
           </td>
         </tr>
         <tr>
           <td class="title require">회원등급</td>
           <td class="content">
             <select name="status" class="form-control" style="width: 200px;">
-              <option value="0" <%= user.status === '0' ? 'selected' : '' %>>탈퇴회원</option>
-              <option value="1" <%= user.status === '1' ? 'selected' : '' %>>유휴회원</option>
-              <option value="2" <%= user.status === '2' ? 'selected' : '' %>>일반회원</option>
-              <option value="8" <%= user.status === '8' ? 'selected' : '' %>>관리자</option>
-              <option value="9" <%= user.status === '9' ? 'selected' : '' %>>최고관리자</option>
+              <option value="0" <%= userInfo.status === '0' ? 'selected' : '' %>>탈퇴회원</option>
+              <option value="1" <%= userInfo.status === '1' ? 'selected' : '' %>>유휴회원</option>
+              <option value="2" <%= userInfo.status === '2' ? 'selected' : '' %>>일반회원</option>
+              <option value="7" <%= userInfo.status === '7' ? 'selected' : '' %>>관리자</option>
+              <option value="8" <%= userInfo.status === '8' ? 'selected' : '' %>>중간관리자</option>
+              <option value="9" <%= userInfo.status === '9' ? 'selected' : '' %>>최고관리자</option>
             </select>
           </td>
         </tr>
         <tr>
           <td class="title require">이름</td>
           <td class="content">
-            <input type="text" name="username" class="form-control" placeholder="이름(필수사항)" style="max-width: 200px;" value="<%= user.username %>">
+            <input type="text" name="username" class="form-control" placeholder="이름(필수사항)" style="max-width: 200px;" value="<%= userInfo.username %>">
           </td>
         </tr>
         <tr>
           <td class="title require">이메일</td>
           <td class="content">
-            <input type="text" name="email" class="form-control" value="<%= user.email %>">
+            <input type="text" name="email" class="form-control" value="<%= userInfo.email %>">
           </td>
         </tr>
         <tr>
@@ -46,30 +47,30 @@
               <option value="">선택</option>
               <% for(let v of telNumber) { %>
                 <option value="<%= v %>"
-                  <%= v === user.tel[0] ? 'selected' : '' %>><%= v %></option>
+                  <%= v === userInfo.tel[0] ? 'selected' : '' %>><%= v %></option>
               <% } %>
             </select>
             <span class="px-2">-</span>
-            <input type="text" name="tel2" class="form-control" style="max-width: 80px;" min="3" maxlength="4" value="<%= user.tel[1] %>">
+            <input type="text" name="tel2" class="form-control" style="max-width: 80px;" min="3" maxlength="4" value="<%= userInfo.tel[1] %>">
             <span class="px-2">-</span>
-            <input type="text" name="tel3" class="form-control" style="max-width: 80px;" min="4" maxlength="4" value="<%= user.tel[2] %>">
+            <input type="text" name="tel3" class="form-control" style="max-width: 80px;" min="4" maxlength="4" value="<%= userInfo.tel[2] %>">
           </td>
         </tr>
         <tr>
           <td class="title" rowspan="2">주소</td>
           <td class="content form-inline">
-            <input type="text" name="addrPost" class="form-control mr-2" readonly style="max-width: 120px;" placeholder="우편번호" value="<%= user.addrPost %>">
+            <input type="text" name="addrPost" class="form-control mr-2" readonly style="max-width: 120px;" placeholder="우편번호" value="<%= userInfo.addrPost %>">
             <a class="btn btn-primary" id="btPostcode">우편번호찾기</a>
           </td>
         </tr>
         <tr>
           <td>
             <div class="d-flex">
-              <input type="text" name="addrRoad" class="form-control mb-2 flex-grow-1 mr-2" readonly placeholder="도로명 주소" value="<%= user.addrRoad %>">
-              <input type="text" name="addrComment" class="form-control" readonly style="width: 120px;" placeholder="참고항목" value="<%= user.addrComment %>">
+              <input type="text" name="addrRoad" class="form-control mb-2 flex-grow-1 mr-2" readonly placeholder="도로명 주소" value="<%= userInfo.addrRoad %>">
+              <input type="text" name="addrComment" class="form-control" readonly style="width: 120px;" placeholder="참고항목" value="<%= userInfo.addrComment %>">
             </div>
-            <input type="text" name="addrJibun" class="form-control mb-2" readonly placeholder="지번주소" value="<%= user.addrJibun %>">
-            <input type="text" name="addrDetail" class="form-control" placeholder="상세주소" value="<%= user.addrDetail %>">
+            <input type="text" name="addrJibun" class="form-control mb-2" readonly placeholder="지번주소" value="<%= userInfo.addrJibun %>">
+            <input type="text" name="addrDetail" class="form-control" placeholder="상세주소" value="<%= userInfo.addrDetail %>">
           </td>
         </tr>
         <tr>

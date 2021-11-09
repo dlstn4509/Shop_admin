@@ -14,13 +14,15 @@
   </div>
   <nav class="navi-wrap">
     <% for(let v of init.main) { %>
-    <a href="<%= v.link %>" class="navi" <%=(v.target ? `target="${v.target}" ` : '' ) %>>
-      <% if(v.path.includes(second)) { %>
-        <img src="/img/<%=currents[0]%>/<%= v.src %>_on.jpg" alt="icon" class="mw-100">
-      <% } else { %>
-        <img src="/img/<%=currents[0]%>/<%= v.src %>.jpg" alt="icon" class="mw-100">
-      <% } %>
-    </a>
+      <% if(!v.status || user.status >= v.status) { %> 
+        <a href="<%= v.link %>" class="navi" <%=(v.target ? `target="${v.target}" ` : '' ) %>>
+          <% if(v.path.includes(second)) { %>
+            <img src="/img/<%=currents[0]%>/<%= v.src %>_on.jpg" alt="icon" class="mw-100">
+          <% } else { %>
+            <img src="/img/<%=currents[0]%>/<%= v.src %>.jpg" alt="icon" class="mw-100">
+          <% } %>
+        </a>
+      <% } %> 
     <% } %>
   </nav>
   <%- include('./tab.ejs') %>

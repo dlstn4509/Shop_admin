@@ -1,28 +1,19 @@
-const { findMyBook } = require('../models/book')
-const { alert } = require('../modules/util')
+const { alert } = require('../modules/util');
 
-
-const isUser = (req, res, next) => {
-	if(req.user) next()
-	else res.send(alert('로그인 후 이용하세요'))
-}
+const isAdmin = (_status = 7) => {
+  return (req, res, next) => {
+    if ((!req.user && req.path.includes('/auth/login')) || req.user) next();
+    else if (req.user && _status <= req.user.status) next();
+    else {
+      req.logOut();
+      res.send(alert('로그인 후 이용하세요', '/admin/auth/login'));
+    }
+  };
+};
 
 const isGuest = (req, res, next) => {
-	if(req.user) res.send(alert('회원은 이용하실수 없습니다.'))
-	else next()
-}
+  if (req.user) res.send(alert('로그인 상태입니다.'));
+  else next();
+};
 
-const isMyBook = (name, mode) => {
-	return async (req, res, next) => {
-		const { idx, _method } = eval(`req.${name}`)
-		const fidx = req.user.idx
-		if(mode === 'U' && _method !== 'PUT') next()
-		else {
-			const { success } = await findMyBook(idx, fidx)
-			if(success) next()
-			else res.send(alert('정상적인 접근이 아닙니다. -.-'))
-		}
-	}
-}
-
-module.exports = { isUser, isGuest, isMyBook }
+module.exports = { isAdmin, isGuest };
