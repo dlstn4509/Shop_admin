@@ -19,11 +19,7 @@ router.get('/', boardInit(), queries(), (req, res, next) => {
 // ---------- 리스트 list ------------------
 router.get('/', boardInit(), queries(), async (req, res, next) => {
   try {
-    const { lists, pager, totalRecord } = await Board.getLists(
-      req.query,
-      BoardFile
-      // BoardInit // ??????? 쓰는곳 없음, 일단 keep
-    );
+    const { lists, pager, totalRecord } = await Board.getLists(req.query, BoardFile);
     res.render('admin/board/board-list', {
       lists,
       pager,
@@ -41,9 +37,7 @@ router.get('/:id', boardInit(), queries(), counter, async (req, res, next) => {
       where: { id: req.params.id },
       include: [{ model: BoardFile }],
     });
-    res.render('admin/board/board-update', {
-      list: Board.getViewData(lists)[0],
-    });
+    res.render('admin/board/board-update', { list: Board.getViewData(lists)[0] });
   } else next();
 });
 
@@ -56,7 +50,6 @@ router.get('/:id', boardInit(), queries(), async (req, res, next) => {
       BoardFile,
       BoardComment
     );
-    lists[0].page2 = 1;
     // res.json({ lists: Board.getViewData(lists)[0], pager });
     res.render('admin/board/board-view', {
       list: Board.getViewData(lists)[0],

@@ -4,7 +4,8 @@ const createError = require('http-errors');
 const { moveFile } = require('../../modules/util');
 const { Board, BoardFile, BoardInit } = require('../../models');
 
-router.get('/file/:id', async (req, res, next) => {
+// view page 파일 삭제
+router.delete('/file/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const { saveName } = await BoardFile.findOne({
