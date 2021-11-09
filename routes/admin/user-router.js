@@ -14,9 +14,8 @@ router.get('/', isAdmin(8), (req, res, next) => {
   } else next();
 });
 // 회원 리스트 화면
-router.get('/', queries(), isAdmin(8), async (req, res, next) => {
+router.get('/', isAdmin(8), queries(), async (req, res, next) => {
   try {
-    let { field, search, sort, status } = req.query;
     const { lists, pager, totalRecord } = await User.getLists(req.query);
     // User.findAll, 주소 전화번호 정리
     const ejs = { telNumber, pager, lists, totalRecord };
@@ -26,7 +25,7 @@ router.get('/', queries(), isAdmin(8), async (req, res, next) => {
   }
 });
 // 회원 수정 화면
-router.get('/:id', queries(), isAdmin(8), async (req, res, next) => {
+router.get('/:id', isAdmin(8), queries(), async (req, res, next) => {
   try {
     const userInfo = await User.findOne({ where: { id: req.params.id } });
     userInfo.tel = getSeparateArray(userInfo.tel, '-'); // 010-1111-2222 -> 01011112222

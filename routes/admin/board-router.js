@@ -73,7 +73,8 @@ router.post(
     try {
       // 수정
       if (req.body.type === 'update') {
-        await Board.update(req.body, { where: { id: req.body.id } });
+        // await Board.update(req.body, { where: { id: req.body.id } });
+        await Board.update(req.body, { where: { id: req.user.id } });
         req.files.forEach((file) => (file.board_id = req.body.id));
         const files = await BoardFile.bulkCreate(req.files);
         res.redirect(res.locals.goList);

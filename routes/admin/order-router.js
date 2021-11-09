@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const router = express.Router();
-const { error } = require('../../modules/util');
+const { isAdmin } = require('../../middlewares/auth-mw');
 
 router.get('/', (req, res, next) => {
   if (req.query.type === 'update') {

@@ -27,9 +27,9 @@ router.post('/login', async (req, res, next) => {
   }
 });
 router.get('/logout', (req, res, next) => {
-  req.logOut();
+  req.logout();
   res.locals.user = null;
-  alert('로그아웃 되었습니다.');
+  res.send(alert('로그아웃 되었습니다.', '/admin/auth/login'));
 });
 
 module.exports = { name: '/auth', router };

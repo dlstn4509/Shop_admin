@@ -52,7 +52,7 @@ app.use(logger);
 const adminRouter = require('./routes/admin');
 const apiRouter = require('./routes/api');
 
-app.use('/admin', isAdmin(), adminRouter);
+app.use('/admin', isAdmin(7), adminRouter);
 app.use('/api', apiRouter);
 
 /**************** error init **************/
