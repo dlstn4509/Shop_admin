@@ -45,4 +45,7 @@
     </tbody>
   </table>
   <%- include('./inc/view-bottom.ejs', { id: list.id }) %>
+  <% if(useComment) { %>
+    <%- include('./inc/comment.ejs') %> 
+  <% } %> 
 </article>

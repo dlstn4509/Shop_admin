@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="/css/pager.css">
+<div class="pager-wrapper">
+  <ul class="pager-wrap">
+    <li class="pager pager-first">
+      <a href="<%= goView %>&page2=1" class="material-icons">first_page</a>
+    </li>
+    <li class="pager pager-prev-set">
+      <a href="<%= goView %>&page2=<%= prevPager %>" class="material-icons">keyboard_double_arrow_left</a>
+    </li>
+    <li class="pager pager-prev">
+      <a href="<%= goView %>&page2=<%= prevPage %>" class="material-icons">chevron_left</a>
+    </li>
+    <% for(let i=startPage; i<=endPage; i++) { %>
+    <li class="pager <%= page === i ? 'active' : '' %>">
+      <a href="<%= goView %>&page2=<%= i %>"><%= i %></a>
+    </li>
+    <% } %>
+    <li class="pager pager-next">
+      <a href="<%= goView %>&page2=<%= nextPage %>" class="material-icons">chevron_right</a>
+    </li>
+    <li class="pager pager-next-set">
+      <a href="<%= goView %>&page2=<%= nextPager %>" class="material-icons">keyboard_double_arrow_right</a>
+    </li>
+    <li class="pager pager-last">
+      <a href="<%= goView %>&page2=<%= totalPage %>" class="material-icons">last_page</a>
+    </li>
+  </ul>
+</div>

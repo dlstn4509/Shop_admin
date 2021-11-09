@@ -16,7 +16,7 @@ module.exports = (_field = 'query', addQuery = []) => {
 
     let goPath = `/${res.locals.currents[0]}/${res.locals.currents[1]}`;
     let goQuery = '';
-    if (res.locals.currents[1] === 'board') {
+    if (res.locals.currents[1] === 'board' || res.locals.currents[1] === 'comment') {
       goQuery += `&boardId=${req[_field].boardId}`;
       goQuery += `&boardType=${req[_field].boardType}`;
     }
@@ -28,10 +28,11 @@ module.exports = (_field = 'query', addQuery = []) => {
       goQuery += `&sort=${req[_field].sort}`;
     }
 
-    res.locals.goPager = goPath + '?' + goQuery;
-    res.locals.goList = goPath + '?' + goQuery + `&page=${req[_field].page}`;
+    res.locals.goPager = `${goPath}?${goQuery}`;
+    res.locals.goList = `${goPath}?${goQuery}&page=${req[_field].page}`;
     res.locals.goPath = goPath; // ejs 용
-    res.locals.goQuery = goQuery + `&page=${req[_field].page}`; // ejs 용
+    res.locals.goQuery = `${goQuery}&page=${req[_field].page}`; // ejs 용
+    res.locals.goView = `${goPath}/${req.params.id}?${goQuery}&page=${req[_field].page}`;
 
     res.locals.goLists = [
       { key: 'page', value: req[_field].page },
@@ -39,7 +40,7 @@ module.exports = (_field = 'query', addQuery = []) => {
       { key: 'search', value: req[_field].search },
       { key: 'sort', value: req[_field].sort },
     ];
-    if (res.locals.currents[1] === 'board') {
+    if (res.locals.currents[1] === 'board' || res.locals.currents[1] === 'comment') {
       res.locals.goLists.push({ key: 'boardId', value: req[_field].boardId });
       res.locals.goLists.push({ key: 'boardType', value: req[_field].boardType });
     }

@@ -1,3 +1,5 @@
+const { dateFormat } = require('../modules/util');
+
 module.exports = (sequelize, DataType) => {
   const BoardComment = sequelize.define(
     'BoardComment',
@@ -16,6 +18,12 @@ module.exports = (sequelize, DataType) => {
         type: DataType.STRING(255),
         allowNull: false,
       },
+      regDate: {
+        type: DataType.VIRTUAL,
+        get() {
+          return dateFormat(this.getDataValue('createdAt'), 'H');
+        },
+      },
     },
     {
       charset: 'utf8',
@@ -25,10 +33,20 @@ module.exports = (sequelize, DataType) => {
     }
   );
   BoardComment.associate = (models) => {
-    // boardcomment (多) : board (1)
     BoardComment.belongsTo(models.Board, {
+      // BoardComment (多) : board (1)
       foreignKey: {
         name: 'board_id',
+        allowNull: false,
+      },
+      sourceKey: 'id',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    });
+    BoardComment.belongsTo(models.User, {
+      // BoardComment (多) : User (1)
+      foreignKey: {
+        name: 'user_id',
         allowNull: false,
       },
       sourceKey: 'id',

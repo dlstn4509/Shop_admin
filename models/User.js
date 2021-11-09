@@ -128,6 +128,16 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     });
+    User.hasMany(models.BoardComment, {
+      // user (1) : BoardComment (多)
+      foreignKey: {
+        name: 'user_id',
+        allowNull: true,
+      },
+      sourceKey: 'id',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    });
   };
 
   // ------ db 저장전 passwd, tel 정리 --------

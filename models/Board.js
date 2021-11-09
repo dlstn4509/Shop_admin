@@ -129,6 +129,27 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
     return data;
   };
 
+  Board.getList = async function (id, query, BoardFile, BoardComment) {
+    let { page2 = 1 } = query;
+    let listCnt = 10;
+    let pagerCnt = 5;
+    const totalRecord = await BoardComment.count({ where: { board_id: id } });
+    const pager = createPager(page2, totalRecord, listCnt, pagerCnt);
+    const lists = await this.findAll({
+      where: { id },
+      include: [
+        { model: BoardFile },
+        {
+          model: BoardComment,
+          order: [['id', 'desc']],
+          offset: pager.startIdx,
+          limit: listCnt,
+        },
+      ],
+    });
+    return { lists, pager };
+  };
+
   // ------- 리스트, pager 가져오기 findAll --------
   Board.getLists = async function (query, BoardFile) {
     let { field, sort, boardId, page, boardType } = query;
