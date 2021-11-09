@@ -36,7 +36,7 @@
                 <% let {thumbSrc, name, id, type} = list.files[i] %>
 								<img src="<%= thumbSrc %>" alt="<%= name %>" class="img">
                 <div class="file"><%= name %></div>
-								<button type="button" class="btn btn-sm btn-danger" id="btRemoveCover" onclick="onDeleteFile('<%= id %>', this)">삭제</button>
+								<button type="button" data-name="img" class="btn btn-sm btn-danger" id="btRemoveCover" onclick="onDeleteFile('<%= id %>', this)">삭제</button>
               <% } %>
 							</div>
               <input type="file" name="img" class="form-control-file mb-2">
@@ -51,7 +51,7 @@
               <% if(list.files[i] && list.files[i].type === 'F') { %>
               <% let { name, id, type } = list.files[i]; %>
               <div class="file"><%= name %></div>
-              <button type="button" class="btn btn-sm btn-danger" onclick="onDeleteFile('<%= id %>', this)">삭제</button>
+              <button type="button" data-name="pds" class="btn btn-sm btn-danger" onclick="onDeleteFile('<%= id %>', this)">삭제</button>
               <% } %>
             </div>
             <input type="file" name="pds" class="form-control-file mb-2">
@@ -61,9 +61,9 @@
       </tbody>
     </table>
     <div class="text-center my-4">
-      <a href="/<%=currents[0]%>/board?boardType=<%=boardType%>" class="btn btn-primary">리스트</a>
-      <button class="btn btn-success float-right mx-1">수정</button>
-      <button type="reset" class="btn btn-danger float-right mx-1">다시 작성</button>
+      <button class="btn btn-success mx-1">수정</button>
+      <button type="reset" class="btn btn-danger mx-1">다시 작성</button>
+      <a href="/<%=currents[0]%>/board?boardType=<%=boardType%>" class="btn btn-primary float-right">리스트</a>
     </div>
   </form>
 </article>

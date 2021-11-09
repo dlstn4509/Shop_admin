@@ -12,9 +12,12 @@
   <ul class="list-wrap">
     <% for(let v of lists) { %>
       <li class="list" data-link="<%= goPath %>/<%= v.id %>?<%= goQuery %>">
-        <div class="img-wrap" style="background-image: url('<%= v.files && v.files.length ? v.files[0].thumbSrc : `https://via.placeholder.com/300?text=No+Image` %>');"></div>
+        <div class="img-wrap" style="background-image: url('<%= v.imgs.length ? v.imgs[0].thumbSrc : `https://via.placeholder.com/300?text=No+Image` %>');"></div>
         <div class="content-wrap">
-          <div class="title"><%= v.title %><small>(<%= v.readCounter %>)</small></div>
+          <div class="title">
+            <%= v.title %>
+            <small>(<%= v.readCounter %>)</small>
+          </div>
         </div>
       </li>
     <% } %>

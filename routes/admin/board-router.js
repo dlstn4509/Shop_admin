@@ -9,20 +9,20 @@ const afterUploader = require('../../middlewares/after-multer-mw');
 const { Board, BoardFile, BoardInit } = require('../../models');
 const { moveFile } = require('../../modules/util');
 
-// 신규글 작성 화면
+// ---------- 신규글 작성 화면 form ------------------
 router.get('/', boardInit(), queries(), (req, res, next) => {
   const { type } = req.query;
   if (type === 'create') {
     res.render('admin/board/board-form', { type });
   } else next();
 });
-// 리스트
-router.get('/', boardInit('query'), queries(), async (req, res, next) => {
+// ---------- 리스트 list ------------------
+router.get('/', boardInit(), queries(), async (req, res, next) => {
   try {
     const { lists, pager, totalRecord } = await Board.getLists(
       req.query,
-      BoardFile,
-      BoardInit
+      BoardFile
+      // BoardInit // ??????? 쓰는곳 없음, 일단 keep
     );
     res.render('admin/board/board-list', {
       lists,
@@ -33,29 +33,27 @@ router.get('/', boardInit('query'), queries(), async (req, res, next) => {
     next(createError(err));
   }
 });
-// 상세수정
-router.get('/:id', boardInit(), queries(), async (req, res, next) => {
+// ---------- 상세수정 update ------------------
+router.get('/:id', boardInit(), queries(), counter, async (req, res, next) => {
   const { type } = req.query;
   if (type === 'update') {
     const lists = await Board.findAll({
       where: { id: req.params.id },
       include: [{ model: BoardFile }],
     });
-    // res.json(Board.getViewData(lists)[0]);
     res.render('admin/board/board-update', {
       list: Board.getViewData(lists)[0],
     });
   } else next();
 });
 
-// 상세보기
+// ---------- 상세보기 view------------------
 router.get('/:id', boardInit(), queries(), async (req, res, next) => {
   try {
     const lists = await Board.findAll({
       where: { id: req.params.id },
       include: [{ model: BoardFile }],
     });
-    // res.json(Board.getViewData(lists)[0]);
     res.render('admin/board/board-view', {
       list: Board.getViewData(lists)[0],
     });
@@ -63,23 +61,25 @@ router.get('/:id', boardInit(), queries(), async (req, res, next) => {
     next(createError(err));
   }
 });
-// 신규글 저장 and 수정
+// ---------- 신규글 저장 and 수정 post ------------------
 router.post(
   '/',
   uploader.fields([{ name: 'img' }, { name: 'pds' }]),
-  afterUploader(['img', 'pds']), // db저장하기 전 정리
+  // default-form input 중 name="img, pds", req.files에 올려줌
+  afterUploader(['img', 'pds']), // db저장하기 전 테이블 이름에 맞게 정리
   boardInit('body'), // req.body 정리
+  queries('body'),
   async (req, res, next) => {
     try {
+      // 수정
       if (req.body.type === 'update') {
-        const board = await Board.update(req.body, { where: { id: req.body.id } });
-        req.files.forEach((file) => {
-          file.board_id = board.id;
-        });
+        await Board.update(req.body, { where: { id: req.body.id } });
+        req.files.forEach((file) => (file.board_id = req.body.id));
         const files = await BoardFile.bulkCreate(req.files);
-        // res.redirect(res.locals.goList);
-        res.json({ file: req.files, req: req.body, locals: res.locals });
-      } else {
+        res.redirect(res.locals.goList);
+      }
+      // 저장
+      else {
         req.body.user_id = 1; // 임시, 회원작업 후 수정 예정
         req.body.binit_id = res.locals.boardId;
         const board = await Board.create(req.body);
@@ -94,7 +94,7 @@ router.post(
     }
   }
 );
-// 삭제
+// ---------- 삭제 delete ------------------
 router.delete('/', boardInit(), queries('body'), async (req, res, next) => {
   try {
     await Board.destroy({ where: { id: req.body.id } });

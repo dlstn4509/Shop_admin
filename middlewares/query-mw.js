@@ -14,7 +14,7 @@ module.exports = (_field = 'query', addQuery = []) => {
     }
     for (let [k, v] of Object.entries(req[_field])) res.locals[k] = v;
 
-    let goPath = `/${res.locals.currents[0]}/${res.locals.currents[1]}`; // /admin/board
+    let goPath = `/${res.locals.currents[0]}/${res.locals.currents[1]}`;
     let goQuery = '';
     if (res.locals.currents[1] === 'board') {
       goQuery += `&boardId=${req[_field].boardId}`;
@@ -46,3 +46,30 @@ module.exports = (_field = 'query', addQuery = []) => {
     next();
   };
 };
+
+/* 
+goPath : /admin/board
+goQuery : &boardId=1&boardType=default&sort=desc
+goList : /admin/board?&boardId=1&boardType=default&sort=desc&page=1
+goLists : [
+  {
+  "key": "page",
+  "value": 1
+  }, {
+  "key": "field",
+  "value": "id"
+  }, {
+  "key": "search",
+  "value": ""
+  }, {
+  "key": "sort",
+  "value": "desc"
+  }, {
+  "key": "boardId",
+  "value": 1
+  }, {
+  "key": "boardType",
+  "value": "default"
+  }
+]
+*/

@@ -6,7 +6,16 @@ function onDeleteFile(id, el) {
       .catch(onError);
   }
   function onSuccess(r) {
-    if (r.data.code == 200) $(el.parentNode).empty();
+    if (r.data.code == 200) {
+      var html = `<input type="file" name="${$(el).data(
+        'name'
+      )}" class="form-control-file mb-2" />`;
+      $(el).parent().after(html);
+      $(el).parent().remove();
+      // $(el).parent().parent().append(html);
+      // $(el) = button
+      // parent -> file-wrap
+    }
   }
   function onError(err) {
     console.log(err);

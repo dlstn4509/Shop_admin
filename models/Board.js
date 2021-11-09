@@ -101,22 +101,25 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
 
   // ------- view 페이지 보이는 데이터 정리 --------
   Board.getViewData = function (rs, type) {
+    // type은 일단 안줌, 기본값 D
     const data = rs
       .map((v) => v.toJSON())
       .map((v) => {
-        v.files = [];
         v.updatedAt = dateFormat(v.updatedAt, type === 'view' ? 'H' : 'D');
         v.readCounter = numeral(v.readCounter).format();
+        v.imgs = [];
+        v.files = [];
         if (v.BoardFiles.length) {
           for (let file of v.BoardFiles) {
-            v.files.push({
+            let obj = {
               thumbSrc: relPath(file.saveName),
               name: file.oriName,
               id: file.id,
               type: file.fileType,
-            });
+            };
+            if (obj.type === 'F') v.files.push(obj);
+            else v.imgs.push(obj);
           }
-          v.files = _.sortBy(v.files, ['type']);
         }
         delete v.createdAt;
         delete v.deletedAt;
@@ -141,6 +144,7 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
       limit: listCnt,
       where: {
         [Op.and]: [{ ...sequelize.getWhere(query) }, { binit_id: boardId }],
+        // getWhere 는 model index.js에 있음
       },
       include: [{ model: BoardFile, attributes: ['saveName'] }],
     });

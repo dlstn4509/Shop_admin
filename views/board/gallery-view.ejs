@@ -18,16 +18,14 @@
         <td class="title">작성일</td>
         <td class="content"><%= list.updatedAt %></td>
       </tr>
-      <% for(let v of list.files) { %>
-        <% if(v.type === 'I') { %>
-          <tr>
-            <td colspan="2">
-              <div class="file-img my-2">
-                <img src="<%= v.thumbSrc %>" class="mw-100">
-              </div>
-            </td>
-          </tr>
-        <% } %>
+      <% for(let v of list.imgs) { %>
+        <tr>
+          <td colspan="2">
+            <div class="file-img my-2">
+              <img src="<%= v.thumbSrc %>" class="mw-100">
+            </div>
+          </td>
+        </tr>
       <% } %>
       <tr>
         <td colspan="2" class="td-content">
@@ -35,16 +33,14 @@
         </td>
       </tr>
       <% for(let v of list.files) { %>
-        <% if(v.type === 'F') { %>
-          <tr>
-            <td class="title">첨부 파일</td>
-            <td class="content">
-              <div class="file-link">
-                <a href="/<%= currents[0] %>/download/<%=v.id%>"><%= v.name %></a>
-              </div>
-            </td>
-          </tr>
-        <% } %>
+        <tr>
+          <td class="title">첨부 파일</td>
+          <td class="content">
+            <div class="file-link">
+              <a href="/<%= currents[0] %>/download/<%=v.id%>"><%= v.name %></a>
+            </div>
+          </td>
+        </tr>
       <% } %>
     </tbody>
   </table>

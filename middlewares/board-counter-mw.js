@@ -11,8 +11,8 @@ module.exports = async (req, res, next) => {
       board_id: req.params.id,
     });
     const count = await BoardCounter.count({
-      distinct: true,
-      col: 'ip',
+      distinct: true, // 중복 제거
+      col: 'ip', // 중복 제거할 대상
       where: { board_id: req.params.id },
     });
     await Board.update({ readCounter: count }, { where: { id: req.params.id } });

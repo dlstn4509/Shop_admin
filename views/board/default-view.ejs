@@ -24,19 +24,23 @@
           <div><%= list.content %></div>
         </td>
       </tr>
-      <% for(let v of list.files) { %> 
+      <% for(let v of list.imgs) { %>
         <tr>
-          <td class="title">첨부 <%= v.type === 'I' ? '이미지' : '파일' %></td>
+          <td class="title">첨부 이미지</td>
           <td class="content">
-            <% if(v.type === 'I') { %>
-              <div class="file-img my-2" style="width: 120px;">
-                <img src="<%= v.thumbSrc %>" class="w-100">
-              </div>
-            <% } else { %>
-              <div class="file-link">
-                <a href="/<%=currents[0]%>/download/<%= v.id %>"><%= v.name %></a>
-              </div>
-            <% } %> 
+            <div class="file-img my-2" style="width: 120px;">
+              <img src="<%= v.thumbSrc %>" class="w-100">
+            </div>
+          </td>
+        </tr>
+      <% } %>
+      <% for(let v of list.files) { %>
+        <tr>
+          <td class="title">첨부 파일</td>
+          <td class="content">
+            <div class="file-link">
+              <a href="/<%= currents[0] %>/download/<%=v.id%>"><%= v.name %></a>
+            </div>
           </td>
         </tr>
       <% } %>
