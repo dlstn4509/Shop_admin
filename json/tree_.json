@@ -1,0 +1,28 @@
+[
+  {
+    "id": 0,
+    "text": "Shop",
+    "state": { "opened": true },
+    "children": [
+      {
+        "id": 1,
+        "text": "생활제품",
+        "state": { "opened": true },
+        "children": [
+          { "id": 5, "text": "태블릿" },
+          { "id": 6, "text": "스마트폰" }
+        ]
+      },
+      {
+        "id": 2,
+        "state": { "opened": true },
+        "text": "소형가전"
+      },
+      {
+        "id": 3,
+        "state": { "opened": true },
+        "text": "주방가전"
+      }
+    ]
+  }
+]

@@ -1,1 +1,11 @@
 @import '../common';
+
+.cate-wrapper {
+  @include flex($v: stretch);
+  > div {
+    width: 50%;
+  }
+  .cate-wrap {
+    border-right: 1px solid #dee2e6;
+  }
+}

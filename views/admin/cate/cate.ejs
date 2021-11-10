@@ -1,6 +1,13 @@
 <%- include('../../inc/head.ejs') %>
 <%- include('../../inc/header.ejs') %>
-<section class="order-wrapper wrapper">
-  카테
+<link rel="stylesheet" href="/css/jstree/style.min.css">
+<section class="cate-wrapper wrapper">
+  <div class="cate-wrap">
+    <div id="jstreeWrap"></div>
+  </div>
+  <div class="cate-form"></div>
 </section>
+<script src="/js/axios.min.js"></script>
+<script src="/js/jstree.min.js"></script>
+<script src="/js/<%= currents[1] %>/<%= currents[1] %>.js"></script>
 <%- include('../../inc/foot.ejs') %>
