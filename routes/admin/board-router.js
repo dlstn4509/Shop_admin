@@ -6,7 +6,7 @@ const boardInit = require('../../middlewares/boardinit-mw');
 const uploader = require('../../middlewares/multer-mw');
 const counter = require('../../middlewares/board-counter-mw');
 const afterUploader = require('../../middlewares/after-multer-mw');
-const { Board, BoardFile, BoardInit, BoardComment } = require('../../models');
+const { Board, BoardFile, BoardComment } = require('../../models');
 const { moveFile } = require('../../modules/util');
 
 // ---------- 신규글 작성 화면 form ------------------
@@ -96,12 +96,14 @@ router.post(
 // ---------- 삭제 delete ------------------
 router.delete('/', boardInit(), queries('body'), async (req, res, next) => {
   try {
-    await Board.destroy({ where: { id: req.body.id } });
+    await Board.destroy({ where: { id: req.body.id }, truncate: true });
     const files = await BoardFile.findAll({
       attributes: ['saveName'],
       where: { board_id: req.body.id },
     });
     await BoardFile.destroy({ where: { board_id: req.body.id } });
+    await BoardComment.destroy({ where: { board_id: req.body.id } });
+
     for (let { saveName } of files) {
       await moveFile(saveName);
     }
