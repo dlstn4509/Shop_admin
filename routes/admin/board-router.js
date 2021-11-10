@@ -37,7 +37,7 @@ router.get('/:id', boardInit(), queries(), counter, async (req, res, next) => {
       where: { id: req.params.id },
       include: [{ model: BoardFile }],
     });
-    res.render('admin/board/board-update', { list: Board.getViewData(lists)[0] });
+    res.render('admin/board/board-update', { list: Board.getViewData(lists)[0] }); // getViewData -> view page 정리
   } else next();
 });
 
@@ -52,7 +52,7 @@ router.get('/:id', boardInit(), queries(), async (req, res, next) => {
     );
     // res.json({ lists: Board.getViewData(lists)[0], pager });
     res.render('admin/board/board-view', {
-      list: Board.getViewData(lists)[0],
+      list: Board.getViewData(lists)[0], // getViewData -> view page 정리
       pager,
     });
   } catch (err) {

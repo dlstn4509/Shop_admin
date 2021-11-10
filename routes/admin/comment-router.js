@@ -17,5 +17,15 @@ router.post('/', queries('body'), async (req, res, next) => {
     next(createError(err));
   }
 });
+router.delete('/', queries('body'), async (req, res, next) => {
+  try {
+    await BoardComment.destroy({ where: { id: req.body.id } });
+    res.redirect(
+      `/admin/board/${req.body.board_id}?${req.body.boardId}&${res.locals.goQuery}`
+    );
+  } catch (err) {
+    next(createError(err));
+  }
+});
 
 module.exports = { router, name: '/comment' };
