@@ -2,7 +2,7 @@ var core = {};
 var plugins = ['contextmenu', 'dnd', 'search', 'state', 'types', 'wholerow'];
 var types = {
   default: {
-    max_depth: 2,
+    max_depth: 10,
   },
 };
 
@@ -39,11 +39,14 @@ function onUpdateTree(e, data) {
       $('#jstreeWrap').jstree().refresh();
     })
     .catch(function (err) {
-      console.log('onUpdateTree' + err);
+      console.log(err);
     });
 }
-
 function onDeleteTree(e, data) {
-  console.log(e);
-  console.log(data);
+  axios
+    .delete('/api/tree', { data: { id: data.node.id } })
+    .then(onUpdateTree)
+    .catch(function (err) {
+      console.log(err);
+    });
 }

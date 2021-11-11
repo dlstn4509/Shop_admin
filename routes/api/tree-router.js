@@ -3,6 +3,9 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs-extra');
 const { Cate } = require('../../models');
+const { findChildId, findObj } = require('../../modules/util');
+const tree = require('../../middlewares/tree-mw');
+const { Op } = require('sequelize');
 
 router.get('/', async (req, res, next) => {
   try {
@@ -26,6 +29,15 @@ router.put('/', async (req, res, next) => {
       path.join(__dirname, '../../json/tree.json'),
       req.body.node
     );
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+router.delete('/', tree(), async (req, res, next) => {
+  try {
+    const treeArray = findChildId(findObj(req.tree, req.body.id), []);
+    await Cate.destroy({ where: { id: { [Op.or]: treeArray } } });
     res.status(200).json({ success: true });
   } catch (err) {
     res.status(500).json(err);

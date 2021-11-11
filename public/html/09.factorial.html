@@ -1,0 +1,158 @@
+<script>
+  function findChild(_obj, arr) {
+    if (_obj.children) {
+      for (let v of _obj.children) {
+        findChild(v, arr);
+      }
+    }
+    arr.push(_obj.id);
+    return arr;
+  }
+
+  // j1_5
+  var a = '';
+  function findObj(_obj, id) {
+    if (_obj.id !== id) {
+      if (_obj.children) {
+        for (let v of _obj.children) {
+          findObj(v, id);
+        }
+      }
+    } else a = _obj;
+    return a;
+  }
+
+  const obj = {
+    id: 'j1_1',
+    text: 'Shop',
+    icon: true,
+    li_attr: {
+      id: 'j1_1',
+    },
+    a_attr: {
+      href: '#',
+      id: 'j1_1_anchor',
+    },
+    state: {
+      loaded: true,
+      opened: true,
+      selected: false,
+      disabled: false,
+    },
+    data: {},
+    children: [
+      {
+        id: 'j1_2',
+        text: 'AAA',
+        icon: true,
+        li_attr: {
+          id: 'j1_2',
+        },
+        a_attr: {
+          href: '#',
+          id: 'j1_2_anchor',
+        },
+        state: {
+          loaded: true,
+          opened: true,
+          selected: false,
+          disabled: false,
+        },
+        data: {},
+        children: [
+          {
+            id: 'j1_3',
+            text: 'BBB',
+            icon: true,
+            li_attr: {
+              id: 'j1_3',
+            },
+            a_attr: {
+              href: '#',
+              id: 'j1_3_anchor',
+            },
+            state: {
+              loaded: true,
+              opened: false,
+              selected: false,
+              disabled: false,
+            },
+            data: {},
+            children: [],
+            type: 'default',
+          },
+          {
+            id: 'j1_6',
+            text: 'TTT',
+            icon: true,
+            li_attr: {
+              id: 'j1_6',
+            },
+            a_attr: {
+              href: '#',
+              id: 'j1_6_anchor',
+            },
+            state: {
+              loaded: true,
+              opened: false,
+              selected: true,
+              disabled: false,
+            },
+            data: {},
+            children: [],
+            type: 'default',
+          },
+        ],
+        type: 'default',
+      },
+      {
+        id: 'j1_4',
+        text: 'CCC',
+        icon: true,
+        li_attr: {
+          id: 'j1_4',
+        },
+        a_attr: {
+          href: '#',
+          id: 'j1_4_anchor',
+        },
+        state: {
+          loaded: true,
+          opened: true,
+          selected: false,
+          disabled: false,
+        },
+        data: {},
+        children: [
+          {
+            id: 'j1_5',
+            text: 'DDD',
+            icon: true,
+            li_attr: {
+              id: 'j1_5',
+            },
+            a_attr: {
+              href: '#',
+              id: 'j1_5_anchor',
+            },
+            state: {
+              loaded: true,
+              opened: false,
+              selected: false,
+              disabled: false,
+            },
+            data: {},
+            children: [],
+            type: 'default',
+          },
+        ],
+        type: 'default',
+      },
+    ],
+    type: 'default',
+  };
+
+  console.log(findObj(obj, 'j1_5'));
+
+  // console.log(findChild(obj, []));
+</script>
