@@ -2,7 +2,7 @@ var core = {};
 var plugins = ['contextmenu', 'dnd', 'search', 'state', 'types', 'wholerow'];
 var types = {
   default: {
-    max_depth: 10,
+    max_depth: 3,
   },
 };
 

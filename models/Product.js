@@ -1,19 +1,46 @@
 const _ = require('lodash');
 const { dateFormat, relPath } = require('../modules/util');
 
-module.exports = (sequelize, { DataTypes, Op }) => {
+module.exports = (sequelize, DataType) => {
   const Product = sequelize.define(
     'Product',
     {
       id: {
-        type: DataTypes.INTEGER(10).UNSIGNED,
+        type: DataType.INTEGER(10).UNSIGNED,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false,
       },
-      name: {
-        type: DataTypes.STRING(255),
+      title: {
+        type: DataType.STRING(255),
         allowNull: false,
+      },
+      priceOrigin: {
+        type: DataType.INTEGER(10),
+        allowNull: false,
+        defaultValue: 0,
+      },
+      priceSale: {
+        type: DataType.INTEGER(10),
+        allowNull: false,
+        defaultValue: 0,
+      },
+      amount: {
+        type: DataType.INTEGER(10),
+        allowNull: false,
+        defaultValue: '-1',
+      },
+      status: {
+        type: DataType.ENUM,
+        values: ['0', '1', '2'],
+        defaultValue: '2',
+        allowNull: false,
+      },
+      summary: {
+        type: DataType.TEXT,
+      },
+      content: {
+        type: DataType.TEXT,
       },
     },
     {

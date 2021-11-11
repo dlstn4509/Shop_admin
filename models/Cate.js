@@ -1,12 +1,12 @@
 const _ = require('lodash');
 const { dateFormat, relPath } = require('../modules/util');
 
-module.exports = (sequelize, { DataTypes, Op }) => {
+module.exports = (sequelize, DataType) => {
   const Cate = sequelize.define(
     'Cate',
     {
       id: {
-        type: DataTypes.STRING(50),
+        type: DataType.STRING(50),
         primaryKey: true,
         allowNull: false,
         unique: true,
