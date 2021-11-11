@@ -59,7 +59,16 @@
         width: 50%;
         min-width: 300px;
         height: 80%;
-        border: 1px solid red;
+        border: 1px solid $light-color;
+        background-color: #fff;
+        overflow-y: auto;
+        @include flex($v: center, $h: center);
+        @include flexCol;
+        #jstreeWrap {
+          margin-top: 1em;
+          width: 90%;
+          flex-grow: 1;
+        }
       }
     }
   }

@@ -1,15 +1,3 @@
-/* ----------------------- jstree ------------------------ */
-var core = {};
-var plugins = ['state', 'wholerow', 'changed', 'checkbox'];
-
-core.check_callback = true;
-core.themes = { variant: 'large', striped: true };
-core.data = {
-  data: function (node) {
-    return { id: node.id };
-  },
-};
-
 /* ----------------------- quill ------------------------ */
 var toolbarOptions = [
   ['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -50,13 +38,63 @@ function onSubmitPrdCreateForm(e) {
   this.submit();
 }
 
+/* ----------------------- jstree ------------------------ */
+var allData = [];
+var selData = []; // selectedTree
+var core = {};
+var plugins = ['wholerow', 'changed', 'checkbox'];
+
+core.check_callback = true;
+core.themes = { variant: 'large', striped: true };
+core.data = {
+  url: function (node) {
+    return '/api/tree';
+  },
+  data: function (node) {
+    return { id: node.id };
+  },
+};
+
+$('#jstreeWrap')
+  .jstree({ core: core, plugins: plugins })
+  .on('loaded.jstree', onLoadedTree)
+  .on('changed.jstree', onChangeTree);
+
+function onLoadedTree(e, data) {
+  allData = data.instance._model.data;
+  console.log(allData);
+}
+
+function onChangeTree(e, data) {
+  const selectedTree = [];
+  for (var v of data.selected) {
+    // 말단만 찾기
+    if (!allData[v].children.length) selectedTree.push(v);
+  }
+  selData = selectedTree;
+}
+
+$('.modal-wrapper .modal-wrap .bt-modal-close').click(onCloseModal); // 모달 닫기 버튼
+function onCloseModal() {
+  $('.modal-wrapper').hide();
+  var html = '';
+  for (var v of selData) {
+    html += `<div class="data">${allData[v].text}</div>`;
+  }
+  $('.prd-wrapper .selected-tree').html(html);
+}
+
+$('.prd-wrapper .bt-cate').click(onOpenModal); // 모달 열기 버튼
+function onOpenModal() {
+  $('.modal-wrapper').show();
+}
+
+/* ----------------------- jstree axios 통신 ------------------------ */
 $('.form-wrapper .bt-cate').click(onClickCate);
 function onClickCate() {
   axios
     .get('/api/cate')
-    .then(function (r) {
-      console.log(r.data);
-    })
+    .then(function (r) {})
     .catch(function (err) {
       console.log(err);
     });

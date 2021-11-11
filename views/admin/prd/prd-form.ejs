@@ -1,5 +1,6 @@
 <%- include('../../inc/head.ejs') %>
 <%- include('../../inc/header.ejs') %>
+<link rel="stylesheet" href="/css/jstree/style.min.css">
 <link rel="stylesheet" href="/css/quill.snow.css">
 <section class="prd-wrapper form-wrapper wrapper">
   <h4 class="title bullet my-2">상품 생성</h4>
@@ -9,6 +10,7 @@
         <tr>
           <td class="title" style="width: 15%;">카테고리 등록<span class="red"> *</span></td>
           <td class="content">
+            <div class="selected-tree"></div>
             <button class="btn btn-info btn-sm bt-cate">카테고리 선택</button>
           </td>
         </tr>
@@ -75,13 +77,15 @@
       <button type="reset" class="btn btn-danger mx-1">다시작성</button>
     </div>
   </form>
-  <div class="modal-wrapper">
+  <div class="modal-wrapper" style="display: none;">
     <div class="modal-wrap">
-      <div id="jstree"></div>
+      <div id="jstreeWrap"></div>
+      <button class="btn btn-danger my-3 bt-modal-close">닫기</button>
     </div>
   </div>
 </section>
 <script src="/js/quill.min.js"></script>
-<script src="/js/<%= currents[1] %>/<%= currents[1] %>.js"></script>
 <script src="/js/axios.min.js"></script>
+<script src="/js/jstree.min.js"></script>
+<script src="/js/<%= currents[1] %>/<%= currents[1] %>.js"></script>
 <%- include('../../inc/foot.ejs') %>
