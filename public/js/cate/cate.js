@@ -1,5 +1,6 @@
 var core = {};
 var plugins = ['contextmenu', 'dnd', 'search', 'state', 'types', 'wholerow'];
+// contextmenu: 우클릭, wholerow: 한줄 클릭 가능
 var types = {
   default: {
     max_depth: 3,
@@ -8,7 +9,12 @@ var types = {
 
 core.check_callback = true;
 core.themes = { variant: 'large', striped: true };
+core.search = {
+  show_only_matches: true,
+  show_only_matches_children: true,
+};
 core.data = {
+  // get방식으로 요청
   url: function (node) {
     return '/api/tree';
   },
@@ -18,7 +24,7 @@ core.data = {
 };
 
 $('#jstreeWrap')
-  .jstree({ core: core, plugins: plugins, types })
+  .jstree({ core: core, plugins: plugins, types: types })
   .on('create_node.jstree', onCreateTree) // 구조, 테이블 둘 다 바꿈
   .on('rename_node.jstree', onUpdateTree) // 구조만 바꿈
   .on('move_node.jstree', onUpdateTree) // 구조만 바꿈
@@ -27,7 +33,7 @@ $('#jstreeWrap')
 function onCreateTree(e, data) {
   axios
     .post('/api/tree', { id: data.node.id })
-    .then(onUpdateTree)
+    .then()
     .catch(function (err) {
       console.log(err);
     });
@@ -50,3 +56,10 @@ function onDeleteTree(e, data) {
       console.log(err);
     });
 }
+
+$('input[name="search"]').keyup(function () {
+  // 검색창
+  console.log(this);
+  var searchString = this.value.trim();
+  $('#jstreeWrap').jstree('search', searchString);
+});

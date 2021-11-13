@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="/css/quill.snow.css">
 <section class="prd-wrapper form-wrapper wrapper">
   <h4 class="title bullet my-2">상품 생성</h4>
-  <form action="/<%=currents[0]%>/<%= currents[1] %>" method="post" name="prdCreateForm">
+  <form action="/<%=currents[0]%>/<%= currents[1] %>" method="POST" name="prdCreateForm">
     <table class="table border-bottom">
       <tbody>
         <tr>
@@ -15,13 +15,13 @@
           </td>
         </tr>
         <tr>
-          <td class="title" style="width: 15%;">상품명<span class="red"> *</span></td>
+          <td class="title">상품명<span class="red"> *</span></td>
           <td class="content">
             <input type="text" name="title" class="form-control" placeholder="상품명">
           </td>
         </tr>
         <tr>
-          <td class="title" style="width: 15%;">판매여부<span class="red"> *</span></td>
+          <td class="title">판매여부<span class="red"> *</span></td>
           <td class="content">
             <select name="status" class="form-control small">
               <option value="0">판매중지</option>

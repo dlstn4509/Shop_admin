@@ -34,7 +34,7 @@ function onSubmitPrdCreateForm(e) {
     this.title.focus();
     return false;
   }
-  this.content.value = quill.root.innerHTML;
+  this.content.value = quill.root.innerHTML; // quill 내용
   this.submit();
 }
 
@@ -62,13 +62,12 @@ $('#jstreeWrap')
 
 function onLoadedTree(e, data) {
   allData = data.instance._model.data;
-  console.log(allData);
 }
 
 function onChangeTree(e, data) {
   const selectedTree = [];
   for (var v of data.selected) {
-    // 말단만 찾기
+    // 말단만 찾기, data.selected = 선택된 애들의 id값
     if (!allData[v].children.length) selectedTree.push(v);
   }
   selData = selectedTree;

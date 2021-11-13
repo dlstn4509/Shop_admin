@@ -1,13 +1,31 @@
 'use strict';
 const numeral = require('numeral');
+const { BCRYPT_SALT: salt, BCRYPT_ROUND: rnd } = process.env;
+const bcrypt = require('bcrypt');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const insertUsers = [];
-    for (let i = 301; i < 1200; i++) {
+    insertUsers.push({
+      userid: 'dlstn4509',
+      userpw: await bcrypt.hash('111111' + salt, Number(rnd)),
+      username: '최고관리자',
+      email: 'dlstn7609@hanmail.com',
+      tel: `010-4011-8741`,
+      addrPost: '12345',
+      addrRoad: '서울시 마포구 노고산로',
+      addrJibun: '서울시 마포구 창천동',
+      addrComment: '(창천동)',
+      addrDetail: '7층',
+      status: '9',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    for (let i = 0; i < 99; i++) {
       insertUsers.push({
         userid: 'test' + i,
-        userpw: '111111',
+        userpw: await bcrypt.hash('111111' + salt, Number(rnd)),
         username: '테스트유저' + i,
         email: 'test' + i + '@test.com',
         tel: `010-7777-${numeral(i).format('0000')}`,
@@ -15,7 +33,8 @@ module.exports = {
         addrRoad: '서울시 마포구 노고산로',
         addrJibun: '서울시 마포구 창천동',
         addrComment: '(창천동)',
-        addrDetail: String(1 + i) + '층',
+        addrDetail: 1 + i + '층',
+        status: '2',
         createdAt: new Date(),
         updatedAt: new Date(),
       });
