@@ -55,15 +55,24 @@
         작성자</option>
       <% } %> 
       <% if(currents[1] === 'prd') { %> 
-        <option value="code"
-        <%= (field === 'code' ? 'selected': '') %>>
-        상품코드</option>
-        <option value="name"
-        <%= (field === 'name' ? 'selected': '') %>>
+        <option value="title"
+        <%= (field === 'title' ? 'selected': '') %>>
         상품명</option>
         <option value="content"
         <%= (field === 'content' ? 'selected': '') %>>
         상품설명</option>
+        <option value="summary"
+        <%= (field === 'summary' ? 'selected': '') %>>
+        요약설명</option>
+        <option value="priceSale"
+        <%= (field === 'priceSale' ? 'selected': '') %>>
+        판매가격</option>
+        <option value="amount"
+        <%= (field === 'amount' ? 'selected': '') %>>
+        재고량</option>
+        <option value="status"
+        <%= (field === 'status' ? 'selected': '') %>>
+        판매상태</option>
       <% } %> 
     </select>
     <input type="text" name="search" class="form-control mr-2" value="<%= search %>">

@@ -30,9 +30,10 @@ module.exports = (_field = 'query', addQuery = []) => {
 
     res.locals.goPager = `${goPath}?${goQuery}`;
     res.locals.goList = `${goPath}?${goQuery}&page=${req[_field].page}`;
-    res.locals.goPath = goPath; // ejs 용
-    res.locals.goQuery = `${goQuery}&page=${req[_field].page}`; // ejs 용
+    res.locals.goPath = goPath;
+    res.locals.goQuery = `${goQuery}&page=${req[_field].page}`;
     res.locals.goView = `${goPath}/${req.params.id}?${goQuery}&page=${req[_field].page}`;
+    res.locals.goUpdate = `${goPath}/${req.params.id}`;
 
     res.locals.goLists = [
       { key: 'page', value: req[_field].page },
@@ -44,6 +45,7 @@ module.exports = (_field = 'query', addQuery = []) => {
       res.locals.goLists.push({ key: 'boardId', value: req[_field].boardId });
       res.locals.goLists.push({ key: 'boardType', value: req[_field].boardType });
     }
+
     next();
   };
 };

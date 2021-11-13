@@ -1,9 +1,13 @@
 <%- include('../../inc/head.ejs') %>
 <%- include('../../inc/header.ejs') %>
 <section class="prd-wrapper list-wrapper wrapper">
-  <div class="btn-wrap">
-    <div>상품개수: 6,555,345,666개</div>
-    <a href="/<%=currents[0]%>/prd?type=create" class="btn btn-primary mt-4 mb-2">상품등록</a>
+  <div class="my-2">
+    <div class="mb-2">상품개수: <%= totalRecord %>개</div>
+    <div class="d-flex">
+      <%- include('../../inc/search.ejs') %> 
+      <%- include('../../inc/sort.ejs') %>
+      <a href="<%= goList %>&type=create" class="btn btn-primary ml-auto">상품등록</a>
+    </div>
   </div>
   <table class="table text-center border-bottom">
     <thead class="thead-dark">
@@ -17,36 +21,52 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>1</td>
-        <td class="td-icon">
-          <img src="/img/f5.jpg" alt="prd">
-          <!-- 섬네일 이미지 넣을꺼임 -->
-        </td>
-        <td class="text-left">
-          <a href="/<%=currents[0]%>/prd/1?type=update">파스타</a>
-        </td>
-        <td class="text-right">
-          <div class="price-sale">350,000원</div>
-          <div class="price-ori">400,000원</div>
-        </td>
-        <td>
-          <select name="status" class="form-control">
-            <option value="0">판매중단</option>
-            <option value="1">재고없음</option>
-            <option value="5">판매중</option>
-          </select>
-        </td>
-        <td>
-          <a href="/<%=currents[0]%>/prd/1?type=update" class="btn btn-success">수정</a>
-          <a href="/<%=currents[0]%>/prd/1" class="btn btn-danger">삭제</a>
-        </td>
-      </tr>
+      <% let i = 0; %>
+      <% for(let v of lists) { %> 
+        <tr>
+          <td><%= totalRecord - (page - 1) * 5 - i++ %></td>
+          <td class="td-icon">
+            <img src="<%= v.img.thumbSrc %>" alt="prd">
+          </td>
+          <td class="text-left">
+            <a href="<%= goPath %>/<%= v.id %>?<%= goQuery %>"><%= v.title %></a>
+          </td>
+          <td class="text-right">
+            <div class="price-sale"><%= v.priceSale %>원</div>
+            <div class="price-ori"><%= v.priceOrigin %>원</div>
+          </td>
+          <td>
+            <form action="<%= goPath %>/status" method="POST">
+              <input type="hidden" name="id" value="<%= v.id %>">
+              <input type="hidden" name="_method" value="PUT">
+              <% for(let v2 of goLists) { %>
+                <input type="hidden" name="<%= v2.key %>" value="<%= v2.value %>">
+              <% } %>
+              <select name="status" class="form-control" onchange="this.form.submit();">
+                <option value="0" <%= v.status === '0' ? 'selected' : '' %>>판매중단</option>
+                <option value="1" <%= v.status === '1' ? 'selected' : '' %>>재고없음</option>
+                <option value="2" <%= v.status === '2' ? 'selected' : '' %>>판매중</option>
+              </select>
+            </form>
+          </td>
+          <td>
+            <a href="<%= goPath %>/<%= v.id %>" class="btn btn-success">수정</a>
+            <form class="d-inline-block" action="<%= goPath %>" method="POST" onsubmit="return confirm('삭제하시겠습니까?') ? true : false;">
+              <input type="hidden" name="id" value="<%= v.id %>">
+              <input type="hidden" name="_method" value="DELETE">
+              <% for(let v2 of goLists) { %>
+                <input type="hidden" name="<%= v2.key %>" value="<%= v2.value %>">
+              <% } %>
+              <button class="btn btn-danger">삭제</button>
+            </form>
+          </td>
+        </tr>
+      <% } %>
     </tbody>
   </table>
-  <%- //include('../inc/pager.ejs') %>
+  <%- include('../../inc/pager.ejs', pager) %>
   <div class="text-center my-4">
-    <a href="/<%=currents[0]%>/prd?type=create" class="btn btn-primary">상품등록</a>
+    <a href="<%= goList %>&type=create" class="btn btn-primary">상품등록</a>
   </div>
 </section>
 <%- include('../../inc/foot.ejs') %>

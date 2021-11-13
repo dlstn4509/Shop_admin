@@ -1,10 +1,21 @@
 const _ = require('lodash');
 const { dateFormat, relPath } = require('../modules/util');
 
-module.exports = (sequelize, { DataTypes, Op }) => {
+module.exports = (sequelize, DataType) => {
   const CateProduct = sequelize.define(
     'CateProduct',
-    {},
+    {
+      prd_id: {
+        type: DataType.INTEGER(10).UNSIGNED,
+        primaryKey: true,
+        allowNull: false,
+      },
+      cate_id: {
+        type: DataType.INTEGER(10).UNSIGNED,
+        primaryKey: true,
+        allowNull: false,
+      },
+    },
     {
       charset: 'utf8',
       collate: 'utf8_general_ci',
