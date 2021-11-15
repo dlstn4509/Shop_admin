@@ -81,4 +81,31 @@
       }
     }
   }
+  &.update-wrapper {
+    .file-wrap {
+      display: flex;
+      align-items: flex-end;
+      margin-bottom: 0.5em;
+      padding-bottom: 0.5em;
+      border-bottom: 1px dotted #ccc;
+      .img {
+        width: 80px;
+        margin-right: 0.5em;
+        padding: 2px;
+        border: 1px solid #dc3545;
+      }
+      .file {
+        margin-right: 0.5em;
+      }
+    }
+    .selected-tree {
+      @include flex($w: wrap);
+      .tree-data {
+        padding: 0.25em 0.5em;
+        background-color: $white-color;
+        border: 1px solid $light-color;
+        margin: 0.25em;
+      }
+    }
+  }
 }

@@ -45,6 +45,10 @@ module.exports = (sequelize, DataType) => {
       content: {
         type: DataType.TEXT,
       },
+      readCounter: {
+        type: DataType.INTEGER(10).UNSIGNED,
+        defaultValue: 0,
+      },
     },
     {
       charset: 'utf8',
@@ -93,8 +97,8 @@ module.exports = (sequelize, DataType) => {
     data.updatedAt = dateFormat(data.updatedAt, 'H');
     data.readCounter = numeral(data.readCounter).format();
     data.content = unescape(data.content);
-    data.img = [];
-    data.detail = [];
+    data.imgs = [];
+    data.details = [];
     if (data.ProductFiles.length) {
       for (let file of data.ProductFiles) {
         let obj = {
@@ -103,8 +107,8 @@ module.exports = (sequelize, DataType) => {
           id: file.id,
           type: file.fileType,
         };
-        if (obj.type === 'F') data.detail.push(obj);
-        else data.img.push(obj);
+        if (obj.type === 'F') data.details.push(obj);
+        else data.imgs.push(obj);
       }
     }
     delete data.createdAt;

@@ -2,9 +2,12 @@
 <%- include('../../inc/header.ejs') %>
 <link rel="stylesheet" href="/css/quill.snow.css">
 <link rel="stylesheet" href="/css/jstree/style.min.css">
-<section class="prd-wrapper wrapper form-wrapper">
+<section class="prd-wrapper wrapper update-wrapper">
   <h4 class="title bullet my-2">상품 수정</h4>
   <form action="<%= goPath %>" method="POST"  name="prdCreateForm" enctype="multipart/form-data">
+    <% for(let v of goLists) { %>
+      <input type="hidden" name="<%= v.key %>" value="<%= v.value %>">
+    <% } %>
     <input type="hidden" name="_method" value="put">
     <input type="hidden" name="type" value="update">
     <input type="hidden" name="id" value="<%= prd.id %>">
@@ -73,7 +76,7 @@
         </tr>
         <tr>
           <td colspan="2">
-            <div id="editor" style="min-height: 200px;"></div>
+            <div id="editor" style="min-height: 200px;"><%- prd.content %></div>
             <input type="hidden" name="content">
           </td>
         </tr>
@@ -81,10 +84,15 @@
           <td>이미지 첨부</td>
           <td>
             <% for(let i=0; i<5; i++) { %> 
-              <input type="file" name="img" class="form-control-file mb-2">
-              <% if (i === 0) { %>
-                <div class="red">상품리스트에 노출되는 대표 이미지 입니다. 필수로 넣어주세요.</div>
-                <hr>
+              <% if(prd.imgs[i]) { %>
+                  <div class="file-wrap">
+                  <% let { thumbSrc, name, id, type } = prd.imgs[i]; %>
+                    <img src="<%= thumbSrc %>" alt="<%= name %>" class="img">
+                    <div class="file"><%= name %></div>
+                    <button type="button" data-name="img" class="btn btn-sm btn-danger" data-idx="<%= id %>" onclick="onDeleteFile('<%= id %>', this)">삭제</button>
+                  </div>
+              <% } else { %>
+                <input type="file" name="img" class="form-control-file mb-2">
               <% } %>
             <% } %>
           </td>
@@ -93,7 +101,16 @@
           <td>상세내용 첨부</td>
           <td>
             <% for(let i=0; i<2; i++) { %> 
-              <input type="file" name="detail" class="form-control-file mb-2">
+              <% if(prd.details[i]) { %>
+                  <div class="file-wrap">
+                  <% let { thumbSrc, name, id, type } = prd.details[i]; %>
+                    <img src="<%= thumbSrc %>" alt="<%= name %>" class="img">
+                    <div class="file"><%= name %></div>
+                    <button type="button" data-name="img" class="btn btn-sm btn-danger" data-idx="<%= id %>" onclick="onDeleteFile('<%= id %>', this)">삭제</button>
+                  </div>
+              <% } else { %>
+                <input type="file" name="img" class="form-control-file mb-2">
+              <% } %>
             <% } %>
           </td>
         </tr>
@@ -115,5 +132,11 @@
 <script src="/js/quill.min.js"></script>
 <script src="/js/axios.min.js"></script>
 <script src="/js/jstree.min.js"></script>
+<script>
+  var cateArr = [];
+  <% for(let v of cate) { %>
+    cateArr.push('<%= v %>');
+  <% } %>
+</script>
 <script src="/js/<%= currents[1] %>/<%= currents[1] %>-update.js"></script>
 <%- include('../../inc/foot.ejs') %>
