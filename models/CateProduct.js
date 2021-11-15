@@ -8,12 +8,12 @@ module.exports = (sequelize, DataType) => {
       prd_id: {
         type: DataType.INTEGER(10).UNSIGNED,
         primaryKey: true,
-        allowNull: false,
+        allowNull: true,
       },
       cate_id: {
         type: DataType.INTEGER(10).UNSIGNED,
         primaryKey: true,
-        allowNull: false,
+        allowNull: true,
       },
     },
     {
@@ -29,7 +29,7 @@ module.exports = (sequelize, DataType) => {
       // CateProduct (多) : Cate (1)
       foreignKey: {
         name: 'cate_id',
-        allowNull: false,
+        allowNull: true,
       },
       sourceKey: 'id',
       onUpdate: 'CASCADE',
@@ -39,7 +39,7 @@ module.exports = (sequelize, DataType) => {
       // CateProduct (多) : Product (1)
       foreignKey: {
         name: 'prd_id',
-        allowNull: false,
+        allowNull: true,
       },
       sourceKey: 'id',
       onUpdate: 'CASCADE',

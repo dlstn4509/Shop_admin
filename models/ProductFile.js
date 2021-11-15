@@ -44,7 +44,7 @@ module.exports = (sequelize, DataType) => {
       // ProductFile (多) : Product (多)
       foreignKey: {
         name: 'prd_id',
-        allowNull: false,
+        allowNull: true,
       },
       sourceKey: 'id',
       onUpdate: 'CASCADE',

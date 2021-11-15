@@ -2,6 +2,7 @@ const _ = require('lodash');
 const numeral = require('numeral');
 const { dateFormat, relPath } = require('../modules/util');
 const createPager = require('../modules/pager-init');
+const { escape, unescape } = require('html-escaper');
 
 module.exports = (sequelize, DataType) => {
   const Product = sequelize.define(
@@ -58,7 +59,7 @@ module.exports = (sequelize, DataType) => {
       // Product (1) : ProductFile (多)
       foreignKey: {
         name: 'prd_id',
-        allowNull: false,
+        allowNull: true,
       },
       sourceKey: 'id',
       onUpdate: 'CASCADE',
@@ -68,7 +69,7 @@ module.exports = (sequelize, DataType) => {
       // Product (多) : Cate (多)
       foreignKey: {
         name: 'prd_id',
-        allowNull: false,
+        allowNull: true,
       },
       through: 'cate_product',
       onUpdate: 'CASCADE',
@@ -82,47 +83,51 @@ module.exports = (sequelize, DataType) => {
     });
   };
 
-  Product.getViewData = function (rs, type) {
+  Product.findProduct = async function (id, Cate, ProductFile) {
+    const rs = await this.findOne({
+      where: { id },
+      order: [[ProductFile, 'id', 'ASC']],
+      include: [{ model: Cate }, { model: ProductFile }],
+    });
+    const data = rs.toJSON();
+    data.updatedAt = dateFormat(data.updatedAt, 'H');
+    data.readCounter = numeral(data.readCounter).format();
+    data.content = unescape(data.content);
+    data.img = [];
+    data.detail = [];
+    if (data.ProductFiles.length) {
+      for (let file of data.ProductFiles) {
+        let obj = {
+          thumbSrc: relPath(file.saveName),
+          name: file.oriName,
+          id: file.id,
+          type: file.fileType,
+        };
+        if (obj.type === 'F') data.detail.push(obj);
+        else data.img.push(obj);
+      }
+    }
+    delete data.createdAt;
+    delete data.deletedAt;
+    delete data.ProductFiles;
+    return data;
+  };
+
+  Product.getListData = function (rs, type) {
     const data = rs
       .map((v) => v.toJSON())
       .map((v) => {
         v.priceOrigin = numeral(v.priceOrigin).format();
         v.priceSale = numeral(v.priceSale).format();
-        if (type === 'view') {
-          v.updatedAt = dateFormat(v.updatedAt, 'H');
-          v.readCounter = numeral(v.readCounter).format();
-          v.img = [];
-          v.detail = [];
-          if (v.ProductFiles.length) {
-            for (let file of v.ProductFiles) {
-              let obj = {
-                thumbSrc: relPath(file.saveName),
-                name: file.oriName,
-                id: file.id,
-                type: file.fileType,
-              };
-              if (obj.type === 'F') v.detail.push(obj);
-              else v.img.push(obj);
+        if (v.ProductFiles.length) {
+          for (let file of v.ProductFiles) {
+            if (file.fileType === 'I') {
+              v.img = relPath(file.saveName);
+              break;
             }
-          }
-        } else {
-          // list
-          if (v.ProductFiles.length) {
-            for (let file of v.ProductFiles) {
-              if (file.fileType === 'I') {
-                v.img = {
-                  thumbSrc: relPath(file.saveName),
-                };
-                break;
-              }
-            }
-          }
-          if (!v.img) {
-            v.img = {
-              thumbSrc: 'https://via.placeholder.com/120',
-            };
           }
         }
+        v.img = v.img || 'https://via.placeholder.com/120';
         delete v.createdAt;
         delete v.deletedAt;
         delete v.ProductFiles;
@@ -153,10 +158,12 @@ module.exports = (sequelize, DataType) => {
         [ProductFile, 'id', 'ASC'],
       ],
     });
-    const lists = this.getViewData(rs);
+    const lists = this.getListData(rs);
 
     return { lists, pager, totalRecord: numeral(pager.totalRecord).format() };
   };
+
+  Product.findProduct;
 
   return Product;
 };

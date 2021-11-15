@@ -8,7 +8,7 @@ module.exports = (sequelize, DataType) => {
       id: {
         type: DataType.STRING(50),
         primaryKey: true,
-        allowNull: false,
+        allowNull: true,
         unique: true,
       },
     },
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataType) => {
       // Cate (多) : Product (多)
       foreignKey: {
         name: 'cate_id',
-        allowNull: false,
+        allowNull: true,
       },
       through: 'cate_product',
       onUpdate: 'CASCADE',

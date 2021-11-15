@@ -14,7 +14,7 @@ module.exports = {
       });
     }
     await queryInterface.bulkInsert('cate', insertCate);
-    // sequelize db:seed --seed 20211105016000-demo-cate.js
+    // sequelize db:seed --seed 20211105016200-demo-productfile.js
   },
 
   down: async (queryInterface, Sequelize) => {

@@ -1,61 +1,119 @@
 <%- include('../../inc/head.ejs') %>
 <%- include('../../inc/header.ejs') %>
 <link rel="stylesheet" href="/css/quill.snow.css">
-<section class="prd-wrapper wrapper">
-  <h4 class="title bullet my-2">
-    상품 <%= (type === 'create' ? '생성' : '수정') %>
-  </h4>
-  <form action="/<%=currents[0]%>/<%= currents[1] %>" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="_method" value="PUT">
-    <input type="hidden" name="id" value="1">
+<link rel="stylesheet" href="/css/jstree/style.min.css">
+<section class="prd-wrapper wrapper form-wrapper">
+  <h4 class="title bullet my-2">상품 수정</h4>
+  <form action="<%= goPath %>" method="POST"  name="prdCreateForm" enctype="multipart/form-data">
+    <input type="hidden" name="_method" value="put">
+    <input type="hidden" name="type" value="update">
+    <input type="hidden" name="id" value="<%= prd.id %>">
+    <input type="hidden" name="cate">
     <table class="table border-bottom">
       <tbody>
         <tr>
-          <td class="title" style="width: 15%;">상품명</td>
+          <td class="title" style="width: 15%;">
+            카테고리 등록
+            <span class="red">*</span>
+          </td>
           <td class="content">
-            <input type="text" name="title" class="form-control" placeholder="상품명">
+            <div class="selected-tree"></div>
+            <button type="button" class="btn btn-info btn-sm bt-cate">카테고리 선택</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="title" style="width: 15%;">
+            상품명
+            <span class="red">*</span>
+          </td>
+          <td class="content">
+            <input type="text" name="title" class="form-control" placeholder="상품명" value="<%= prd.title %>">
+          </td>
+        </tr>
+        <tr>
+          <td class="title" style="width: 15%;">
+            판매여부
+            <span class="red">*</span>
+          </td>
+          <td class="content">
+            <select name="status" class="form-control small">
+              <option value="0" <%= prd.status == '0' ? 'selected': '' %>>판매중지</option>
+              <option value="1" <%= prd.status == '1' ? 'selected': '' %>>일시판매중지</option>
+              <option value="2" <%= prd.status == '2' ? 'selected': '' %>>판매중</option>
+            </select>
           </td>
         </tr>
         <tr>
           <td class="title">소비자가격</td>
           <td class="content">
-            <input type="number" name="price-ori" class="form-control" placeholder="소비자가격">
+            <input type="number" name="priceOrigin" class="form-control small" placeholder="소비자가격" value="<%= prd.priceOrigin %>">
           </td>
         </tr>
         <tr>
           <td class="title">판매가격</td>
           <td class="content">
-            <input type="number" name="price-sale" class="form-control" placeholder="판매가격">
+            <input type="number" name="priceSale" class="form-control small" placeholder="판매가격" value="<%= prd.priceSale %>">
+          </td>
+        </tr>
+        <tr>
+          <td class="title">
+            재고량
+            <span class="red">*</span>
+          </td>
+          <td class="content">
+            <input type="number" name="amount" class="form-control small" placeholder="재고량" value="<%= prd.amount %>">
+            <div class="red">* -1을 입력하면 재고량 파악을 하지 않습니다(무제한)</div>
           </td>
         </tr>
         <tr>
           <td class="title">요약설명</td>
           <td>
-            <textarea name="content" class="form-control" placeholder="내용을 입력하세요." style="min-height: 200px;"></textarea>
+            <textarea name="summary" class="form-control" placeholder="내용을 입력하세요." style="min-height: 200px;"><%= prd.summary %></textarea>
           </td>
         </tr>
         <tr>
           <td colspan="2">
             <div id="editor" style="min-height: 200px;"></div>
+            <input type="hidden" name="content">
           </td>
         </tr>
         <tr>
           <td>이미지 첨부</td>
           <td>
-            <% for(let i=1; i<=10; i++) { %> 
+            <% for(let i=0; i<5; i++) { %> 
               <input type="file" name="img" class="form-control-file mb-2">
+              <% if (i === 0) { %>
+                <div class="red">상품리스트에 노출되는 대표 이미지 입니다. 필수로 넣어주세요.</div>
+                <hr>
+              <% } %>
+            <% } %>
+          </td>
+        </tr>
+        <tr>
+          <td>상세내용 첨부</td>
+          <td>
+            <% for(let i=0; i<2; i++) { %> 
+              <input type="file" name="detail" class="form-control-file mb-2">
             <% } %>
           </td>
         </tr>
       </tbody>
     </table>
     <div class="text-center my-4">
-      <a href="/<%=currents[0]%>/<%= currents[1] %>" class="btn btn-primary">리스트</a>
-      <button class="btn btn-success float-right mx-1">수정</button>
-      <button type="reset" class="btn btn-danger float-right mx-1">다시작성</button>
+      <a href="<%= goList %>" class="btn btn-primary float-right">리스트</a>
+      <button class="btn btn-primary mx-1">등록</button>
+      <button type="reset" class="btn btn-danger mx-1">다시작성</button>
     </div>
   </form>
+  <div class="modal-wrapper" style="display: none;">
+    <div class="modal-wrap">
+      <div id="jstreeWrap"></div>
+      <button class="btn btn-danger my-3 bt-modal-close">닫기</button>
+    </div>
+  </div>
 </section>
 <script src="/js/quill.min.js"></script>
-<script src="/js/<%= currents[1] %>/<%= currents[1] %>.js"></script>
+<script src="/js/axios.min.js"></script>
+<script src="/js/jstree.min.js"></script>
+<script src="/js/<%= currents[1] %>/<%= currents[1] %>-update.js"></script>
 <%- include('../../inc/foot.ejs') %>

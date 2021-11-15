@@ -2,10 +2,10 @@ const path = require('path');
 const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
-const escape = require('escape-html');
+const { escape, unescape } = require('html-escaper');
 const uploader = require('../../middlewares/multer-mw');
 const afterUploader = require('../../middlewares/after-multer-mw');
-const { Product, ProductFile, CateProduct } = require('../../models');
+const { Product, ProductFile, CateProduct, Cate } = require('../../models');
 const { moveFile } = require('../../modules/util');
 const queries = require('../../middlewares/query-mw');
 
@@ -26,14 +26,16 @@ router.get('/', queries(), async (req, res, next) => {
   }
 });
 // ---------- prd 상세수정 화면 ------------------
-router.get('/:id', queries(), (req, res, next) => {
+router.get('/:id', queries(), async (req, res, next) => {
   try {
-    res.render('admin/prd/prd-form');
+    const prd = await Product.findProduct(req.params.id, Cate, ProductFile);
+    // res.render('admin/prd/prd-update', { prd });
+    res.json(prd);
   } catch (err) {
     next(createError(err));
   }
 });
-// ---------- 신규 prd 저장 post ------------------
+// ---------- 신규 prd 저장 post, prd 수정 put ------------------
 router.post(
   '/',
   uploader.fields([{ name: 'img' }, { name: 'detail' }]),
@@ -51,12 +53,14 @@ router.post(
         req.body.content = escape(req.body.content);
         const product = await Product.create(req.body);
         req.files.forEach((file) => (file.prd_id = product.id));
-        await ProductFile.bulkCreate(req.files);
-        const catePrd = req.body.cate.split(',').map((cate) => ({
-          cate_id: cate,
-          prd_id: product.id,
-        }));
-        await CateProduct.bulkCreate(catePrd);
+        if (req.files.length) await ProductFile.bulkCreate(req.files);
+        if (req.body.cate) {
+          const catePrd = req.body.cate.split(',').map((cate) => ({
+            cate_id: cate,
+            prd_id: product.id,
+          }));
+          if (catePrd.length) await CateProduct.bulkCreate(catePrd);
+        }
         res.redirect('/admin/prd');
         // res.json(req.body);
       }
@@ -65,14 +69,6 @@ router.post(
     }
   }
 );
-// ---------- prd 수정 put ------------------
-router.put('/', async (req, res, next) => {
-  try {
-    res.redirect('/admin/prd');
-  } catch (err) {
-    next(createError(err));
-  }
-});
 // ---------- prd option 수정 put ------------------
 router.put('/status', queries('body'), async (req, res, next) => {
   try {
