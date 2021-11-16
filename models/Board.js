@@ -175,7 +175,11 @@ module.exports = (sequelize, { DataTypes: DataType, Op }) => {
       include: [{ model: BoardFile, attributes: ['saveName', 'fileType'] }],
     });
     const lists = this.getViewData(rs);
-    return { lists, pager, totalRecord: numeral(pager.totalRecord).format(0, 0) };
+    return {
+      lists,
+      pager,
+      totalRecord: numeral(pager.totalRecord).format(0, 0),
+    };
     /* 
     { --- lists ---
       "id": 1,

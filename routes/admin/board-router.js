@@ -19,11 +19,13 @@ router.get('/', boardInit(), queries(), (req, res, next) => {
 // ---------- 리스트 list ------------------
 router.get('/', boardInit(), queries(), async (req, res, next) => {
   try {
+    const { sort } = req.query;
     const { lists, pager, totalRecord } = await Board.getLists(req.query, BoardFile);
     res.render('admin/board/board-list', {
       lists,
       pager,
       totalRecord,
+      sort,
     });
   } catch (err) {
     next(createError(err));

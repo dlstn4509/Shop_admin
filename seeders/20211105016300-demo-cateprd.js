@@ -1,6 +1,6 @@
 const fs = require('fs-extra');
 const path = require('path');
-const { findChildId, findLastId } = require('../modules/util');
+const { findLastId } = require('../modules/util');
 const _ = require('lodash');
 module.exports = {
   up: async (queryInterface, Sequelize) => {

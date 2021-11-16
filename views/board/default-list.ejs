@@ -1,6 +1,5 @@
 <link rel="stylesheet" href="/css/<%= currents[1] %>-<%= boardType %>.css">
 <article class="board-container default-type list-page">
-  <div>default-list</div>
   <div class="my-2">
     <div class="mb-2">총 게시글: <%= totalRecord %> 건</div>
     <div class="d-flex">
@@ -20,14 +19,14 @@
       </tr>
     </thead>
     <tbody>
-      <%
-        let i = 0;
-        for(v of lists) {
-      %>
+      <% let i = 0; %>
+      <% for(let v of lists) { %>
         <tr>
-          <td>
-            <%= totalRecord - (page - 1) * 5 - i++ %>
-          </td>
+          <% if(sort === 'desc') { %>
+            <td><%= totalRecord - (page - 1) * 5 - i++ %></td>
+          <% } else { %>
+            <td><%= page * 5 - 4 + i++ %></td>
+          <% } %>
           <td class="text-left">
             <a href="<%= goPath %>/<%= v.id %>?<%= goQuery %>"><%= v.title %></a>
           </td>
@@ -43,4 +42,7 @@
   </div>
   <%- include('../inc/pager.ejs', pager) %> 
 </article>
+<script>
+  var page = '<%= page %>';
+</script>
 <script src="/js/<%=currents[1]%>/<%=boardType%>-list.js"></script>
