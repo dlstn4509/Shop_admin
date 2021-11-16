@@ -14,9 +14,7 @@ module.exports = (fields) => {
           delete v.originalname;
           delete v.encoding;
           delete v.mimetype;
-          delete v.destination;
           delete v.filename;
-          delete v.path;
           files.push(v);
         });
       }

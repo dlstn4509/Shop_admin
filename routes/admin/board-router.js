@@ -5,6 +5,7 @@ const queries = require('../../middlewares/query-mw');
 const boardInit = require('../../middlewares/boardinit-mw');
 const uploader = require('../../middlewares/multer-mw');
 const counter = require('../../middlewares/board-counter-mw');
+const { isAdmin } = require('../../middlewares/auth-mw');
 const afterUploader = require('../../middlewares/after-multer-mw');
 const { Board, BoardFile, BoardComment } = require('../../models');
 const { moveFile } = require('../../modules/util');
@@ -96,7 +97,7 @@ router.post(
   }
 );
 // ---------- 삭제 delete ------------------
-router.delete('/', boardInit(), queries('body'), async (req, res, next) => {
+router.delete('/', isAdmin(8), boardInit(), queries('body'), async (req, res, next) => {
   try {
     await Board.destroy({ where: { id: req.body.id }, truncate: true });
     const files = await BoardFile.findAll({

@@ -5,10 +5,12 @@ const createError = require('http-errors');
 const _ = require('lodash');
 const { escape, unescape } = require('html-escaper');
 const uploader = require('../../middlewares/multer-mw');
+const sharpInit = require('../../middlewares/sharp-mw');
 const afterUploader = require('../../middlewares/after-multer-mw');
 const { Product, ProductFile, CateProduct, Cate } = require('../../models');
 const { moveFile } = require('../../modules/util');
 const queries = require('../../middlewares/query-mw');
+const { isAdmin } = require('../../middlewares/auth-mw');
 
 // ---------- 신규 prd 작성 화면 form ------------------
 router.get('/', queries(), (req, res, next) => {
@@ -52,6 +54,7 @@ router.post(
     { name: 'detail_2' },
   ]),
   afterUploader(['img_1', 'img_2', 'img_3', 'img_4', 'img_5', 'detail_1', 'detail_2']),
+  sharpInit(300),
   queries('body'),
   async (req, res, next) => {
     try {
@@ -101,7 +104,7 @@ router.put('/status', queries('body'), async (req, res, next) => {
   }
 });
 // ---------- prd 글 삭제 delete ------------------
-router.delete('/', queries('body'), async (req, res, next) => {
+router.delete('/', isAdmin(8), queries('body'), async (req, res, next) => {
   try {
     const { id } = req.body;
     await Product.destroy({ where: { id } });

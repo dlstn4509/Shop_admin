@@ -22,6 +22,22 @@ module.exports = {
       updatedAt: new Date(),
     });
 
+    insertUsers.push({
+      userid: 'admin',
+      userpw: await bcrypt.hash('111111' + salt, Number(rnd)),
+      username: '최고관리자',
+      email: 'admin@dabanbus.com',
+      tel: `010-1111-2222`,
+      addrPost: '12345',
+      addrRoad: '서울시 마포구 노고산로',
+      addrJibun: '서울시 마포구 창천동',
+      addrComment: '(창천동)',
+      addrDetail: '7층',
+      status: '7',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
     for (let i = 0; i < 99; i++) {
       insertUsers.push({
         userid: 'test' + i,

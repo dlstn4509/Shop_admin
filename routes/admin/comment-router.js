@@ -5,6 +5,7 @@ const router = express.Router();
 const queries = require('../../middlewares/query-mw');
 const { absPath } = require('../../modules/util');
 const { BoardComment } = require('../../models');
+const { isAdmin } = require('../../middlewares/auth-mw');
 
 router.post('/', queries('body'), async (req, res, next) => {
   try {
@@ -17,7 +18,7 @@ router.post('/', queries('body'), async (req, res, next) => {
     next(createError(err));
   }
 });
-router.delete('/', queries('body'), async (req, res, next) => {
+router.delete('/', isAdmin(8), queries('body'), async (req, res, next) => {
   try {
     await BoardComment.destroy({ where: { id: req.body.id } });
     res.redirect(

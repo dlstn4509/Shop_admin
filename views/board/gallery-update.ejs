@@ -1,6 +1,5 @@
 <link rel="stylesheet" href="/css/<%= currents[1] %>-<%= boardType %>.css">
 <article class="board-container gallery-type update-page">
-  <div>gallery-update</div>
   <form action="<%= goPath %>" method="POST" enctype="multipart/form-data">
     <% for(let v of goLists) { %>
       <input type="hidden" name="<%= v.key %>" value="<%= v.value %>">
@@ -12,34 +11,35 @@
         <tr>
           <td class="title" style="width: 15%;">제목</td>
           <td class="content">
-            <input type="text" name="title" class="form-control" placeholder="제목">
+            <input type="text" name="title" class="form-control" placeholder="제목" value="<%= list.title %>">
           </td>
         </tr>
         <tr>
           <td class="title">작성자</td>
           <td class="content">
-            <input type="text" name="writer" class="form-control" placeholder="작성자">
+            <input type="text" name="writer" class="form-control" placeholder="작성자" value="<%= list.writer %>">
           </td>
         </tr>
         <tr>
           <td colspan="2">
-            <textarea class="form-control" name="content" placeholder="내용을 입력하세요" style="min-height: 200px;"></textarea>
+            <textarea name="content" class="form-control" placeholder="내용을 입력하세요."
+              style="min-height: 200px;"><%= list.content %></textarea>
           </td>
         </tr>
         <tr>
-          <td>이미지첨부</td>
+          <td>이미지 첨부</td>
           <td>
-            <div><%= useImg %> </div>
-            <% for(let i=0; i<useImg; i++) { %>
-              <div class="file-wrap">
-              <% if(list.files[i] && list.files[i].type === 'I') { %>
-                <% let {thumbSrc, name, id, type} = list.files[i] %>
-								<img src="<%= thumbSrc %>" alt="<%= name %>" class="img">
-                <div class="file"><%= name %></div>
-								<button type="button" data-name="img" class="btn btn-sm btn-danger" id="btRemoveCover" onclick="onDeleteFile('<%= id %>', this)">삭제</button>
+            <% for(let i=0; i<useImg; i++) { %> 
+              <% if(list.imgs[i] && list.imgs[i].type === 'I') { %>
+                  <div class="file-wrap">
+                  <% let { thumbSrc, name, id, type } = list.imgs[i]; %>
+                    <img src="<%= thumbSrc %>" alt="<%= name %>" class="img">
+                    <div class="file"><%= name %></div>
+                    <button type="button" data-name="img" class="btn btn-sm btn-danger" data-idx="<%= id %>" onclick="onDeleteFile('<%= id %>', this)">삭제</button>
+                  </div>
+              <% } else { %>
+                <input type="file" name="img" class="form-control-file mb-2">
               <% } %>
-							</div>
-              <input type="file" name="img" class="form-control-file mb-2">
             <% } %>
           </td>
         </tr>
@@ -47,23 +47,24 @@
           <td>파일 첨부</td>
           <td>
             <% for(let i=0; i<useFile; i++) { %>
-            <div class="file-wrap">
               <% if(list.files[i] && list.files[i].type === 'F') { %>
-              <% let { name, id, type } = list.files[i]; %>
-              <div class="file"><%= name %></div>
-              <button type="button" data-name="pds" class="btn btn-sm btn-danger" onclick="onDeleteFile('<%= id %>', this)">삭제</button>
+                <div class="file-wrap">
+                  <% let { name, id, type } = list.files[i]; %>
+                  <div class="file"><%= name %></div>
+                  <button type="button" data-name="pds" class="btn btn-sm btn-danger" onclick="onDeleteFile('<%= id %>', this)">삭제</button>
+                </div>
+              <% } else { %>
+                <input type="file" name="pds" class="form-control-file mb-2">
               <% } %>
-            </div>
-            <input type="file" name="pds" class="form-control-file mb-2">
             <% } %>
           </td>
         </tr>
       </tbody>
     </table>
     <div class="text-center my-4">
-      <button class="btn btn-success mx-1">수정</button>
-      <button type="reset" class="btn btn-danger mx-1">다시 작성</button>
-      <a href="/<%=currents[0]%>/board?boardType=<%=boardType%>" class="btn btn-primary float-right">리스트</a>
+      <button class="btn btn-success  mx-1">수정</button>
+      <button type="reset" class="btn btn-danger mx-1">다시작성</button>
+      <a href="/<%= currents[0] %>/board?boardType=<%=boardType%>" class="btn btn-primary float-right">리스트</a>
     </div>
   </form>
 </article>

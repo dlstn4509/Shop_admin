@@ -6,14 +6,5 @@ const { error } = require('../../modules/util');
 router.get('/', (req, res, next) => {
   res.render('admin/cate/cate');
 });
-router.put('/', (req, res, next) => {
-  res.send('admin/cate:PUT');
-});
-router.delete('/', (req, res, next) => {
-  res.send('admin/cate:DELETE');
-});
-router.post('/init', (req, res, next) => {
-  res.send('admin/cate:POST');
-});
 
 module.exports = { name: '/cate', router };

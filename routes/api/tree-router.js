@@ -5,6 +5,7 @@ const fs = require('fs-extra');
 const { Cate } = require('../../models');
 const { findAllId, findObj } = require('../../modules/util');
 const tree = require('../../middlewares/tree-mw');
+const { isAdmin } = require('../../middlewares/auth-mw');
 const { Op } = require('sequelize');
 
 router.get('/', async (req, res, next) => {
@@ -34,7 +35,7 @@ router.put('/', async (req, res, next) => {
     res.status(500).json(err);
   }
 });
-router.delete('/', tree(), async (req, res, next) => {
+router.delete('/', isAdmin(8), tree(), async (req, res, next) => {
   try {
     const treeArray = findAllId(findObj(req.tree, req.body.id), []);
     await Cate.destroy({ where: { id: { [Op.or]: treeArray } } });

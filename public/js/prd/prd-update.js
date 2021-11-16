@@ -132,5 +132,6 @@ function onDeleteFile(id, el) {
   }
   function onError(err) {
     console.log(err);
+    if (err.response.data.msg) alert(err.response.data.msg);
   }
 }

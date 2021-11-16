@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const { BoardInit } = require('../../models');
 const createError = require('http-errors');
+const { isAdmin } = require('../../middlewares/auth-mw');
 const { alert } = require('../../modules/util');
 
 router.get('/', async (req, res, next) => {
@@ -22,7 +23,7 @@ router.post('/', async (req, res, next) => {
     next(createError(err));
   }
 });
-router.put('/', async (req, res, next) => {
+router.put('/', isAdmin(8), async (req, res, next) => {
   try {
     await BoardInit.update(req.body, { where: { id: req.body.id } });
     res.send(alert('게시판이 수정되었습니다.', '/admin/binit'));
@@ -30,7 +31,7 @@ router.put('/', async (req, res, next) => {
     next(createError(err));
   }
 });
-router.delete('/', async (req, res, next) => {
+router.delete('/', isAdmin(8), async (req, res, next) => {
   try {
     await BoardInit.destroy({ where: { id: req.body.id } });
     res.send(alert('게시판이 삭제되었습니다.', '/admin/binit'));

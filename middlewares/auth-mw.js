@@ -1,12 +1,16 @@
 const { alert } = require('../modules/util');
 
-const isAdmin = (_status = '7') => {
+const isAdmin = (_status = '7', type = null) => {
   return (req, res, next) => {
     if (!req.user && req.path.includes('/auth/login')) next();
     else if (req.user && _status <= req.user.status) next();
     else {
-      req.logOut();
-      res.send(alert('권한이 없습니다. 로그인 후 이용하세요', '/admin/auth/login'));
+      let obj =
+        req.user && req.user.status == '7'
+          ? { msg: '데모유저는 권한이 없습니다.', loc: '' }
+          : { msg: '권한이 없습니다. 로그인 후 이용하세요.', loc: '/admin/auth/login' };
+      if (type === 'API') res.status(401).json(obj);
+      else res.send(alert(obj.msg, obj.loc));
     }
   };
 };
