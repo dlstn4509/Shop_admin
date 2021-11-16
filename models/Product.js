@@ -124,9 +124,14 @@ module.exports = (sequelize, DataType) => {
       .map((v) => {
         v.priceOrigin = numeral(v.priceOrigin).format();
         v.priceSale = numeral(v.priceSale).format();
-        if (v.ProductFiles.fieldNum == '1' && v.ProductFiles.fileType == 'I') {
-          v.img = relPath(file.saveName);
-        } else v.img = 'https://via.placeholder.com/120';
+        let idx = _.findIndex(
+          v.ProductFiles,
+          (v2) => v2.fieldNum == 1 && v2.fileType == 'I'
+        );
+        v.img =
+          idx > -1
+            ? relPath(v.ProductFiles[idx].saveName)
+            : 'https://via.placeholder.com/120';
         delete v.createdAt;
         delete v.deletedAt;
         delete v.ProductFiles;

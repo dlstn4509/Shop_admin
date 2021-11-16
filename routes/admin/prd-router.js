@@ -68,8 +68,8 @@ router.post(
           }));
           if (catePrd.length) await CateProduct.bulkCreate(catePrd);
         }
-        res.json({ file: req.files, req: req.body, locals: res.locals });
-        // res.redirect(res.locals.goList);
+        // res.json({ file: req.files, req: req.body, locals: res.locals });
+        res.redirect(res.locals.goList);
       } else {
         req.body.content = escape(req.body.content);
         const product = await Product.create(req.body);
