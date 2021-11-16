@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
+const _ = require('lodash');
 const { escape, unescape } = require('html-escaper');
 const uploader = require('../../middlewares/multer-mw');
 const afterUploader = require('../../middlewares/after-multer-mw');
@@ -32,8 +33,8 @@ router.get('/:id', queries(), async (req, res, next) => {
     const cate = prd.Cates.map((v) => {
       return v.id;
     });
-    res.render('admin/prd/prd-update', { prd, cate });
-    // res.json(prd);
+    res.render('admin/prd/prd-update', { prd, cate, _ });
+    // res.json(prd.imgs);
   } catch (err) {
     next(createError(err));
   }
@@ -41,8 +42,16 @@ router.get('/:id', queries(), async (req, res, next) => {
 // ---------- 신규 prd 저장 post, prd 수정 put ------------------
 router.post(
   '/',
-  uploader.fields([{ name: 'img' }, { name: 'detail' }]),
-  afterUploader(['img', 'detail']),
+  uploader.fields([
+    { name: 'img_1' },
+    { name: 'img_2' },
+    { name: 'img_3' },
+    { name: 'img_4' },
+    { name: 'img_5' },
+    { name: 'detail_1' },
+    { name: 'detail_2' },
+  ]),
+  afterUploader(['img_1', 'img_2', 'img_3', 'img_4', 'img_5', 'detail_1', 'detail_2']),
   queries('body'),
   async (req, res, next) => {
     try {

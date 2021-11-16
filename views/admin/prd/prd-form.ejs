@@ -77,9 +77,9 @@
         <tr>
           <td>이미지 첨부</td>
           <td>
-            <% for(let i=0; i<5; i++) { %> 
-              <input type="file" name="img" class="form-control-file mb-2">
-              <% if (i === 0) { %>
+            <% for(let i=1; i<=5; i++) { %> 
+              <input type="file" name="img_<%= i %>" class="form-control-file mb-2">
+              <% if (i === 1) { %>
                 <div class="red">상품리스트에 노출되는 대표 이미지 입니다. 필수로 넣어주세요.</div>
                 <hr>
               <% } %>
@@ -89,8 +89,8 @@
         <tr>
           <td>상세내용 첨부</td>
           <td>
-            <% for(let i=0; i<2; i++) { %> 
-              <input type="file" name="detail" class="form-control-file mb-2">
+            <% for(let i=1; i<=2; i++) { %> 
+              <input type="file" name="detail_<%= i %>" class="form-control-file mb-2">
             <% } %>
           </td>
         </tr>

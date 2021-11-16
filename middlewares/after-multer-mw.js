@@ -9,8 +9,8 @@ module.exports = (fields) => {
           v.oriName = v.originalname;
           v.saveName = v.filename;
           v.mimeType = v.mimetype;
-          v.fileType = field === 'img' ? 'I' : 'F';
-          delete v.fieldname;
+          v.fieldNum = v.fieldname.split('_')[1];
+          v.fileType = v.fieldname.split('_')[0] === 'img' ? 'I' : 'F';
           delete v.originalname;
           delete v.encoding;
           delete v.mimetype;

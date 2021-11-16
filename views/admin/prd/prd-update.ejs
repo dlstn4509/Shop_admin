@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="/css/quill.snow.css">
 <link rel="stylesheet" href="/css/jstree/style.min.css">
 <section class="prd-wrapper wrapper update-wrapper">
+  <div></div>
   <h4 class="title bullet my-2">상품 수정</h4>
   <form action="<%= goPath %>" method="POST"  name="prdCreateForm" enctype="multipart/form-data">
     <% for(let v of goLists) { %>
@@ -83,34 +84,39 @@
         <tr>
           <td>이미지 첨부</td>
           <td>
-            <% for(let i=0; i<5; i++) { %> 
-              <% if(prd.imgs[i]) { %>
-                  <div class="file-wrap">
-                  <% let { thumbSrc, name, id, type } = prd.imgs[i]; %>
-                    <img src="<%= thumbSrc %>" alt="<%= name %>" class="img">
-                    <div class="file"><%= name %></div>
-                    <button type="button" data-name="img" class="btn btn-sm btn-danger" data-idx="<%= id %>" onclick="onDeleteFile('<%= id %>', this)">삭제</button>
-                  </div>
+            <% for(let i=1; i<=5; i++) { %> 
+              <div class="file-wrap">
+              <% let idx = _.findIndex(prd.imgs, v => v.fieldNum == i && v.type == 'I') %>
+              <% if(idx > -1) { %>
+                <% let { thumbSrc, name, id, type, fieldNum } = prd.imgs[idx]; %>
+                <img src="<%= thumbSrc %>" alt="<%= name %>" class="img">
+                <div class="file"><%= name %></div>
+                <button type="button" data-name="img_<%= i %>" class="btn btn-sm btn-danger" data-idx="<%= id %>" onclick="onDeleteFile('<%= id %>', this)">삭제</button>
               <% } else { %>
-                <input type="file" name="img" class="form-control-file mb-2">
+                <input type="file" name="img_<%= i %>" class="form-control-file my-2">
               <% } %>
+              <% if (i === 1) { %>
+                <div class="red w-100 mt-2">상품리스트에 노출되는 대표 이미지 입니다. 필수로 넣어주세요.</div>
+              <% } %>
+              </div>
             <% } %>
           </td>
         </tr>
         <tr>
           <td>상세내용 첨부</td>
           <td>
-            <% for(let i=0; i<2; i++) { %> 
-              <% if(prd.details[i]) { %>
-                  <div class="file-wrap">
-                  <% let { thumbSrc, name, id, type } = prd.details[i]; %>
-                    <img src="<%= thumbSrc %>" alt="<%= name %>" class="img">
-                    <div class="file"><%= name %></div>
-                    <button type="button" data-name="detail" class="btn btn-sm btn-danger" data-idx="<%= id %>" onclick="onDeleteFile('<%= id %>', this)">삭제</button>
-                  </div>
-              <% } else { %>
-                <input type="file" name="detail" class="form-control-file mb-2">
-              <% } %>
+            <% for(let i=1; i<=2; i++) { %> 
+              <div class="file-wrap">
+              <% let idx = _.findIndex(prd.details, v => v.fieldNum == i && v.type == 'F') %>
+              <% if(idx > -1) { %>
+                <% let { thumbSrc, name, id, type, fieldNum } = prd.details[idx]; %>
+                  <img src="<%= thumbSrc %>" alt="<%= name %>" class="img">
+                  <div class="file"><%= name %></div>
+                  <button type="button" data-name="detail_<%= i %>" class="btn btn-sm btn-danger" data-idx="<%= id %>" onclick="onDeleteFile('<%= id %>', this)">삭제</button>
+                <% } else { %>
+                  <input type="file" name="detail_<%= i %>" class="form-control-file my-2">
+                <% } %>
+              </div>
             <% } %>
           </td>
         </tr>

@@ -3,7 +3,7 @@ module.exports = (sequelize, DataType) => {
     'ProductFile',
     {
       id: {
-        type: DataType.INTEGER(10).UNSIGNED,
+        type: DataType.INTEGER.UNSIGNED,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
@@ -26,8 +26,12 @@ module.exports = (sequelize, DataType) => {
         values: ['I', 'F'],
         defaultValue: 'I',
       },
+      fieldNum: {
+        type: DataType.INTEGER,
+        allowNull: false,
+      },
       size: {
-        type: DataType.INTEGER(10),
+        type: DataType.INTEGER,
         allowNull: false,
       },
     },
