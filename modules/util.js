@@ -51,18 +51,37 @@ const zipExt = ['zip', 'alz'];
 const exts = { imgExt, mediaExt, docExt, zipExt };
 
 const relPath = (file) => `/uploads/${file.split('_')[0]}/${file}`;
+
+const relThumbPath = (file) => `/uploads/${file.split('_')[0]}/thumb/${file}`;
+
 const absPath = (file) =>
   path.join(__dirname, `../storages/${file.split('_')[0]}/${file}`);
+
+const absThumbPath = (file) =>
+  path.join(__dirname, `../storages/${file.split('_')[0]}/thumb/${file}`);
+
 const moveFile = async (file) => {
   try {
-    const isExist = await fs.pathExists(
-      path.join(__dirname, '../storages/', file.substr(0, 6), './thumb', file)
-    );
+    // 원본 옮기기
     let savePath = path.join(__dirname, '../storages-remove', file.split('_')[0]);
     let oldPath = absPath(file);
     await fs.ensureDir(savePath); // D:\ ~ /210909
     savePath = path.join(savePath, file); // D:\ ~ /210909/210909_fjk2134-askdf2103.jpg
     await fs.move(oldPath, savePath);
+
+    // thumb 옮기기
+    if (await fs.pathExists(absThumbPath(file))) {
+      let saveThumbPath = path.join(
+        __dirname,
+        '../storages-remove',
+        file.split('_')[0],
+        'thumb'
+      );
+      let oldThumbPath = absThumbPath(file);
+      await fs.ensureDir(saveThumbPath);
+      saveThumbPath = path.join(saveThumbPath, file);
+      await fs.move(oldThumbPath, saveThumbPath);
+    }
     return true;
   } catch (err) {
     return err;
@@ -193,4 +212,6 @@ module.exports = {
   findObj,
   findLastId,
   findAllId,
+  absThumbPath,
+  relThumbPath,
 };

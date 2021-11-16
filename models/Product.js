@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const numeral = require('numeral');
-const { dateFormat, relPath } = require('../modules/util');
+const { dateFormat, relPath, relThumbPath } = require('../modules/util');
 const createPager = require('../modules/pager-init');
 const { escape, unescape } = require('html-escaper');
 
@@ -130,7 +130,7 @@ module.exports = (sequelize, DataType) => {
         );
         v.img =
           idx > -1
-            ? relPath(v.ProductFiles[idx].saveName)
+            ? relThumbPath(v.ProductFiles[idx].saveName)
             : 'https://via.placeholder.com/120';
         delete v.createdAt;
         delete v.deletedAt;

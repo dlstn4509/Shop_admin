@@ -85,8 +85,8 @@ router.post(
           }));
           if (catePrd.length) await CateProduct.bulkCreate(catePrd);
         }
-        res.redirect('/admin/prd');
-        // res.json(req.body);
+        // res.redirect('/admin/prd');
+        res.json(req.files);
       }
     } catch (err) {
       next(createError(err));

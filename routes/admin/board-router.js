@@ -90,6 +90,7 @@ router.post(
         });
         const files = await BoardFile.bulkCreate(req.files);
         res.redirect('/admin/board?boardId=' + res.locals.boardId);
+        // res.json(files);
       }
     } catch (err) {
       next(createError(err));
