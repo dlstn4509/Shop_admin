@@ -20,7 +20,7 @@ module.exports = router;
 name: /board
 router:
 [Function: router] {
-  params: {},
+  params: {},    
   _params: [],
   caseSensitive: undefined,
   mergeParams: undefined,
